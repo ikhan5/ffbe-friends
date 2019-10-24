@@ -17,7 +17,9 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('vue');
 });
+
 Auth::routes();
+
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/{any}', 'VueController@index')->where('any', '.*');
 

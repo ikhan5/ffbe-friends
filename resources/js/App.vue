@@ -21,27 +21,28 @@ body {
   padding: 20px;
 }
 
-
-.fade-enter-active{
-  animation: fade-in 200ms ease-out forwards
+.fade-enter-active {
+  animation: fade-in 200ms ease-out forwards;
 }
 
-.fade-leave-active{
- animation: fade-out 200ms ease-out forwards
+.fade-leave-active {
+  animation: fade-out 200ms ease-out forwards;
 }
 
-@keyframes fade-in{
-  from{
-    opacity: 0
-  }to{
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
     opacity: 1;
   }
 }
 
-@keyframes fade-out{
-  from{
-    opacity: 1
-  }to{
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
     opacity: 0;
   }
 }

@@ -56,6 +56,9 @@
         </table>
       </div>
     </div>
+    <div class="text-right col-md-12 mt-5">
+      <button class="btn btn-primary" @click.prevent>Save Unit Changes</button>
+    </div>
   </div>
 </template>
 <style scoped>

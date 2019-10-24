@@ -16,14 +16,14 @@
       <tbody>
         <tr v-for="(unit,index) in filterUnits" :key="index">
           <th scope="row">{{unit.name}} {{unit.rarity}}&#x2605;</th>
-          <td>{{unit.attack}}</td>
-          <td>{{unit.magic}}</td>
-          <td>{{unit.defense}}</td>
-          <td>{{unit.spirit}}</td>
+          <td>{{unit.atk}}</td>
+          <td>{{unit.mag}}</td>
+          <td>{{unit.def}}</td>
+          <td>{{unit.spr}}</td>
           <td>
             <a target="_blank" :href="link + unit.build">Build</a>
           </td>
-          <td>{{unit.friendCode | friend-code}}</td>
+          <td>{{unit.friendCode | friendCode}}</td>
         </tr>
       </tbody>
     </table>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
@@ -47,6 +48,14 @@ export default {
       link: "https://ffbeEquip.com/builder.html?server=GL#",
       units: []
     };
+  },
+  created(){
+    axios
+    .get('/api/units')
+    .then(res => {
+      this.units = res.data;
+    })
+
   },
   computed:{
     filterUnits(){

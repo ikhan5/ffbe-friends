@@ -3,6 +3,7 @@
     <h1 class="mb-4">Add Your Unit</h1>
     <hr />
     <div class="form-group">
+      <h3 v-if="errors" class="text-danger error-msg">Please fill out all fields</h3>
       <div class="form-row">
         <div class="form-group col-md-5">
           <label for="unitName">Unit Name</label>
@@ -77,36 +78,74 @@
         </div>
       </div>
       <div class="text-right mt-5">
-        <button class="btn btn-primary" @click.prevent>Add Your Unit</button>
+        <button class="btn btn-primary" @click.prevent="addUnit">Add Your Unit</button>
         <router-link to="/" tag="button" class="btn btn-link">Cancel</router-link>
       </div>
     </div>
   </form>
 </template>
+<style scoped>
+.error-msg{
+  margin-bottom: 10px;
+  font-size: 1.3em;
+}
+</style>
 
 <script>
-import Units from '../../data/releasedUnits.json';
+import Units from "../../data/releasedUnits.json";
+import axios from "axios";
 export default {
   data() {
     return {
       units: [],
       name: "",
-      build: "",
       buildURL: "",
       atk: "",
       def: "",
       spr: "",
       mag: "",
-      stats: "",
       rarity: 6,
-      isSubmitted: false
+      errors: false
     };
   },
+
   mounted() {
     for (let key in Units) {
       this.units.push(Units[key].name);
     }
     this.units.sort();
+  },
+  methods: {
+    addUnit() {
+      if (
+        this.name &&
+        this.buildURL &&
+        this.atk &&
+        this.def &&
+        this.mag &&
+        this.spr
+      ) {
+        axios
+          .post("/api/units", {
+            rarity: this.rarity,
+            name: this.name,
+            atk: this.atk,
+            def: this.def,
+            mag: this.mag,
+            spr: this.spr,
+            build: this.buildURL
+          })
+          .then(res => {
+            console.log(res);
+            this.errors=false;
+          })
+          .catch(err => {
+            console.log(err.response);
+          });
+      } else {
+        this.errors = true;
+      }
+    }
   }
 };
 </script>
