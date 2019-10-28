@@ -13,19 +13,22 @@
           <th scope="col" v-for="(column, index) in columns" :key="index">{{column}}</th>
         </tr>
       </thead>
-      <tbody>
-        <tr v-for="(unit,index) in filterUnits" :key="index">
-          <th scope="row">{{unit.name}} {{unit.rarity}}&#x2605;</th>
-          <td>{{unit.atk}}</td>
-          <td>{{unit.mag}}</td>
-          <td>{{unit.def}}</td>
-          <td>{{unit.spr}}</td>
-          <td>
-            <a target="_blank" :href="link + unit.build">Build</a>
-          </td>
-          <td>{{unit.friendCode | friendCode}}</td>
-        </tr>
-      </tbody>
+      <td v-if="isLoading" class="text-center" colspan="7">
+        <app-spinner></app-spinner>
+      </td>
+        <transition-group name="fade" tag="tbody" v-else>
+          <tr v-for="unit in filterUnits" :key="unit.id">
+            <th scope="row">{{unit.name}} {{unit.rarity}}&#x2605;</th>
+            <td>{{unit.atk}}</td>
+            <td>{{unit.mag}}</td>
+            <td>{{unit.def}}</td>
+            <td>{{unit.spr}}</td>
+            <td>
+              <a target="_blank" :href="link + unit.build">Build</a>
+            </td>
+            <td>{{unit.profile.ign}} - {{unit.profile.friendCode | friend-code}}</td>
+          </tr>
+        </transition-group>
     </table>
   </div>
 </template>
@@ -35,7 +38,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      search: '',
+      search: "",
       columns: [
         "Unit Name",
         "ATK",
@@ -43,25 +46,32 @@ export default {
         "DEF",
         "SPR",
         "Build Link",
-        "Friend Code"
+        "Friend Info"
       ],
       link: "https://ffbeEquip.com/builder.html?server=GL#",
-      units: []
+      units: [],
+      isLoading: true
     };
   },
-  created(){
-    axios
-    .get('/api/units')
-    .then(res => {
-      this.units = res.data;
-    })
-
+  beforeCreate() {
+    this.isLoading = true;
   },
-  computed:{
-    filterUnits(){
-      return this.units.filter((unit) =>{
-        return unit.name.match(this.search);
+  created() {
+    axios
+      .get("/api/units")
+      .then(res => {
+        this.isLoading = false;
+        this.units = res.data;
       })
+      .catch(err => {
+        console.log(err.response);
+      });
+  },
+  computed: {
+    filterUnits() {
+      return this.units.filter(unit => {
+        return (unit.name).toLowerCase().match(this.search.toLowerCase());
+      });
     }
   }
 };

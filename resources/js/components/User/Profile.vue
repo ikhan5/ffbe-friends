@@ -21,7 +21,11 @@
         />
       </div>
       <div class="text-right col-md-12 mt-5">
-        <button v-if="firstTime" class="btn btn-primary" @click.prevent="addProfile">Save User Changes</button>
+        <button
+          v-if="firstTime"
+          class="btn btn-primary"
+          @click.prevent="addProfile"
+        >Save User Changes</button>
         <button v-else class="btn btn-primary" @click.prevent="editProfile">Update User Info</button>
       </div>
     </form>
@@ -33,13 +37,19 @@
 <script>
 import AddedUnits from "./AddedUnits";
 import axios from "axios";
+import Swal from "sweetalert2";
+
+import {eventBus} from '../../app'
+import { mapActions } from "vuex";
+
 export default {
   data() {
     return {
       username: "",
       friendCode: "",
       firstTime: true,
-      profileId: ''
+      profileId: "",
+      userUnits: []
     };
   },
   created() {
@@ -50,6 +60,7 @@ export default {
         this.username = res.data[0].ign;
         this.friendCode = res.data[0].friendCode;
         this.firstTime = false;
+        eventBus.$emit('profileIdUpdated', this.profileId);
       })
       .catch(err => {
         console.log(err);
@@ -67,19 +78,29 @@ export default {
         })
         .then(res => {
           console.log(res);
+          Swal.fire(
+            "Adding User Details",
+            "Details added successfully!",
+            "success"
+          );
         })
         .catch(err => {
           console.log(err.response);
         });
     },
-    editProfile(){
-       axios
+    editProfile() {
+      axios
         .put("/api/profile/" + this.profileId, {
           friendCode: this.friendCode,
           ign: this.username
         })
         .then(res => {
           console.log(res);
+          Swal.fire(
+            "Updating User Details",
+            "Details updated successfully!",
+            "success"
+          );
         })
         .catch(err => {
           console.log(err.response);

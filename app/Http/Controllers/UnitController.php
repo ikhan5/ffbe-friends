@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Unit;
+use App\Profile;
 
 class UnitController extends Controller
 {
@@ -16,6 +17,12 @@ class UnitController extends Controller
     public function index()
     {
         $units = Unit::all();
+
+        foreach ($units as $unit) {
+            $friendCode = Profile::where('user_id', $unit->user_id)->first();
+            $unit['profile'] = $friendCode;
+        }
+
         return $units;
     }
 
@@ -62,7 +69,8 @@ class UnitController extends Controller
      */
     public function show($id)
     {
-        //
+        $units = Unit::where('user_id', $id)->get();
+        return $units;
     }
 
     /**
@@ -95,12 +103,13 @@ class UnitController extends Controller
             'def' => 'required',
             'mag' => 'required',
             'spr' => 'required',
+            'rarity' => 'required',
         ]);
         $form_input_sanitized = filter_var_array($validated_create, FILTER_SANITIZE_STRING);
         $form_input_sanitized['user_id'] = $user_id;
         $unit->update($form_input_sanitized);
 
-        return (['message' => 'Unit Updated']);
+        return ($form_input_sanitized);
     }
 
     /**

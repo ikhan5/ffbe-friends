@@ -1,19 +1,31 @@
 <template>
   <form>
-    <h1 class="mb-4">Add Your Unit</h1>
+    <h1>Add Your Unit</h1>
+    <small class="mb-4">Make sure to login before adding a unit</small>
     <hr />
     <div class="form-group">
-      <h3 v-if="errors" class="text-danger error-msg">Please fill out all fields</h3>
+      <div v-if="errors">
+        <h3 v-if="empty" class="text-danger error-msg">Please fill out all fields</h3>
+        <h3
+          v-if="!loggedIn"
+          class="text-danger error-msg"
+        >Error adding unit. Please check to see if you are logged in or try adding the unit later.</h3>
+
+        <h3 v-if="invalidField" class="text-danger error-msg">Stats must be numeric values!</h3>
+      </div>
       <div class="form-row">
         <div class="form-group col-md-5">
           <label for="unitName">Unit Name</label>
-          <select id="unitName" class="form-control" v-model="name">
-            <option v-for="(unit,index) in units" :key="index">{{unit}}</option>
-          </select>
+          <app-v-select id="unitName" v-model="name" :options="units" label="name" index="id"></app-v-select>
         </div>
         <div class="col-sm-6 ml-5">
           <label for="input-type">Rarity</label>
           <div id="input-type" class="row">
+            <div class="col-md-2">
+              <label class="radio-inline">
+                <input v-model="rarity" name="rarity" value="5" type="radio" /> 5&#x2605;
+              </label>
+            </div>
             <div class="col-md-2">
               <label class="radio-inline">
                 <input v-model="rarity" name="rarity" value="6" type="radio" /> 6&#x2605;
@@ -85,7 +97,7 @@
   </form>
 </template>
 <style scoped>
-.error-msg{
+.error-msg {
   margin-bottom: 10px;
   font-size: 1.3em;
 }
@@ -94,6 +106,9 @@
 <script>
 import Units from "../../data/releasedUnits.json";
 import axios from "axios";
+import Swal from "sweetalert2";
+import "vue-select/dist/vue-select.css";
+
 export default {
   data() {
     return {
@@ -104,19 +119,24 @@ export default {
       def: "",
       spr: "",
       mag: "",
-      rarity: 6,
-      errors: false
+      rarity: 7,
+      errors: false,
+      empty: true,
+      invalidField: false,
+      loggedIn: true,
     };
   },
-
-  mounted() {
+  created() {
     for (let key in Units) {
-      this.units.push(Units[key].name);
+      this.units.push({ name: Units[key].name, id: key });
     }
-    this.units.sort();
+    this.units.sort((a, b) => (a.name > b.name ? 1 : -1));
   },
   methods: {
     addUnit() {
+      this.empty = true;
+      this.invalidField = false;
+      this.loggedIn = true;
       if (
         this.name &&
         this.buildURL &&
@@ -125,23 +145,44 @@ export default {
         this.mag &&
         this.spr
       ) {
-        axios
-          .post("/api/units", {
-            rarity: this.rarity,
-            name: this.name,
-            atk: this.atk,
-            def: this.def,
-            mag: this.mag,
-            spr: this.spr,
-            build: this.buildURL
-          })
-          .then(res => {
-            console.log(res);
-            this.errors=false;
-          })
-          .catch(err => {
-            console.log(err.response);
-          });
+        if (
+          isNaN(this.atk) ||
+          isNaN(this.def) ||
+          isNaN(this.spr) ||
+          isNaN(this.mag)
+        ) {
+          console.log('here')
+          this.errors = true;
+          this.empty = false;
+          this.invalidField = true;
+        } else {
+          this.errors = false
+          this.invalidField = false;
+          axios
+            .post("/api/units", {
+              rarity: this.rarity,
+              name: this.name.name,
+              atk: this.atk,
+              def: this.def,
+              mag: this.mag,
+              spr: this.spr,
+              build: this.buildURL
+            })
+            .then(res => {
+              console.log(res);
+              this.errors = false;
+              Swal.fire(
+                "Adding Unit",
+                "Unit added successfully!",
+                "success"
+              ).then(this.$router.push("/profile"));
+            })
+            .catch(err => {
+              console.log(err.response);
+              this.errors = true;
+              this.loggedIn = false;
+            });
+        }
       } else {
         this.errors = true;
       }

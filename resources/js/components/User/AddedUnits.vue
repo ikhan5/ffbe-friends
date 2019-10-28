@@ -26,27 +26,30 @@
               <th scope="col" v-for="(column, index) in columns" :key="index">{{column}}</th>
             </tr>
           </thead>
-          <tbody>
-            <tr v-for="(unit,index) in units" :key="index">
+          <td v-if="isLoading" class="text-center" colspan="7">
+            <app-spinner></app-spinner>
+          </td>
+          <tbody v-else>
+            <tr v-for="unit in units" :key="unit.id">
               <th scope="row">{{unit.name}} {{unit.rarity}}&#x2605;</th>
+              <td>{{unit.atk}}</td>
+              <td>{{unit.mag}}</td>
+              <td>{{unit.def}}</td>
+              <td>{{unit.spr}}</td>
               <td>
-                <input class="form-control form-control-sm" type="text" :value="unit.atk" />
-              </td>
-              <td>
-                <input class="form-control form-control-sm" type="text" :value="unit.mag" />
-              </td>
-              <td>
-                <input class="form-control form-control-sm" type="text" :value="unit.def" />
-              </td>
-              <td>
-                <input class="form-control form-control-sm" type="text" :value="unit.spr" />
-              </td>
-              <td>
-                <input class="form-control form-control-sm" type="text" :value="unit.build" />
+                <a target="_blank" :href="link + unit.build">Build</a>
               </td>
               <td>
                 <div class="row">
-                  <button class="no-style text-danger mx-0 mx-auto">
+                  <button
+                    class="no-style text-warning"
+                    data-toggle="modal"
+                    :data-target="`#exampleModal${unit.id}`"
+                  >
+                    <i class="far fa-edit"></i>
+                  </button>
+                  <app-edit-unit :unit="unit"></app-edit-unit>
+                  <button class="no-style text-danger" @click="deleteUnit(unit.id)">
                     <i class="fas fa-times"></i>
                   </button>
                 </div>
@@ -56,9 +59,6 @@
         </table>
       </div>
     </div>
-    <div class="text-right col-md-12 mt-5">
-      <button class="btn btn-primary" @click.prevent>Save Unit Changes</button>
-    </div>
   </div>
 </template>
 <style scoped>
@@ -67,16 +67,76 @@
   border: solid 1px transparent;
   font-size: 1.1em;
 }
+
+.error-msg {
+  margin-bottom: 10px;
+  font-size: 1em;
+}
 </style>
 
 <script>
+import Swal from "sweetalert2";
+import axios from "axios";
+import EditUnit from "../Units/EditUnit";
+import { eventBus } from "../../app";
+
 export default {
   data() {
     return {
       columns: ["Name", "ATK", "MAG", "DEF", "SPR", "Build Link", "Actions"],
       link: "https://ffbeEquip.com/builder.html?server=GL#",
-      units: []
+      units: [],
+      isLoading: true,
+      id: 0
     };
+  },
+  created() {
+    this.isLoading = true;
+    eventBus.$on("profileIdUpdated", id => {
+      this.id = id;
+      this.getAllUnits(id);
+    });
+  },
+  components: {
+    "app-edit-unit": EditUnit
+  },
+  methods: {
+    getAllUnits(id) {
+      axios
+        .get("./api/units/" + id)
+        .then(res => {
+          this.isLoading = false;
+          this.units = res.data;
+          eventBus.$emit('unitToEdit', this.units);
+        })
+        .catch(err => {
+          console.log(err.response);
+        });
+    },
+    deleteUnit(unitID) {
+      Swal.fire({
+        title: "Deleting Unit",
+        text: "Are you sure you want to delete this unit?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
+        if (result.value) {
+          axios
+            .delete("./api/units/" + unitID)
+            .then(response => {
+              Swal.fire("Deleted!", "Your unit has been deleted.", "success");
+              this.getAllUnits(this.id);
+              console.log(response);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
+      });
+    }
   }
 };
 // $("#myTab a").on("click", function(e) {
