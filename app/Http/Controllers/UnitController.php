@@ -19,8 +19,8 @@ class UnitController extends Controller
         $units = Unit::orderByDesc('updated_at')->get();
 
         foreach ($units as $unit) {
-            $friendCode = Profile::where('user_id', $unit->user_id)->first();
-            $unit['profile'] = $friendCode;
+            $profile = Profile::where('user_id', $unit->user_id)->first();
+            $unit['profile'] = $profile->friendCode ."-".$profile->ign ;
         }
 
         return $units;
