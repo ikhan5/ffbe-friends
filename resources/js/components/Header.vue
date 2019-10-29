@@ -1,5 +1,5 @@
 <template>
-  <header class="navbar navbar-expand-lg navbar-light bg-white">
+  <header class="navbar navbar-expand-lg navbar-light bg-light">
     <router-link to="/" tag="a" active-class="active" class="navbar-brand">FFBE Friends</router-link>
     <button
       class="navbar-toggler"
@@ -16,8 +16,9 @@
       <div class="navbar-nav">
         <router-link to="/" tag="a" active-class="active" class="nav-item nav-link" exact>All Units</router-link>
       </div>
-      <div class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-        <router-link to="/profile" tag="a" active-class="active" class="nav-item nav-link">Your Profile</router-link>
+      <div class="navbar-nav flex-row ml-md-auto d-md-flex ">
+        <router-link to="/profile" tag="a" active-class="active" class="nav-item nav-link mr-2">Your Profile </router-link>
+        
         <a class="logout nav-item nav-link" href="/logout">Logout</a>
       </div>
     </div>

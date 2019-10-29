@@ -20,7 +20,7 @@ class UnitController extends Controller
 
         foreach ($units as $unit) {
             $profile = Profile::where('user_id', $unit->user_id)->first();
-            $unit['profile'] = $profile->friendCode ."-".$profile->ign ;
+            $unit['profile'] = $profile;
         }
 
         return $units;

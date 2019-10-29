@@ -2360,10 +2360,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      perPage: 10,
+      currentPage: 1,
       search: "",
       fields: [{
         key: "name",
@@ -2372,6 +2398,10 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         key: "atk",
         label: "ATK",
+        sortable: true
+      }, {
+        key: "mag",
+        label: "MAG",
         sortable: true
       }, {
         key: "def",
@@ -2416,6 +2446,9 @@ __webpack_require__.r(__webpack_exports__);
       return this.units.filter(function (unit) {
         return unit.name.toLowerCase().match(_this2.search.toLowerCase());
       });
+    },
+    rows: function rows() {
+      return this.filterUnits.length;
     }
   }
 });
@@ -31097,7 +31130,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\ndiv[data-v-71fb0014] {\n  margin-top: 10px;\n}\nh1[data-v-71fb0014] {\n  margin-bottom: 30px;\n}\n", ""]);
+exports.push([module.i, "\ndiv[data-v-71fb0014] {\r\n  margin-top: 10px;\n}\nh1[data-v-71fb0014] {\r\n  margin-bottom: 30px;\n}\r\n", ""]);
 
 // exports
 
@@ -38614,7 +38647,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "header",
-    { staticClass: "navbar navbar-expand-lg navbar-light bg-white" },
+    { staticClass: "navbar navbar-expand-lg navbar-light bg-light" },
     [
       _c(
         "router-link",
@@ -38657,15 +38690,15 @@ var render = function() {
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "navbar-nav flex-row ml-md-auto d-none d-md-flex" },
+            { staticClass: "navbar-nav flex-row ml-md-auto d-md-flex " },
             [
               _c(
                 "router-link",
                 {
-                  staticClass: "nav-item nav-link",
+                  staticClass: "nav-item nav-link mr-2",
                   attrs: { to: "/profile", tag: "a", "active-class": "active" }
                 },
-                [_vm._v("Your Profile")]
+                [_vm._v("Your Profile ")]
               ),
               _vm._v(" "),
               _c(
@@ -38813,7 +38846,7 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("div", { staticClass: "col-sm-6 ml-5" }, [
+          _c("div", { staticClass: "col-sm-6 ml-md-5" }, [
             _c("label", { attrs: { for: "input-type" } }, [_vm._v("Rarity")]),
             _vm._v(" "),
             _c("div", { staticClass: "row", attrs: { id: "input-type" } }, [
@@ -39005,7 +39038,7 @@ var render = function() {
           _c("div", { staticClass: "form-row" }, [
             _vm._m(1),
             _vm._v(" "),
-            _c("div", { staticClass: "col-md-7" }, [
+            _c("div", { staticClass: "col-md-6 col-sm-12" }, [
               _c("input", {
                 directives: [
                   {
@@ -39040,7 +39073,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "div",
-          { staticClass: "text-right mt-5" },
+          { staticClass: "text-md-right mt-5" },
           [
             _c(
               "button",
@@ -39086,9 +39119,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
+    return _c("div", { staticClass: "col-md-5 mr-2 col-sm-12" }, [
       _c("input", {
-        staticClass: "form-control-plaintext ml-3",
+        staticClass: "form-control-plaintext ml-md-3",
         attrs: {
           type: "text",
           readonly: "",
@@ -39451,7 +39484,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "float-right" },
+        { staticClass: "d-md-flex justify-content-md-between mt-4" },
         [
           _c(
             "router-link",
@@ -39460,17 +39493,39 @@ var render = function() {
               attrs: { to: "/unit/add", tag: "button" }
             },
             [_vm._v("Add Your Unit")]
-          )
+          ),
+          _vm._v(" "),
+          _c("b-pagination", {
+            attrs: {
+              "total-rows": _vm.rows,
+              "per-page": _vm.perPage,
+              "aria-controls": "unitsTable",
+              "first-text": "First",
+              "prev-text": "Prev",
+              "next-text": "Next",
+              "last-text": "Last"
+            },
+            model: {
+              value: _vm.currentPage,
+              callback: function($$v) {
+                _vm.currentPage = $$v
+              },
+              expression: "currentPage"
+            }
+          })
         ],
         1
       ),
       _vm._v(" "),
       _c("b-table", {
         attrs: {
+          id: "unitsTable",
           items: _vm.filterUnits,
           fields: _vm.fields,
           busy: _vm.isLoading,
-          "sticky-header": _vm.stickyHeader
+          "per-page": _vm.perPage,
+          "current-page": _vm.currentPage,
+          responsive: ""
         },
         scopedSlots: _vm._u([
           {
@@ -39487,6 +39542,20 @@ var render = function() {
                   },
                   [_vm._v("Build")]
                 )
+              ]
+            }
+          },
+          {
+            key: "cell(profile)",
+            fn: function(data) {
+              return [
+                _c("p", [
+                  _vm._v(
+                    _vm._s(data.item.profile.ign) +
+                      " - " +
+                      _vm._s(_vm._f("friendCode")(data.item.profile.friendCode))
+                  )
+                ])
               ]
             }
           },

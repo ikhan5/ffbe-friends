@@ -21,7 +21,7 @@
             <label for="unitName">Unit Name</label>
             <app-v-select id="unitName" v-model="name" :options="units" label="name" index="id"></app-v-select>
           </div>
-          <div class="col-sm-6 ml-5">
+          <div class="col-sm-6 ml-md-5">
             <label for="input-type">Rarity</label>
             <div id="input-type" class="row">
               <div class="col-md-2">
@@ -65,16 +65,16 @@
         <div class="form-group">
           <label for="name" class="my-3">Build URL</label>
           <div class="form-row">
-            <div class="col-md-4">
+            <div class="col-md-5 mr-2 col-sm-12">
               <input
                 type="text"
                 readonly
-                class="form-control-plaintext ml-3"
+                class="form-control-plaintext ml-md-3"
                 id="staticEmail"
                 value="ffbeEquip.com/builder.html?server=GL#"
               />
             </div>
-            <div class="col-md-7">
+            <div class="col-md-6 col-sm-12">
               <input
                 v-model="buildURL"
                 type="text"
@@ -92,7 +92,7 @@
             </div>
           </div>
         </div>
-        <div class="text-right mt-5">
+        <div class="text-md-right mt-5">
           <button class="btn btn-primary" @click.prevent="addUnit">Add Your Unit</button>
           <router-link to="/" tag="button" class="btn btn-link">Cancel</router-link>
         </div>
