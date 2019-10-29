@@ -112,7 +112,7 @@
 </style>
 
 <script>
-import Units from "../../data/releasedUnits.json";
+import Units from "../../data/units.json";
 import axios from "axios";
 import Swal from "sweetalert2";
 import "vue-select/dist/vue-select.css";
