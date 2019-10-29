@@ -29,6 +29,9 @@
           <td v-if="isLoading" class="text-center" colspan="7">
             <app-spinner></app-spinner>
           </td>
+          <td v-else-if="units.length <= 0" class="text-center" colspan="7">
+            No Units To Display. <router-link to ="/unit/add" tag="a">Add</router-link> a unit here.
+          </td>
           <tbody v-else>
             <tr v-for="unit in units" :key="unit.id">
               <th scope="row">{{unit.name}} {{unit.rarity}}&#x2605;</th>
@@ -87,7 +90,8 @@ export default {
       link: "https://ffbeEquip.com/builder.html?server=GL#",
       units: [],
       isLoading: true,
-      id: 0
+      id: 0,
+
     };
   },
   created() {

@@ -16,7 +16,7 @@ class UnitController extends Controller
      */
     public function index()
     {
-        $units = Unit::all();
+        $units = Unit::orderByDesc('updated_at')->get();
 
         foreach ($units as $unit) {
             $friendCode = Profile::where('user_id', $unit->user_id)->first();
@@ -45,20 +45,26 @@ class UnitController extends Controller
     public function store(Request $request)
     {
         $user_id = Auth::id();
-        $validated_create = $request->validate([
-            'name' => 'required',
-            'rarity' => 'required',
-            'build' => 'required',
-            'atk' => 'required',
-            'def' => 'required',
-            'mag' => 'required',
-            'spr' => 'required',
-        ]);
-        $form_input_sanitized = filter_var_array($validated_create, FILTER_SANITIZE_STRING);
-        $form_input_sanitized['user_id'] = $user_id;
+        $profileCreated = Profile::where('user_id', $user_id)->first();
 
-        Unit::create($form_input_sanitized);
-        return (['message' => 'Unit Added']);
+        if ($profileCreated) {
+            $validated_create = $request->validate([
+                'name' => 'required',
+                'rarity' => 'required',
+                'build' => 'required',
+                'atk' => 'required',
+                'def' => 'required',
+                'mag' => 'required',
+                'spr' => 'required',
+            ]);
+            $form_input_sanitized = filter_var_array($validated_create, FILTER_SANITIZE_STRING);
+            $form_input_sanitized['user_id'] = $user_id;
+
+            Unit::create($form_input_sanitized);
+            return (['message' => 'Unit Added']);
+        }else{
+            return (response('Unit Not Added', 500));
+        }
     }
 
     /**
@@ -69,7 +75,8 @@ class UnitController extends Controller
      */
     public function show($id)
     {
-        $units = Unit::where('user_id', $id)->get();
+        $user_id = Auth::id();
+        $units = Unit::where('user_id', $user_id)->get();
         return $units;
     }
 

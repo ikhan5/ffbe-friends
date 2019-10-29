@@ -14,10 +14,10 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <router-link to="/" tag="a" active-class="active" class="nav-item nav-link" exact>Units</router-link>
+        <router-link to="/" tag="a" active-class="active" class="nav-item nav-link" exact>All Units</router-link>
       </div>
       <div class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-        <router-link to="/profile" tag="a" active-class="active" class="nav-item nav-link">Profile</router-link>
+        <router-link to="/profile" tag="a" active-class="active" class="nav-item nav-link">Your Profile</router-link>
         <a class="logout nav-item nav-link" href="/logout">Logout</a>
       </div>
     </div>

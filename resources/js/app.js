@@ -1,19 +1,21 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import VueEx from "vuex";
 import VueSelect from "vue-select";
+import BootstrapVue from 'bootstrap-vue'
 
 import App from "./App.vue";
 import Header from "./components/Header";
 import Spinner from "./components/Spinner";
 
 import { routes } from "./routes";
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+Vue.use(BootstrapVue)
 Vue.use(VueRouter);
 
 Vue.component("app-v-select", VueSelect);
 Vue.component("app-spinner", Spinner);
-
 
 const router = new VueRouter({
     mode: "history",

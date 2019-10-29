@@ -7,28 +7,30 @@
     <div class="float-right">
       <router-link class="btn btn-info mb-3" to="/unit/add" tag="button">Add Your Unit</router-link>
     </div>
-    <table class="table table-responsive-md table-hover">
+    <table class="table table-responsive-md table-hover tablesorter" id="unitsTable">
       <thead class="thead-light">
         <tr>
-          <th scope="col" v-for="(column, index) in columns" :key="index">{{column}}</th>
+          <th scope="col" v-for="(column, index) in columns" :key="index">
+            <a @click="sortBy(column)">{{column}}</a>
+          </th>
         </tr>
       </thead>
       <td v-if="isLoading" class="text-center" colspan="7">
         <app-spinner></app-spinner>
       </td>
-        <transition-group name="fade" tag="tbody" v-else>
-          <tr v-for="unit in filterUnits" :key="unit.id">
-            <th scope="row">{{unit.name}} {{unit.rarity}}&#x2605;</th>
-            <td>{{unit.atk}}</td>
-            <td>{{unit.mag}}</td>
-            <td>{{unit.def}}</td>
-            <td>{{unit.spr}}</td>
-            <td>
-              <a target="_blank" :href="link + unit.build">Build</a>
-            </td>
-            <td>{{unit.profile.ign}} - {{unit.profile.friendCode | friend-code}}</td>
-          </tr>
-        </transition-group>
+      <transition-group name="fade" tag="tbody" v-else>
+        <tr v-for="unit in filterUnits" :key="unit.id">
+          <th scope="row">{{unit.name}} {{unit.rarity}}&#x2605;</th>
+          <td>{{unit.atk}}</td>
+          <td>{{unit.mag}}</td>
+          <td>{{unit.def}}</td>
+          <td>{{unit.spr}}</td>
+          <td>
+            <a target="_blank" :href="link + unit.build">Build</a>
+          </td>
+          <td>{{unit.profile.ign}} - {{unit.profile.friendCode | friend-code}}</td>
+        </tr>
+      </transition-group>
     </table>
   </div>
 </template>
@@ -70,8 +72,8 @@ export default {
   computed: {
     filterUnits() {
       return this.units.filter(unit => {
-        return (unit.name).toLowerCase().match(this.search.toLowerCase());
-      });
+        return unit.name.toLowerCase().match(this.search.toLowerCase());
+      })
     }
   }
 };

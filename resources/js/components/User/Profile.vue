@@ -1,7 +1,10 @@
 <template>
   <div>
-    <form class="pb-2">
-      <h1 class="mb-4">User Profile</h1>
+    <h1 class="mb-4">User Profile</h1>
+    <div v-if="loading" class="text-center">
+      <app-spinner></app-spinner>
+    </div>
+    <form v-else class="pb-2">
       <div class="form-group form-inline">
         <label class="col-md-2 mr-2" for="IGN">Username</label>
         <input
@@ -39,7 +42,7 @@ import AddedUnits from "./AddedUnits";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-import {eventBus} from '../../app'
+import { eventBus } from "../../app";
 import { mapActions } from "vuex";
 
 export default {
@@ -49,18 +52,29 @@ export default {
       friendCode: "",
       firstTime: true,
       profileId: "",
-      userUnits: []
+      userUnits: [],
+      profileComplete: false,
+      loading: true
     };
+  },
+  beforeCreate() {
+    this.loading = true;
   },
   created() {
     axios
       .get("./api/profile")
       .then(res => {
-        this.profileId = res.data[0].id;
-        this.username = res.data[0].ign;
-        this.friendCode = res.data[0].friendCode;
-        this.firstTime = false;
-        eventBus.$emit('profileIdUpdated', this.profileId);
+        if (res.data.length === 0) {
+          this.profileComplete = false;
+        } else {
+          this.profileId = res.data[0].id;
+          this.username = res.data[0].ign;
+          this.friendCode = res.data[0].friendCode;
+          this.firstTime = false;
+          this.profileComplete = true;
+          eventBus.$emit("profileIdUpdated", this.profileId);
+        }
+        this.loading = false;
       })
       .catch(err => {
         console.log(err);

@@ -18,8 +18,14 @@ Route::get('/home', function () {
     return view('vue');
 });
 
+Route::get('/profile', function () {
+})->middleware('auth');
+
+
 Auth::routes();
 
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/{any}', 'VueController@index')->where('any', '.*');
+
+
 
