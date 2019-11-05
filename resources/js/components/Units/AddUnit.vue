@@ -2,7 +2,7 @@
   <div>
     <h1>Add Your Unit</h1>
     <p class="mb-4 incomplete">
-      Make sure to <a href="/login"> Login </a> and complete Your Profile before adding a unit
+      Make sure to complete <router-link to="/profile" tag="a">Your Profile</router-link> before adding a unit
     </p>
     <hr />
     <form>
@@ -12,7 +12,7 @@
           <h3
             v-if="!loggedIn"
             class="text-danger error-msg"
-          >Error adding unit. Please check to see if you are logged in and/or complete your profile.</h3>
+          >Error adding unit. Please complete your profile or try again later.</h3>
 
           <h3 v-if="invalidField" class="text-danger error-msg">Stats must be numeric values!</h3>
         </div>

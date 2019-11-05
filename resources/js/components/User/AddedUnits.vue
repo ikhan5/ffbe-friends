@@ -30,7 +30,8 @@
             <app-spinner></app-spinner>
           </td>
           <td v-else-if="units.length <= 0 || firstTime" class="text-center" colspan="7">
-            No Units To Display. Complete your profile and <router-link to ="/unit/add" tag="a">Add a unit here</router-link>.
+            No Units To Display. Complete your profile and
+            <router-link to="/unit/add" tag="a">Add a unit here</router-link>.
           </td>
           <tbody v-else>
             <tr v-for="unit in units" :key="unit.id">
@@ -42,6 +43,7 @@
               <td>
                 <a target="_blank" :href="link + unit.build">Build</a>
               </td>
+              <td>Show</td>
               <td>
                 <div class="row">
                   <button
@@ -84,19 +86,23 @@ import EditUnit from "../Units/EditUnit";
 import { eventBus } from "../../app";
 
 export default {
-  props: ['firstTime'],
+  props: ["firstTime"],
   data() {
     return {
-      columns: ["Name", "ATK", "MAG", "DEF", "SPR", "Build Link", "Actions"],
+      columns: ["Name", "ATK", "MAG", "DEF", "SPR", "Build Link","Show", "Actions"],
       link: "https://ffbeEquip.com/builder.html?server=GL#",
       units: [],
       isLoading: true,
       id: 0,
       isError: false
-
     };
   },
   created() {
+
+    $(function() {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+    
     this.isLoading = true;
     eventBus.$on("profileIdUpdated", id => {
       this.id = id;
@@ -113,10 +119,14 @@ export default {
         .then(res => {
           this.isLoading = false;
           this.units = res.data;
-          eventBus.$emit('unitToEdit', this.units);
+          eventBus.$emit("unitToEdit", this.units);
         })
         .catch(err => {
-          console.log(err.response);
+          Swal.fire(
+            "Error, Kupo!",
+            "There was an error whilst loading your units, please try again later",
+            "error"
+          );
         });
     },
     deleteUnit(unitID) {
@@ -135,10 +145,13 @@ export default {
             .then(response => {
               Swal.fire("Deleted!", "Your unit has been deleted.", "success");
               this.getAllUnits(this.id);
-              console.log(response);
             })
             .catch(error => {
-              console.log(error);
+              Swal.fire(
+                "Error, Kupo!",
+                "There was an error whilst deleting your unit, please try again later",
+                "error"
+              );
             });
         }
       });

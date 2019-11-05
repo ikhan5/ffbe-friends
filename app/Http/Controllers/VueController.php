@@ -9,9 +9,6 @@ class VueController extends Controller
 {
     public function index()
     {
-
-        return view('vue', [
-            'auth_user' => Auth::user()
-        ]);
+        return view('vue');
     }
 }

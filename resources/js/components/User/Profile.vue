@@ -10,17 +10,14 @@
     <div v-if="loading" class="text-center">
       <app-spinner></app-spinner>
     </div>
-    <div v-else-if="SERVER_ERROR" class="text-center text-danger">
-      <p>Error Loading Profile! Try Again Later</p>
-    </div>
-    <form v-if="!loading" class="pb-2">
+    <form v-else class="pb-2">
       <div class="form-group form-inline">
         <label class="col-md-2 mr-2" for="IGN">Username</label>
         <input
           v-model="username"
           type="text"
           class="form-control col-md-8"
-          placeholder="In Game Name"
+          placeholder="In Game Name, Enter without spaces"
           :class="{errors: usernameError}"
         />
       </div>
@@ -30,7 +27,7 @@
           v-model="friendCode"
           type="text"
           class="form-control col-md-8"
-          placeholder="123456789"
+          placeholder="Ex. 123456789, Enter without commas, spaces or dashes"
           :class="{errors: friendCodeError}"
         />
       </div>
@@ -73,8 +70,7 @@ export default {
       profileComplete: false,
       loading: true,
       usernameError: false,
-      friendCodeError: false,
-      SERVER_ERROR: false
+      friendCodeError: false
     };
   },
   beforeCreate() {
@@ -84,7 +80,6 @@ export default {
     axios
       .get("./api/profile")
       .then(res => {
-        this.SERVER_ERROR = false;
         if (res.data.length === 0) {
           this.profileComplete = false;
         } else {
@@ -98,8 +93,13 @@ export default {
         this.loading = false;
       })
       .catch(err => {
-        this.SERVER_ERROR = true;
+        Swal.fire(
+          "Error, Kupo!",
+          "There was an error whilst loading your profile, please try again later",
+          "error"
+        );
       });
+      
   },
   components: {
     "app-added-units": AddedUnits
@@ -122,7 +122,11 @@ export default {
             );
           })
           .catch(err => {
-            console.log(err.response);
+            Swal.fire(
+              "Error, Kupo!",
+              "There was an error whilst adding your profile, please try again later",
+              "error"
+            );
           });
       }
     },
@@ -143,7 +147,11 @@ export default {
             );
           })
           .catch(err => {
-            console.log(err.response);
+            Swal.fire(
+              "Error, Kupo!",
+              "There was an error whilst updating your profile, please try again later",
+              "error"
+            );
           });
       }
     },
@@ -160,7 +168,11 @@ export default {
       }
     },
     validate(username) {
-      if (username.trim() === "" || username === undefined|| /\s/g.test(username)) {
+      if (
+        username.trim() === "" ||
+        username === undefined ||
+        /\s/g.test(username)
+      ) {
         this.usernameError = true;
       } else {
         this.usernameError = false;

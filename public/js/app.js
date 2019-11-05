@@ -1838,7 +1838,6 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Header.vue */ "./resources/js/components/Header.vue");
 //
 //
 //
@@ -1889,12 +1888,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "app",
-  components: {
-    appHeader: _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
-  }
+  name: "app"
 });
 
 /***/ }),
@@ -2316,10 +2311,8 @@ __webpack_require__.r(__webpack_exports__);
           rarity: this.new_rarity
         }).then(function (response) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.fire("Updating Unit", "Unit updated successfully!", "success").then(unit.atk = _this.new_atk, unit.def = _this.new_def, unit.mag = _this.new_mag, unit.spr = _this.new_spr, unit.rarity = _this.new_rarity, unit.build = _this.new_build);
-          console.log(response);
         })["catch"](function (error) {
           _this.error = true;
-          console.log(error.response);
         });
       }
     }
@@ -2438,7 +2431,7 @@ __webpack_require__.r(__webpack_exports__);
       _this.isLoading = false;
       _this.units = res.data;
     })["catch"](function (err) {
-      console.log(err.response);
+      Swal.fire("Error, Kupo!", "There was an error whilst loading the units, please try again later", "error");
     });
   },
   computed: {
@@ -2551,15 +2544,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['firstTime'],
+  props: ["firstTime"],
   data: function data() {
     return {
-      columns: ["Name", "ATK", "MAG", "DEF", "SPR", "Build Link", "Actions"],
+      columns: ["Name", "ATK", "MAG", "DEF", "SPR", "Build Link", "Show", "Actions"],
       link: "https://ffbeEquip.com/builder.html?server=GL#",
       units: [],
       isLoading: true,
@@ -2570,6 +2565,9 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
     this.isLoading = true;
     _app__WEBPACK_IMPORTED_MODULE_3__["eventBus"].$on("profileIdUpdated", function (id) {
       _this.id = id;
@@ -2587,9 +2585,9 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("./api/units/" + id).then(function (res) {
         _this2.isLoading = false;
         _this2.units = res.data;
-        _app__WEBPACK_IMPORTED_MODULE_3__["eventBus"].$emit('unitToEdit', _this2.units);
+        _app__WEBPACK_IMPORTED_MODULE_3__["eventBus"].$emit("unitToEdit", _this2.units);
       })["catch"](function (err) {
-        console.log(err.response);
+        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire("Error, Kupo!", "There was an error whilst loading your units, please try again later", "error");
       });
     },
     deleteUnit: function deleteUnit(unitID) {
@@ -2609,10 +2607,8 @@ __webpack_require__.r(__webpack_exports__);
             sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire("Deleted!", "Your unit has been deleted.", "success");
 
             _this3.getAllUnits(_this3.id);
-
-            console.log(response);
           })["catch"](function (error) {
-            console.log(error);
+            sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire("Error, Kupo!", "There was an error whilst deleting your unit, please try again later", "error");
           });
         }
       });
@@ -2694,9 +2690,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 
@@ -2713,8 +2706,7 @@ __webpack_require__.r(__webpack_exports__);
       profileComplete: false,
       loading: true,
       usernameError: false,
-      friendCodeError: false,
-      SERVER_ERROR: false
+      friendCodeError: false
     };
   },
   beforeCreate: function beforeCreate() {
@@ -2724,8 +2716,6 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("./api/profile").then(function (res) {
-      _this.SERVER_ERROR = false;
-
       if (res.data.length === 0) {
         _this.profileComplete = false;
       } else {
@@ -2739,7 +2729,7 @@ __webpack_require__.r(__webpack_exports__);
 
       _this.loading = false;
     })["catch"](function (err) {
-      _this.SERVER_ERROR = true;
+      sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire("Error, Kupo!", "There was an error whilst loading your profile, please try again later", "error");
     });
   },
   components: {
@@ -2757,7 +2747,7 @@ __webpack_require__.r(__webpack_exports__);
         }).then(function (res) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire("Adding User Details", "Details added successfully!", "success");
         })["catch"](function (err) {
-          console.log(err.response);
+          sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire("Error, Kupo!", "There was an error whilst adding your profile, please try again later", "error");
         });
       }
     },
@@ -2772,7 +2762,7 @@ __webpack_require__.r(__webpack_exports__);
         }).then(function (res) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire("Updating User Details", "Details updated successfully!", "success");
         })["catch"](function (err) {
-          console.log(err.response);
+          sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire("Error, Kupo!", "There was an error whilst updating your profile, please try again later", "error");
         });
       }
     },
@@ -38787,7 +38777,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "navbar-nav flex-row ml-md-auto d-md-flex " },
+            { staticClass: "navbar-nav flex-row ml-md-auto d-md-flex" },
             [
               _c(
                 "router-link",
@@ -38795,7 +38785,7 @@ var render = function() {
                   staticClass: "nav-item nav-link mr-2",
                   attrs: { to: "/profile", tag: "a", "active-class": "active" }
                 },
-                [_vm._v("Your Profile ")]
+                [_vm._v("Your Profile")]
               ),
               _vm._v(" "),
               _c(
@@ -38885,7 +38875,18 @@ var render = function() {
   return _c("div", [
     _c("h1", [_vm._v("Add Your Unit")]),
     _vm._v(" "),
-    _vm._m(0),
+    _c(
+      "p",
+      { staticClass: "mb-4 incomplete" },
+      [
+        _vm._v("\n    Make sure to complete "),
+        _c("router-link", { attrs: { to: "/profile", tag: "a" } }, [
+          _vm._v("Your Profile")
+        ]),
+        _vm._v(" before adding a unit\n  ")
+      ],
+      1
+    ),
     _vm._v(" "),
     _c("hr"),
     _vm._v(" "),
@@ -38902,7 +38903,7 @@ var render = function() {
               !_vm.loggedIn
                 ? _c("h3", { staticClass: "text-danger error-msg" }, [
                     _vm._v(
-                      "Error adding unit. Please check to see if you are logged in and/or complete your profile."
+                      "Error adding unit. Please complete your profile or try again later."
                     )
                   ])
                 : _vm._e(),
@@ -39133,7 +39134,7 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-row" }, [
-            _vm._m(1),
+            _vm._m(0),
             _vm._v(" "),
             _c("div", { staticClass: "col-md-6 col-sm-12" }, [
               _c("input", {
@@ -39163,7 +39164,7 @@ var render = function() {
                 }
               }),
               _vm._v(" "),
-              _vm._m(2)
+              _vm._m(1)
             ])
           ])
         ]),
@@ -39202,16 +39203,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", { staticClass: "mb-4 incomplete" }, [
-      _vm._v("\n    Make sure to "),
-      _c("a", { attrs: { href: "/login" } }, [_vm._v(" Login ")]),
-      _vm._v(" and complete Your Profile before adding a unit\n  ")
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -39743,7 +39734,7 @@ var render = function() {
                   { staticClass: "text-center", attrs: { colspan: "7" } },
                   [
                     _vm._v(
-                      "\n          No Units To Display. Complete your profile and "
+                      "\n          No Units To Display. Complete your profile and\n          "
                     ),
                     _c(
                       "router-link",
@@ -39784,6 +39775,8 @@ var render = function() {
                           [_vm._v("Build")]
                         )
                       ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v("Show")]),
                       _vm._v(" "),
                       _c("td", [
                         _c(
@@ -39902,14 +39895,7 @@ var render = function() {
       _vm._v(" "),
       _vm.loading
         ? _c("div", { staticClass: "text-center" }, [_c("app-spinner")], 1)
-        : _vm.SERVER_ERROR
-        ? _c("div", { staticClass: "text-center text-danger" }, [
-            _c("p", [_vm._v("Error Loading Profile! Try Again Later")])
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.loading
-        ? _c("form", { staticClass: "pb-2" }, [
+        : _c("form", { staticClass: "pb-2" }, [
             _c("div", { staticClass: "form-group form-inline" }, [
               _c(
                 "label",
@@ -39928,7 +39914,10 @@ var render = function() {
                 ],
                 staticClass: "form-control col-md-8",
                 class: { errors: _vm.usernameError },
-                attrs: { type: "text", placeholder: "In Game Name" },
+                attrs: {
+                  type: "text",
+                  placeholder: "In Game Name, Enter without spaces"
+                },
                 domProps: { value: _vm.username },
                 on: {
                   input: function($event) {
@@ -39959,7 +39948,11 @@ var render = function() {
                 ],
                 staticClass: "form-control col-md-8",
                 class: { errors: _vm.friendCodeError },
-                attrs: { type: "text", placeholder: "123456789" },
+                attrs: {
+                  type: "text",
+                  placeholder:
+                    "Ex. 123456789, Enter without commas, spaces or dashes"
+                },
                 domProps: { value: _vm.friendCode },
                 on: {
                   input: function($event) {
@@ -40001,8 +39994,7 @@ var render = function() {
                     [_vm._v("Update User Info")]
                   )
             ])
-          ])
-        : _vm._e(),
+          ]),
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),

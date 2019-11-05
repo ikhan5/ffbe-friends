@@ -16,9 +16,13 @@
       <div class="navbar-nav">
         <router-link to="/" tag="a" active-class="active" class="nav-item nav-link" exact>All Units</router-link>
       </div>
-      <div class="navbar-nav flex-row ml-md-auto d-md-flex ">
-        <router-link to="/profile" tag="a" active-class="active" class="nav-item nav-link mr-2">Your Profile </router-link>
-        
+      <div class="navbar-nav flex-row ml-md-auto d-md-flex">
+        <router-link
+          to="/profile"
+          tag="a"
+          active-class="active"
+          class="nav-item nav-link mr-2"
+        >Your Profile</router-link>
         <a class="logout nav-item nav-link" href="/logout">Logout</a>
       </div>
     </div>

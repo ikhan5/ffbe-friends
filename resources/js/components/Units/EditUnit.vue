@@ -209,11 +209,9 @@ export default {
               (unit.rarity = this.new_rarity),
               (unit.build = this.new_build)
             );
-            console.log(response);
           })
           .catch(error => {
             this.error = true;
-            console.log(error.response);
           });
       }
     }

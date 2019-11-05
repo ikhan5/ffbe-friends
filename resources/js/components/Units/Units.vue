@@ -115,7 +115,11 @@ export default {
         this.units = res.data;
       })
       .catch(err => {
-        console.log(err.response);
+        Swal.fire(
+          "Error, Kupo!",
+          "There was an error whilst loading the units, please try again later",
+          "error"
+        );
       });
   },
   computed: {
@@ -131,7 +135,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 div {
   margin-top: 10px;

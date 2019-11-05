@@ -8,9 +8,17 @@
                 <div class="card-header">{{ __('Login') }}</div>
                 <div class="col-md-5 mt-2">Not Registered? Register <a href="{{ route('register') }}"> here</a></div>
                 <div class="card-body">
+                    @if(count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                            <li>{{$error}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
-
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
