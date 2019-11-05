@@ -1,10 +1,10 @@
 <template>
   <div>
     <h1 class="mb-4">Unit Listings</h1>
-    <div class="col-md-8 my-2 mx-0 mx-auto">
+    <div class="col-md-8 my-5 mx-0 mx-auto">
       <input class="form-control" type="text" v-model="search" placeholder="Search Units..." />
     </div>
-    <div class="d-md-flex justify-content-md-between mt-4">
+    <div class="d-md-flex justify-content-md-between mt-5 mb-4">
       <router-link class="btn btn-info mb-3" to="/unit/add" tag="button">Add Your Unit</router-link>
       <b-pagination
         v-model="currentPage"

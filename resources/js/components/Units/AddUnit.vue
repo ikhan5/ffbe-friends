@@ -160,7 +160,6 @@ export default {
           isNaN(this.spr) ||
           isNaN(this.mag)
         ) {
-          console.log("here");
           this.errors = true;
           this.empty = false;
           this.invalidField = true;
@@ -179,7 +178,6 @@ export default {
               build: this.buildURL
             })
             .then(res => {
-              console.log(res);
               if (res.status !== 500) {
                 this.errors = false;
                 Swal.fire(
@@ -193,7 +191,6 @@ export default {
               }
             })
             .catch(err => {
-              console.log(err.response);
               this.errors = true;
               this.loggedIn = false;
             });

@@ -15,7 +15,7 @@
             <span
               v-if="error"
               class="text-danger error-msg ml-3"
-            >Please fill out all fields</span>
+            >Please fill out all fields correctly</span>
           </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -177,35 +177,45 @@ export default {
         ? (this.new_build = unit.build)
         : this.new_build;
 
-      axios
-        .put("/api/units/" + unit.id, {
-          name: unit.name,
-          atk: this.new_atk,
-          def: this.new_def,
-          mag: this.new_mag,
-          spr: this.new_spr,
-          build: this.new_build,
-          rarity: this.new_rarity
-        })
-        .then(response => {
-          Swal.fire(
-            "Updating Unit",
-            "Unit updated successfully!",
-            "success"
-          ).then(
-            (unit.atk = this.new_atk),
-            (unit.def = this.new_def),
-            (unit.mag = this.new_mag),
-            (unit.spr = this.new_spr),
-            (unit.rarity = this.new_rarity),
-            (unit.build = this.new_build)
-          );
-          console.log(response);
-        })
-        .catch(error => {
-          this.error = true;
-          console.log(error.response);
-        });
+      if (
+        isNaN(this.new_atk) ||
+        isNaN(this.new_def) ||
+        isNaN(this.new_spr) ||
+        isNaN(this.new_mag)
+      ) {
+        this.error = true;
+      } else {
+        this.error = false;
+        axios
+          .put("/api/units/" + unit.id, {
+            name: unit.name,
+            atk: this.new_atk,
+            def: this.new_def,
+            mag: this.new_mag,
+            spr: this.new_spr,
+            build: this.new_build,
+            rarity: this.new_rarity
+          })
+          .then(response => {
+            Swal.fire(
+              "Updating Unit",
+              "Unit updated successfully!",
+              "success"
+            ).then(
+              (unit.atk = this.new_atk),
+              (unit.def = this.new_def),
+              (unit.mag = this.new_mag),
+              (unit.spr = this.new_spr),
+              (unit.rarity = this.new_rarity),
+              (unit.build = this.new_build)
+            );
+            console.log(response);
+          })
+          .catch(error => {
+            this.error = true;
+            console.log(error.response);
+          });
+      }
     }
   }
 };

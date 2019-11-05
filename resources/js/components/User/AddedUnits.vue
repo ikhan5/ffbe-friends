@@ -26,11 +26,11 @@
               <th scope="col" v-for="(column, index) in columns" :key="index">{{column}}</th>
             </tr>
           </thead>
-          <td v-if="isLoading" class="text-center" colspan="7">
+          <td v-if="isLoading && !firstTime" class="text-center" colspan="7">
             <app-spinner></app-spinner>
           </td>
-          <td v-else-if="units.length <= 0" class="text-center" colspan="7">
-            No Units To Display. <router-link to ="/unit/add" tag="a">Add</router-link> a unit here.
+          <td v-else-if="units.length <= 0 || firstTime" class="text-center" colspan="7">
+            No Units To Display. Complete your profile and <router-link to ="/unit/add" tag="a">Add a unit here</router-link>.
           </td>
           <tbody v-else>
             <tr v-for="unit in units" :key="unit.id">
@@ -84,6 +84,7 @@ import EditUnit from "../Units/EditUnit";
 import { eventBus } from "../../app";
 
 export default {
+  props: ['firstTime'],
   data() {
     return {
       columns: ["Name", "ATK", "MAG", "DEF", "SPR", "Build Link", "Actions"],
@@ -91,6 +92,7 @@ export default {
       units: [],
       isLoading: true,
       id: 0,
+      isError: false
 
     };
   },
