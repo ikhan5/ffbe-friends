@@ -2043,10 +2043,10 @@ var _data_units_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__web
       units: [],
       name: "",
       buildURL: "",
-      atk: "",
-      def: "",
-      spr: "",
-      mag: "",
+      atk: "100",
+      def: "100",
+      spr: "100",
+      mag: "100",
       max_rarity: 7,
       rarity: 5,
       errors: false,
@@ -2088,15 +2088,15 @@ var _data_units_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__web
           axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/units", {
             rarity: this.rarity,
             name: this.name.name,
-            atk: this.atk,
-            def: this.def,
-            mag: this.mag,
-            spr: this.spr,
-            build: this.buildURL
+            atk: this.atk.trim(),
+            def: this.def.trim(),
+            mag: this.mag.trim(),
+            spr: this.spr.trim(),
+            build: this.buildURL.trim()
           }).then(function (res) {
             if (res.status !== 500) {
               _this.errors = false;
-              sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire("Adding Unit", "Unit added successfully!", "success").then(_this.$router.push("/profile"));
+              sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire("Adding Unit", "Unit added successfully!", "success").then(_this.$router.push("/"));
             } else {
               _this.errors = true;
               _this.loggedIn = false;
@@ -2745,13 +2745,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     addProfile: function addProfile() {
-      validateFriendCode(this.friendCode);
-      validate(this.username);
+      this.validateFriendCode(this.friendCode);
+      this.validate(this.username);
 
       if (!this.friendCodeError && !this.usernameError) {
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/profile", {
-          friendCode: this.friendCode,
-          ign: this.username
+          friendCode: this.friendCode.trim(),
+          ign: this.username.trim()
         }).then(function (res) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire("Adding User Details", "Details added successfully!", "success");
         })["catch"](function (err) {
@@ -2765,8 +2765,8 @@ __webpack_require__.r(__webpack_exports__);
 
       if (!this.friendCodeError && !this.usernameError) {
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.put("/api/profile/" + this.profileId, {
-          friendCode: this.friendCode,
-          ign: this.username
+          friendCode: this.friendCode.trim(),
+          ign: this.username.trim()
         }).then(function (res) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire("Updating User Details", "Details updated successfully!", "success");
         })["catch"](function (err) {
@@ -38891,7 +38891,7 @@ var render = function() {
         _c("router-link", { attrs: { to: "/profile", tag: "a" } }, [
           _vm._v("Your Profile")
         ]),
-        _vm._v("before adding a unit\n  ")
+        _vm._v(" before adding a unit\n  ")
       ],
       1
     ),
@@ -39047,7 +39047,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { type: "text", id: "attack", placeholder: "100" },
+              attrs: { type: "text", id: "attack", placeholder: "Unit Attack" },
               domProps: { value: _vm.atk },
               on: {
                 input: function($event) {
@@ -39073,7 +39073,11 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { type: "text", id: "defense", placeholder: "100" },
+              attrs: {
+                type: "text",
+                id: "defense",
+                placeholder: "Unit Defense"
+              },
               domProps: { value: _vm.def },
               on: {
                 input: function($event) {
@@ -39099,7 +39103,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { type: "text", id: "magic", placeholder: "100" },
+              attrs: { type: "text", id: "magic", placeholder: "Unit Magic" },
               domProps: { value: _vm.mag },
               on: {
                 input: function($event) {
@@ -39125,7 +39129,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { type: "text", id: "spirit", placeholder: "100" },
+              attrs: { type: "text", id: "spirit", placeholder: "Unit Spirit" },
               domProps: { value: _vm.spr },
               on: {
                 input: function($event) {

@@ -106,13 +106,13 @@ export default {
   },
   methods: {
     addProfile() {
-      validateFriendCode(this.friendCode);
-      validate(this.username);
+      this.validateFriendCode(this.friendCode);
+      this.validate(this.username);
       if (!this.friendCodeError && !this.usernameError) {
         axios
           .post("/api/profile", {
-            friendCode: this.friendCode,
-            ign: this.username
+            friendCode: this.friendCode.trim(),
+            ign: this.username.trim()
           })
           .then(res => {
             Swal.fire(
@@ -136,8 +136,8 @@ export default {
       if (!this.friendCodeError && !this.usernameError) {
         axios
           .put("/api/profile/" + this.profileId, {
-            friendCode: this.friendCode,
-            ign: this.username
+            friendCode: this.friendCode.trim(),
+            ign: this.username.trim()
           })
           .then(res => {
             Swal.fire(

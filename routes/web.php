@@ -4,6 +4,7 @@ Route::get('/', function () {
     return view('vue');
 });
 
+
 Route::get('/unit/add', function () {
     return view('vue');
 })->middleware('auth');

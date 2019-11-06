@@ -3,7 +3,7 @@
     <h1>Add Your Unit</h1>
     <p class="mb-4 incomplete">
       Make sure to complete
-      <router-link to="/profile" tag="a">Your Profile</router-link>before adding a unit
+      <router-link to="/profile" tag="a">Your Profile</router-link> before adding a unit
     </p>
     <hr />
     <form>
@@ -54,19 +54,19 @@
         <div class="form-row">
           <div class="form-group col-md-3">
             <label for="attack">ATK</label>
-            <input v-model="atk" type="text" class="form-control" id="attack" placeholder="100" />
+            <input v-model="atk" type="text" class="form-control" id="attack" placeholder="Unit Attack" />
           </div>
           <div class="form-group col-md-3">
             <label for="defense">DEF</label>
-            <input v-model="def" type="text" class="form-control" id="defense" placeholder="100" />
+            <input v-model="def" type="text" class="form-control" id="defense" placeholder="Unit Defense" />
           </div>
           <div class="form-group col-md-3">
             <label for="magic">MAG</label>
-            <input v-model="mag" type="text" class="form-control" id="magic" placeholder="100" />
+            <input v-model="mag" type="text" class="form-control" id="magic" placeholder="Unit Magic" />
           </div>
           <div class="form-group col-md-3">
             <label for="spirit">SPR</label>
-            <input v-model="spr" type="text" class="form-control" id="spirit" placeholder="100" />
+            <input v-model="spr" type="text" class="form-control" id="spirit" placeholder="Unit Spirit" />
           </div>
         </div>
         <div class="form-group">
@@ -131,10 +131,10 @@ export default {
       units: [],
       name: "",
       buildURL: "",
-      atk: "",
-      def: "",
-      spr: "",
-      mag: "",
+      atk: "100",
+      def: "100",
+      spr: "100",
+      mag: "100",
       max_rarity: 7,
       rarity: 5,
       errors: false,
@@ -183,11 +183,11 @@ export default {
             .post("/api/units", {
               rarity: this.rarity,
               name: this.name.name,
-              atk: this.atk,
-              def: this.def,
-              mag: this.mag,
-              spr: this.spr,
-              build: this.buildURL
+              atk: this.atk.trim(),
+              def: this.def.trim(),
+              mag: this.mag.trim(),
+              spr: this.spr.trim(),
+              build: this.buildURL.trim()
             })
             .then(res => {
               if (res.status !== 500) {
@@ -196,7 +196,7 @@ export default {
                   "Adding Unit",
                   "Unit added successfully!",
                   "success"
-                ).then(this.$router.push("/profile"));
+                ).then(this.$router.push("/"));
               } else {
                 this.errors = true;
                 this.loggedIn = false;

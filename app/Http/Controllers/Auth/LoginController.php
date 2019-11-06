@@ -4,13 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
-use App\User;
 
 class LoginController extends Controller
 {
-
-
     use AuthenticatesUsers;
 
     /**
@@ -18,7 +14,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/profile';
 
     /**
      * Create a new controller instance.
@@ -28,20 +24,5 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-    }
-
-    /**
-     * Get the failed login response instance.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    protected function sendFailedLoginResponse(Request $request)
-    {
-        $user = User::whereEmail($request->email)->first();
-        if ($user == null) {
-            $errorMsg = 'User Credentials Invalid';
-            return back()->with('error', $errorMsg);
-        }
     }
 }
