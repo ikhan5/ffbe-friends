@@ -46,8 +46,10 @@ class UnitController extends Controller
     {
         $user_id = Auth::id();
         $profileCreated = Profile::where('user_id', $user_id)->first();
+        $units_added = Unit::where('user_id', $user_id)->get();
+        $unit_count = $units_added->count();
 
-        if ($profileCreated) {
+        if ($profileCreated && $unit_count < 5) {
             $validated_create = $request->validate([
                 'name' => 'required',
                 'rarity' => 'required',
@@ -62,8 +64,12 @@ class UnitController extends Controller
 
             Unit::create($form_input_sanitized);
             return (['message' => 'Unit Added']);
-        }else{
-            return (response('Unit Not Added', 500));
+        } elseif ($unit_count >= 5) {
+            return (response('Unit quota of 5 reached. Please delete a unit and try again.', 500));
+        } elseif (!$profileCreated) {
+            return (response('Please complete your profile.', 500));
+        } else {
+            return (response('Server Errror. Please try again later.', 500));
         }
     }
 

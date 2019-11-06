@@ -3,17 +3,14 @@
     <h1>Add Your Unit</h1>
     <p class="mb-4 incomplete">
       Make sure to complete
-      <router-link to="/profile" tag="a">Your Profile</router-link> before adding a unit
+      <router-link to="/profile" tag="a">Your Profile</router-link>before adding a unit
     </p>
     <hr />
     <form>
       <div class="form-group">
         <div v-if="errors">
           <h3 v-if="empty" class="text-danger error-msg">Please fill out all fields</h3>
-          <h3
-            v-if="!loggedIn"
-            class="text-danger error-msg"
-          >Error adding unit. Please complete your profile or try again later.</h3>
+          <h3 v-if="!loggedIn" class="text-danger error-msg">Error adding unit. {{errorMsg}}</h3>
           <h3 v-if="invalidField" class="text-danger error-msg">Stats must be numeric values!</h3>
         </div>
         <div class="form-row">
@@ -54,19 +51,43 @@
         <div class="form-row">
           <div class="form-group col-md-3">
             <label for="attack">ATK</label>
-            <input v-model="atk" type="text" class="form-control" id="attack" placeholder="Unit Attack" />
+            <input
+              v-model="atk"
+              type="text"
+              class="form-control"
+              id="attack"
+              placeholder="Unit Attack"
+            />
           </div>
           <div class="form-group col-md-3">
             <label for="defense">DEF</label>
-            <input v-model="def" type="text" class="form-control" id="defense" placeholder="Unit Defense" />
+            <input
+              v-model="def"
+              type="text"
+              class="form-control"
+              id="defense"
+              placeholder="Unit Defense"
+            />
           </div>
           <div class="form-group col-md-3">
             <label for="magic">MAG</label>
-            <input v-model="mag" type="text" class="form-control" id="magic" placeholder="Unit Magic" />
+            <input
+              v-model="mag"
+              type="text"
+              class="form-control"
+              id="magic"
+              placeholder="Unit Magic"
+            />
           </div>
           <div class="form-group col-md-3">
             <label for="spirit">SPR</label>
-            <input v-model="spr" type="text" class="form-control" id="spirit" placeholder="Unit Spirit" />
+            <input
+              v-model="spr"
+              type="text"
+              class="form-control"
+              id="spirit"
+              placeholder="Unit Spirit"
+            />
           </div>
         </div>
         <div class="form-group">
@@ -140,7 +161,8 @@ export default {
       errors: false,
       empty: true,
       invalidField: false,
-      loggedIn: true
+      loggedIn: true,
+      errorMsg: ""
     };
   },
   created() {
@@ -190,19 +212,15 @@ export default {
               build: this.buildURL.trim()
             })
             .then(res => {
-              if (res.status !== 500) {
-                this.errors = false;
-                Swal.fire(
-                  "Adding Unit",
-                  "Unit added successfully!",
-                  "success"
-                ).then(this.$router.push("/"));
-              } else {
-                this.errors = true;
-                this.loggedIn = false;
-              }
+              this.errors = false;
+              Swal.fire(
+                "Adding Unit",
+                "Unit added successfully!",
+                "success"
+              ).then(this.$router.push("/"));
             })
             .catch(err => {
+              this.errorMsg = err.response.data;
               this.errors = true;
               this.loggedIn = false;
             });

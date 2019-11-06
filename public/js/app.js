@@ -2032,6 +2032,27 @@ var _data_units_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__web
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2052,7 +2073,8 @@ var _data_units_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__web
       errors: false,
       empty: true,
       invalidField: false,
-      loggedIn: true
+      loggedIn: true,
+      errorMsg: ""
     };
   },
   created: function created() {
@@ -2094,14 +2116,10 @@ var _data_units_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__web
             spr: this.spr.trim(),
             build: this.buildURL.trim()
           }).then(function (res) {
-            if (res.status !== 500) {
-              _this.errors = false;
-              sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire("Adding Unit", "Unit added successfully!", "success").then(_this.$router.push("/"));
-            } else {
-              _this.errors = true;
-              _this.loggedIn = false;
-            }
+            _this.errors = false;
+            sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire("Adding Unit", "Unit added successfully!", "success").then(_this.$router.push("/"));
           })["catch"](function (err) {
+            _this.errorMsg = err.response.data;
             _this.errors = true;
             _this.loggedIn = false;
           });
@@ -38891,7 +38909,7 @@ var render = function() {
         _c("router-link", { attrs: { to: "/profile", tag: "a" } }, [
           _vm._v("Your Profile")
         ]),
-        _vm._v(" before adding a unit\n  ")
+        _vm._v("before adding a unit\n  ")
       ],
       1
     ),
@@ -38910,9 +38928,7 @@ var render = function() {
               _vm._v(" "),
               !_vm.loggedIn
                 ? _c("h3", { staticClass: "text-danger error-msg" }, [
-                    _vm._v(
-                      "Error adding unit. Please complete your profile or try again later."
-                    )
+                    _vm._v("Error adding unit. " + _vm._s(_vm.errorMsg))
                   ])
                 : _vm._e(),
               _vm._v(" "),
