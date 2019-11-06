@@ -2,7 +2,8 @@
   <div>
     <h1>Add Your Unit</h1>
     <p class="mb-4 incomplete">
-      Make sure to complete <router-link to="/profile" tag="a">Your Profile</router-link> before adding a unit
+      Make sure to complete
+      <router-link to="/profile" tag="a">Your Profile</router-link>before adding a unit
     </p>
     <hr />
     <form>
@@ -13,13 +14,19 @@
             v-if="!loggedIn"
             class="text-danger error-msg"
           >Error adding unit. Please complete your profile or try again later.</h3>
-
           <h3 v-if="invalidField" class="text-danger error-msg">Stats must be numeric values!</h3>
         </div>
         <div class="form-row">
           <div class="form-group col-md-5">
             <label for="unitName">Unit Name</label>
-            <app-v-select id="unitName" v-model="name" :options="units" label="name" index="id"></app-v-select>
+            <app-v-select
+              id="unitName"
+              v-model="name"
+              :options="units"
+              label="name"
+              index="id"
+              @input="getMaxRarity"
+            ></app-v-select>
           </div>
           <div class="col-sm-6 ml-md-5">
             <label for="input-type">Rarity</label>
@@ -34,7 +41,7 @@
                   <input v-model="rarity" name="rarity" value="6" type="radio" /> 6&#x2605;
                 </label>
               </div>
-              <div class="col-md-2">
+              <div v-if="max_rarity === 7" class="col-md-2">
                 <label class="radio-inline">
                   <input v-model="rarity" name="rarity" value="7" type="radio" /> 7&#x2605;
                 </label>
@@ -128,7 +135,8 @@ export default {
       def: "",
       spr: "",
       mag: "",
-      rarity: 7,
+      max_rarity: 7,
+      rarity: 5,
       errors: false,
       empty: true,
       invalidField: false,
@@ -137,7 +145,11 @@ export default {
   },
   created() {
     for (let key in Units) {
-      this.units.push({ name: Units[key].name, id: key });
+      this.units.push({
+        name: Units[key].name,
+        id: key,
+        rarity: Units[key].max_rarity
+      });
     }
     this.units.sort((a, b) => (a.name > b.name ? 1 : -1));
   },
@@ -198,6 +210,9 @@ export default {
       } else {
         this.errors = true;
       }
+    },
+    getMaxRarity() {
+      this.max_rarity = parseInt(this.name.rarity);
     }
   }
 };

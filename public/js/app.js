@@ -2025,6 +2025,13 @@ var _data_units_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__web
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2040,7 +2047,8 @@ var _data_units_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__web
       def: "",
       spr: "",
       mag: "",
-      rarity: 7,
+      max_rarity: 7,
+      rarity: 5,
       errors: false,
       empty: true,
       invalidField: false,
@@ -2051,7 +2059,8 @@ var _data_units_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__web
     for (var key in _data_units_json__WEBPACK_IMPORTED_MODULE_0__) {
       this.units.push({
         name: _data_units_json__WEBPACK_IMPORTED_MODULE_0__[key].name,
-        id: key
+        id: key,
+        rarity: _data_units_json__WEBPACK_IMPORTED_MODULE_0__[key].max_rarity
       });
     }
 
@@ -2100,6 +2109,9 @@ var _data_units_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__web
       } else {
         this.errors = true;
       }
+    },
+    getMaxRarity: function getMaxRarity() {
+      this.max_rarity = parseInt(this.name.rarity);
     }
   }
 });
@@ -2545,7 +2557,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -2554,7 +2565,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ["firstTime"],
   data: function data() {
     return {
-      columns: ["Name", "ATK", "MAG", "DEF", "SPR", "Build Link", "Show", "Actions"],
+      columns: ["Name", "ATK", "MAG", "DEF", "SPR", "Build Link", "Actions"],
       link: "https://ffbeEquip.com/builder.html?server=GL#",
       units: [],
       isLoading: true,
@@ -2565,9 +2576,6 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    $(function () {
-      $('[data-toggle="tooltip"]').tooltip();
-    });
     this.isLoading = true;
     _app__WEBPACK_IMPORTED_MODULE_3__["eventBus"].$on("profileIdUpdated", function (id) {
       _this.id = id;
@@ -38879,11 +38887,11 @@ var render = function() {
       "p",
       { staticClass: "mb-4 incomplete" },
       [
-        _vm._v("\n    Make sure to complete "),
+        _vm._v("\n    Make sure to complete\n    "),
         _c("router-link", { attrs: { to: "/profile", tag: "a" } }, [
           _vm._v("Your Profile")
         ]),
-        _vm._v(" before adding a unit\n  ")
+        _vm._v("before adding a unit\n  ")
       ],
       1
     ),
@@ -38932,6 +38940,7 @@ var render = function() {
                   label: "name",
                   index: "id"
                 },
+                on: { input: _vm.getMaxRarity },
                 model: {
                   value: _vm.name,
                   callback: function($$v) {
@@ -38994,28 +39003,30 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-2" }, [
-                _c("label", { staticClass: "radio-inline" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.rarity,
-                        expression: "rarity"
-                      }
-                    ],
-                    attrs: { name: "rarity", value: "7", type: "radio" },
-                    domProps: { checked: _vm._q(_vm.rarity, "7") },
-                    on: {
-                      change: function($event) {
-                        _vm.rarity = "7"
-                      }
-                    }
-                  }),
-                  _vm._v(" 7★\n              ")
-                ])
-              ])
+              _vm.max_rarity === 7
+                ? _c("div", { staticClass: "col-md-2" }, [
+                    _c("label", { staticClass: "radio-inline" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.rarity,
+                            expression: "rarity"
+                          }
+                        ],
+                        attrs: { name: "rarity", value: "7", type: "radio" },
+                        domProps: { checked: _vm._q(_vm.rarity, "7") },
+                        on: {
+                          change: function($event) {
+                            _vm.rarity = "7"
+                          }
+                        }
+                      }),
+                      _vm._v(" 7★\n              ")
+                    ])
+                  ])
+                : _vm._e()
             ])
           ])
         ])
@@ -39575,10 +39586,10 @@ var render = function() {
         { staticClass: "d-md-flex justify-content-md-between mt-5 mb-4" },
         [
           _c(
-            "router-link",
+            "a",
             {
               staticClass: "btn btn-info mb-3",
-              attrs: { to: "/unit/add", tag: "button" }
+              attrs: { href: "/unit/add", tag: "button" }
             },
             [_vm._v("Add Your Unit")]
           ),
@@ -39775,8 +39786,6 @@ var render = function() {
                           [_vm._v("Build")]
                         )
                       ]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v("Show")]),
                       _vm._v(" "),
                       _c("td", [
                         _c(

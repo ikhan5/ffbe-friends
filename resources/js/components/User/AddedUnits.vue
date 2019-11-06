@@ -43,7 +43,6 @@
               <td>
                 <a target="_blank" :href="link + unit.build">Build</a>
               </td>
-              <td>Show</td>
               <td>
                 <div class="row">
                   <button
@@ -89,7 +88,7 @@ export default {
   props: ["firstTime"],
   data() {
     return {
-      columns: ["Name", "ATK", "MAG", "DEF", "SPR", "Build Link","Show", "Actions"],
+      columns: ["Name", "ATK", "MAG", "DEF", "SPR", "Build Link", "Actions"],
       link: "https://ffbeEquip.com/builder.html?server=GL#",
       units: [],
       isLoading: true,
@@ -98,11 +97,6 @@ export default {
     };
   },
   created() {
-
-    $(function() {
-      $('[data-toggle="tooltip"]').tooltip();
-    });
-    
     this.isLoading = true;
     eventBus.$on("profileIdUpdated", id => {
       this.id = id;
