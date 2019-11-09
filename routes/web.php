@@ -4,6 +4,9 @@ Route::get('/', function () {
     return view('vue');
 });
 
+Route::get('/home', function () {
+    return view('vue');
+});
 
 Route::get('/unit/add', function () {
     return view('vue');
