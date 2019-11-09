@@ -16,6 +16,9 @@
       <div class="navbar-nav">
         <router-link to="/" tag="a" active-class="active" class="nav-item nav-link" exact>All Units</router-link>
       </div>
+      <div class="navbar-nav">
+        <router-link to="/unit/add" tag="a" active-class="active" class="nav-item nav-link" exact>+ Add A Unit</router-link>
+      </div>
       <div class="navbar-nav flex-row ml-md-auto d-md-flex">
         <router-link
           to="/profile"

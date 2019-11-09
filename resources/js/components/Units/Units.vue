@@ -5,7 +5,7 @@
       <input class="form-control" type="text" v-model="search" placeholder="Search Units..." />
     </div>
     <div class="d-md-flex justify-content-md-between mt-5 mb-4">
-      <a class="btn btn-info mb-3" href="/unit/add" tag="button">Add Your Unit</a>
+      <a class="btn btn-info mb-3" href="https://ffbe-friends.herokuapp.com/unit/add" tag="button">Add Your Unit</a>
       <b-pagination
         v-model="currentPage"
         :total-rows="rows"
