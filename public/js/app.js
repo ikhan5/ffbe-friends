@@ -2362,6 +2362,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -2409,6 +2411,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2461,7 +2464,7 @@ __webpack_require__.r(__webpack_exports__);
       _this.isLoading = false;
       _this.units = res.data;
     })["catch"](function (err) {
-      Swal.fire("Error, Kupo!", "There was an error whilst loading the units, please try again later", "error");
+      sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.fire("Error, Kupo!", "There was an error whilst loading the units, please try again later", "error");
     });
   },
   computed: {
@@ -38909,7 +38912,7 @@ var render = function() {
         _c("router-link", { attrs: { to: "/profile", tag: "a" } }, [
           _vm._v("Your Profile")
         ]),
-        _vm._v("before adding a unit\n  ")
+        _vm._v(" before adding a unit\n  ")
       ],
       1
     ),

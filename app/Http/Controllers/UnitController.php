@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Unit;
 use App\Profile;
+use App\User;
+use Illuminate\Support\Carbon;
 
 class UnitController extends Controller
 {
@@ -17,13 +19,19 @@ class UnitController extends Controller
     public function index()
     {
         $units = Unit::orderByDesc('updated_at')->get();
-
+        $show_units = [];
+        $today = Carbon::now('America/Toronto');
         foreach ($units as $unit) {
-            $profile = Profile::where('user_id', $unit->user_id)->first();
-            $unit['profile'] = $profile;
+            $user = User::select('last_login')->where('id', $unit->user_id)->first();
+            $difference = Carbon::parse($user->last_login)->diffInDays($today);
+            if ($difference < 15) {
+                $profile = Profile::where('user_id', $unit->user_id)->first();
+                $unit['profile'] = $profile;
+                $unit['difference'] = $difference;
+                array_push($show_units, $unit);
+            }
         }
-
-        return $units;
+        return $show_units;
     }
 
     /**

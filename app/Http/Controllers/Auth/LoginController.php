@@ -29,7 +29,7 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function authenticate(Request $request)
+    public function authenticated(Request $request)
     {
         $email = $request->email;
         $date = Carbon::now('America/Toronto')->toDateString();

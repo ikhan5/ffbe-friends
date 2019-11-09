@@ -3,7 +3,7 @@
     <h1>Add Your Unit</h1>
     <p class="mb-4 incomplete">
       Make sure to complete
-      <router-link to="/profile" tag="a">Your Profile</router-link>before adding a unit
+      <router-link to="/profile" tag="a">Your Profile</router-link> before adding a unit
     </p>
     <hr />
     <form>
