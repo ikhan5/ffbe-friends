@@ -112,7 +112,7 @@
                 aria-describedby="buildUrlBlock"
               />
               <small id="buildUrlBlock" class="form-text text-muted">
-                Ex. Link can be found under 'Share this Build > FFBE Equip link (this link only)' on
+                Ex. Link can be found under 'Share this Build > FFBE Equip link (this unit only)' on
                 <a
                   href="https://ffbeequip.com/builder.html"
                 >FFBE Equip</a>
@@ -209,7 +209,8 @@ export default {
               def: this.def.trim(),
               mag: this.mag.trim(),
               spr: this.spr.trim(),
-              build: this.buildURL.trim()
+              build: this.buildURL.trim(),
+              max_rarity: this.max_rarity
             })
             .then(res => {
               this.errors = false;
@@ -220,7 +221,17 @@ export default {
               ).then(this.$router.push("/"));
             })
             .catch(err => {
-              this.errorMsg = err.response.data;
+              switch (err.response.data) {
+                case 1:
+                  this.errorMsg =
+                    "Unit quota of 5 reached. Please delete a unit and try again.";
+                  break;
+                case 2:
+                  this.errorMsg = "Please complete your profile.";
+                  break;
+                default:
+                  this.errorMsg = "Server Errror. Please try again later.";
+              }
               this.errors = true;
               this.loggedIn = false;
             });

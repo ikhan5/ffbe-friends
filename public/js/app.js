@@ -2114,12 +2114,25 @@ var _data_units_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__web
             def: this.def.trim(),
             mag: this.mag.trim(),
             spr: this.spr.trim(),
-            build: this.buildURL.trim()
+            build: this.buildURL.trim(),
+            max_rarity: this.max_rarity
           }).then(function (res) {
             _this.errors = false;
             sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire("Adding Unit", "Unit added successfully!", "success").then(_this.$router.push("/"));
           })["catch"](function (err) {
-            _this.errorMsg = err.response.data;
+            switch (err.response.data) {
+              case 1:
+                _this.errorMsg = "Unit quota of 5 reached. Please delete a unit and try again.";
+                break;
+
+              case 2:
+                _this.errorMsg = "Please complete your profile.";
+                break;
+
+              default:
+                _this.errorMsg = "Server Errror. Please try again later.";
+            }
+
             _this.errors = true;
             _this.loggedIn = false;
           });
@@ -2364,6 +2377,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -31197,7 +31219,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\ndiv[data-v-71fb0014] {\r\n  margin-top: 10px;\n}\nh1[data-v-71fb0014] {\r\n  margin-bottom: 30px;\n}\r\n", ""]);
+exports.push([module.i, "\ndiv[data-v-71fb0014] {\r\n  margin-top: 10px;\n}\nh1[data-v-71fb0014] {\r\n  margin-bottom: 30px;\n}\r\n\r\n\r\n", ""]);
 
 // exports
 
@@ -39262,7 +39284,7 @@ var staticRenderFns = [
       { staticClass: "form-text text-muted", attrs: { id: "buildUrlBlock" } },
       [
         _vm._v(
-          "\n              Ex. Link can be found under 'Share this Build > FFBE Equip link (this link only)' on\n              "
+          "\n              Ex. Link can be found under 'Share this Build > FFBE Equip link (this unit only)' on\n              "
         ),
         _c("a", { attrs: { href: "https://ffbeequip.com/builder.html" } }, [
           _vm._v("FFBE Equip")
@@ -39364,19 +39386,21 @@ var render = function() {
                   _c("label", { attrs: { for: "six" } }, [_vm._v("6★")])
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-4" }, [
-                  _c("input", {
-                    attrs: { type: "radio", id: "seven", name: "rarity" },
-                    domProps: { value: 7 },
-                    on: {
-                      input: function($event) {
-                        _vm.new_rarity = $event.target.value
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("label", { attrs: { for: "seven" } }, [_vm._v("7★")])
-                ])
+                _vm.unit.max_rarity === 7
+                  ? _c("div", { staticClass: "col-md-4" }, [
+                      _c("input", {
+                        attrs: { type: "radio", id: "seven", name: "rarity" },
+                        domProps: { value: 7 },
+                        on: {
+                          input: function($event) {
+                            _vm.new_rarity = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "seven" } }, [_vm._v("7★")])
+                    ])
+                  : _vm._e()
               ])
             ]),
             _vm._v(" "),
@@ -39647,9 +39671,16 @@ var render = function() {
           busy: _vm.isLoading,
           "per-page": _vm.perPage,
           "current-page": _vm.currentPage,
-          responsive: ""
+          responsive: "",
+          "show-empty": ""
         },
         scopedSlots: _vm._u([
+          {
+            key: "empty",
+            fn: function(scope) {
+              return [_c("h4", [_vm._v(_vm._s(scope.emptyFilteredText))])]
+            }
+          },
           {
             key: "cell(build)",
             fn: function(data) {

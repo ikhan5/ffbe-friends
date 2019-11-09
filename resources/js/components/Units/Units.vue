@@ -26,7 +26,16 @@
       :per-page="perPage"
       :current-page="currentPage"
       responsive
+      show-empty
     >
+      <template v-slot:empty="scope">
+        <h4>{{scope.emptyText}}</h4>
+      </template>
+
+      <template v-slot:empty="scope">
+        <h4>{{scope.emptyFilteredText}}</h4>
+      </template>
+
       <template v-slot:cell(build)="data">
         <a target="_blank" :href="link + data.item.build">Build</a>
       </template>
@@ -144,4 +153,6 @@ div {
 h1 {
   margin-bottom: 30px;
 }
+
+
 </style>

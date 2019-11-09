@@ -45,7 +45,7 @@
                 />
                 <label for="six">6&#x2605;</label>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4" v-if="unit.max_rarity === 7">
                 <input
                   type="radio"
                   id="seven"

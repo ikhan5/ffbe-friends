@@ -66,6 +66,7 @@ class UnitController extends Controller
                 'def' => 'required',
                 'mag' => 'required',
                 'spr' => 'required',
+                'max_rarity' => 'required',
             ]);
             $form_input_sanitized = filter_var_array($validated_create, FILTER_SANITIZE_STRING);
             $form_input_sanitized['user_id'] = $user_id;
@@ -73,11 +74,11 @@ class UnitController extends Controller
             Unit::create($form_input_sanitized);
             return (['message' => 'Unit Added']);
         } elseif ($unit_count >= 5) {
-            return (response('Unit quota of 5 reached. Please delete a unit and try again.', 500));
+            return (response(1, 500));
         } elseif (!$profileCreated) {
-            return (response('Please complete your profile.', 500));
+            return (response(2, 500));
         } else {
-            return (response('Server Errror. Please try again later.', 500));
+            return (response(3, 500));
         }
     }
 
