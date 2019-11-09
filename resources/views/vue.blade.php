@@ -7,6 +7,7 @@
 
     <title>FFBE Friends</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description" content="FFBE Friends is a web application designed to help players of the Final Fantasy: Brave Exvius mobile game find other player's and their units. Come join thousands of players who share the same passion!" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
     <script src="https://kit.fontawesome.com/657fe209dc.js" crossorigin="anonymous"></script>
     <script>
