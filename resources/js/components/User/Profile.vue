@@ -42,6 +42,7 @@
     </form>
     <hr />
     <app-added-units :firstTime="firstTime"></app-added-units>
+    <p>Note: Users are allowed up to 5 units.</p>
   </div>
 </template>
 
