@@ -3,18 +3,15 @@
         Options -MultiViews -Indexes
     </IfModule>
 
-    # BEGIN GZIP COMPRESSION
-    <IfModulemod_gzip.c>
-        mod_gzip_onYes
-        mod_gzip_dechunkYes
-        mod_gzip_item_includefile.(html?|txt|css|js|php|pl)$
-        mod_gzip_item_includehandler^cgi-script$
-        mod_gzip_item_includemime^text/.*
-        mod_gzip_item_includemime^application/x-javascript.*
-        mod_gzip_item_excludemime^image/.*
-        mod_gzip_item_excluderspheader^Content-Encoding:.*gzip.*
-    </IfModule>
-    # END GZIP COMPRESSION
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
 
     RewriteEngine On
 
