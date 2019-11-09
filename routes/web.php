@@ -19,6 +19,10 @@ Route::get('/home', function () {
     return redirect('/');
 });
 
+Route::fallback(function () {
+    return redirect('/');
+});
+
 Auth::routes();
 
 Route::get('/logout', 'Auth\LoginController@logout');
