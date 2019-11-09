@@ -21,11 +21,11 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <header class="navbar navbar-expand-lg navbar-light bg-light">
+    <header class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
         <a class="navbar-brand" href="/">FFBE Friends</a>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-               <a class="nav-item nav-link"  href="/">Units</a>
+               <a class="nav-item nav-link" href="/">All Units</a>
             </div>
             <div class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
                 <a class="nav-item nav-link" href="{{ route('login') }}">Login</a>

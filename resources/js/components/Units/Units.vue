@@ -4,8 +4,7 @@
     <div class="col-md-8 my-5 mx-0 mx-auto">
       <input class="form-control" type="text" v-model="search" placeholder="Search Units..." />
     </div>
-    <div class="d-md-flex justify-content-md-between mt-5 mb-4">
-      <a class="btn btn-info mb-3" href="https://ffbe-friends.herokuapp.com/unit/add" tag="button">Add Your Unit</a>
+    <div class="d-md-flex float-right mb-4">
       <b-pagination
         v-model="currentPage"
         :total-rows="rows"
@@ -17,7 +16,6 @@
         last-text="Last"
       ></b-pagination>
     </div>
-
     <b-table
       id="unitsTable"
       :items="filterUnits"
@@ -28,6 +26,10 @@
       responsive
       show-empty
     >
+      <template v-slot:cell(name)="data">
+        <p>{{data.item.name}} {{data.item.rarity}}&#x2605;</p>
+      </template>
+
       <template v-slot:empty="scope">
         <h4>{{scope.emptyText}}</h4>
       </template>
@@ -153,6 +155,4 @@ div {
 h1 {
   margin-bottom: 30px;
 }
-
-
 </style>
