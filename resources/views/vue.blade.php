@@ -15,6 +15,7 @@
             csrfToken: '{{csrf_token()}}'
         }
     </script>
+    <script data-ad-client="ca-pub-2185131142940584" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 
 <body>
