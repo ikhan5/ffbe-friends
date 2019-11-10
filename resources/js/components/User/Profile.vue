@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="mb-4">User Profile</h1>
+    <h1 class="my-4">User Profile</h1>
     <div v-if="usernameError" class="text-center text-danger">
       <p>Usename Required AND Must not have no spaces.</p>
     </div>
@@ -41,8 +41,46 @@
       </div>
     </form>
     <hr />
-    <app-added-units :firstTime="firstTime"></app-added-units>
-    <p>Note: Users are allowed up to 5 units.</p>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a
+          class="nav-link active"
+          id="units-tab"
+          data-toggle="tab"
+          href="#units"
+          role="tab"
+          aria-controls="units"
+          aria-selected="true"
+        >Added Units</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          id="sentRequests-tab"
+          data-toggle="tab"
+          href="#sentRequests"
+          role="tab"
+          aria-controls="sentRequests"
+          aria-selected="true"
+        >Sent Requests</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          id="receivedRequests-tab"
+          data-toggle="tab"
+          href="#receivedRequests"
+          role="tab"
+          aria-controls="receivedRequests"
+          aria-selected="true"
+        >Received Requests</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <app-added-units :firstTime="firstTime"></app-added-units>
+      <app-sent-requests :isLoading="notifLoading" :notifications="notifications"></app-sent-requests>
+      <app-received-requests :isLoading="notifLoading" :notifications="notifications"></app-received-requests>
+    </div>
   </div>
 </template>
 
@@ -54,6 +92,8 @@
 
 <script>
 import AddedUnits from "./AddedUnits";
+import sentRequests from "../Requests/SentRequests";
+import receivedRequests from "../Requests/ReceivedRequests";
 import axios from "axios";
 import Swal from "sweetalert2";
 
@@ -71,7 +111,9 @@ export default {
       profileComplete: false,
       loading: true,
       usernameError: false,
-      friendCodeError: false
+      friendCodeError: false,
+      notifications: [],
+      notifLoading: true
     };
   },
   beforeCreate() {
@@ -100,10 +142,25 @@ export default {
           "error"
         );
       });
-      
+
+    axios
+      .get("/api/notifications")
+      .then(res => {
+        this.notifications = res.data;
+        this.notifLoading = false;
+      })
+      .catch(err => {
+        Swal.fire(
+          "Error, Kupo!",
+          "There was an error whilst loading the requests, please try again later",
+          "error"
+        );
+      });
   },
   components: {
-    "app-added-units": AddedUnits
+    "app-added-units": AddedUnits,
+    "app-sent-requests": sentRequests,
+    "app-received-requests": receivedRequests
   },
   methods: {
     addProfile() {

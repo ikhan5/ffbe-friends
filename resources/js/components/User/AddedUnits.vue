@@ -1,68 +1,52 @@
 <template>
-  <div class="mt-4">
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-      <li class="nav-item">
-        <a
-          class="nav-link active"
-          id="units-tab"
-          data-toggle="tab"
-          href="#units"
-          role="tab"
-          aria-controls="units"
-          aria-selected="true"
-        >Added Units</a>
-      </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-      <div
-        class="tab-pane fade show active mt-2"
-        id="units"
-        role="tabpanel"
-        aria-labelledby="units-tab"
-      >
-        <table class="table table-responsive-md">
-          <thead class="thead-light">
-            <tr>
-              <th scope="col" v-for="(column, index) in columns" :key="index">{{column}}</th>
-            </tr>
-          </thead>
-          <td v-if="isLoading && !firstTime" class="text-center" colspan="7">
-            <app-spinner></app-spinner>
+  <div
+    class="tab-pane fade show active mt-2"
+    id="units"
+    role="tabpanel"
+    aria-labelledby="units-tab"
+  >
+    <table class="table table-responsive-md">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col" v-for="(column, index) in columns" :key="index">{{column}}</th>
+        </tr>
+      </thead>
+      <td v-if="isLoading && !firstTime" class="text-center" colspan="7">
+        <app-spinner></app-spinner>
+      </td>
+      <td v-else-if="units.length <= 0 || firstTime" class="text-center" colspan="7">
+        No Units To Display. Complete your profile and
+        <router-link to="/unit/add" tag="a">Add a unit here</router-link>.
+      </td>
+      <tbody v-else>
+        <tr v-for="unit in units" :key="unit.id">
+          <th scope="row">{{unit.name}} {{unit.rarity}}&#x2605;</th>
+          <td>{{unit.atk}}</td>
+          <td>{{unit.mag}}</td>
+          <td>{{unit.def}}</td>
+          <td>{{unit.spr}}</td>
+          <td>
+            <a target="_blank" :href="link + unit.build">Build</a>
           </td>
-          <td v-else-if="units.length <= 0 || firstTime" class="text-center" colspan="7">
-            No Units To Display. Complete your profile and
-            <router-link to="/unit/add" tag="a">Add a unit here</router-link>.
+          <td>
+            <div class="row">
+              <button
+                class="no-style text-warning"
+                data-toggle="modal"
+                :data-target="`#exampleModal${unit.id}`"
+              >
+                <i class="far fa-edit"></i>
+              </button>
+              <app-edit-unit :unit="unit"></app-edit-unit>
+              <button class="no-style text-danger" @click="deleteUnit(unit.id)">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
           </td>
-          <tbody v-else>
-            <tr v-for="unit in units" :key="unit.id">
-              <th scope="row">{{unit.name}} {{unit.rarity}}&#x2605;</th>
-              <td>{{unit.atk}}</td>
-              <td>{{unit.mag}}</td>
-              <td>{{unit.def}}</td>
-              <td>{{unit.spr}}</td>
-              <td>
-                <a target="_blank" :href="link + unit.build">Build</a>
-              </td>
-              <td>
-                <div class="row">
-                  <button
-                    class="no-style text-warning"
-                    data-toggle="modal"
-                    :data-target="`#exampleModal${unit.id}`"
-                  >
-                    <i class="far fa-edit"></i>
-                  </button>
-                  <app-edit-unit :unit="unit"></app-edit-unit>
-                  <button class="no-style text-danger" @click="deleteUnit(unit.id)">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+        </tr>
+      </tbody>
+    </table>
+    <p>Note: Users are allowed up to 5 units.</p>
   </div>
 </template>
 <style scoped>

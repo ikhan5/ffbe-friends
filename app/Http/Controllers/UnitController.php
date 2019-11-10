@@ -23,6 +23,13 @@ class UnitController extends Controller
         $today = Carbon::now('America/Toronto');
         foreach ($units as $unit) {
             $user = User::select('last_login')->where('id', $unit->user_id)->first();
+            if ($unit->user_id === Auth::id()) {
+                $unit['my_unit'] = 1; //true
+            } elseif (Auth::id() === null || Auth::id() === '') {
+                $unit['my_unit'] = 2; //not logged in
+            } else {
+                $unit['my_unit'] = 3; //false
+            }
             $difference = Carbon::parse($user->last_login)->diffInDays($today);
             if ($difference < 15) {
                 $profile = Profile::where('user_id', $unit->user_id)->first();
@@ -143,9 +150,8 @@ class UnitController extends Controller
     public function destroy($id)
     {
         $user_id = Auth::id();
-
         $unit = Unit::where('user_id', $user_id)->findorfail($id);
-        unit::destroy($unit->id);
+        Unit::destroy($unit->id);
         return (['message' => 'Unit Deleted']);
     }
 }

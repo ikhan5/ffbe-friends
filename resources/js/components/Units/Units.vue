@@ -46,6 +46,16 @@
         <p>{{data.item.profile.ign }} - {{data.item.profile.friendCode | friendCode}}</p>
       </template>
 
+      <template v-slot:cell(request)="data">
+        <button
+          v-if="data.item.my_unit === 3"
+          class="btn btn-link ml-5"
+          @click="addNotify(data.item)"
+        >
+          <i class="fas fa-plus-circle"></i>
+        </button>
+      </template>
+
       <template v-slot:table-busy>
         <div class="text-center text-danger my-2">
           <b-spinner class="align-middle"></b-spinner>
@@ -100,6 +110,11 @@ export default {
           key: "profile",
           label: "Profile",
           sortable: true
+        },
+        {
+          key: "request",
+          label: "Send Add Notification",
+          sortable: false
         }
       ],
       columns: [
@@ -142,6 +157,29 @@ export default {
     },
     rows() {
       return this.filterUnits.length;
+    }
+  },
+  methods: {
+    addNotify(unit) {
+      let id = parseInt(unit.user_id);
+      axios
+        .post("/api/notifications", {
+          receiving_id: id,
+        })
+        .then(res => {
+          Swal.fire(
+            "Sending Add Notification",
+            "Notification sent successfully!",
+            "success"
+          );
+        })
+        .catch(err => {
+          Swal.fire(
+            "Error, Kupo!",
+            "There was an error whilst sending the notification, please try again later",
+            "error"
+          );
+        });
     }
   }
 };
