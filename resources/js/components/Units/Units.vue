@@ -99,7 +99,7 @@ export default {
         {
           key: "profile",
           label: "Profile",
-          sortable: false
+          sortable: true
         }
       ],
       columns: [
