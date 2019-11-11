@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="mb-4">Unit Listings</h1>
+    <h1 class="mb-4 mt-3">Unit Listings</h1>
     <div class="col-md-8 col-sm-12 my-5 mx-0 mx-auto">
       <input class="form-control" type="text" v-model="search" placeholder="Search Units..." />
     </div>

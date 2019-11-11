@@ -14,6 +14,12 @@ body {
   background-color: #f8f8f8;
 }
 
+@media only screen and (max-width: 600px) {
+  body {
+    padding: 5px;
+  }
+}
+
 .container {
   width: 1200px;
   margin-top: 20px;

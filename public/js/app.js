@@ -1888,6 +1888,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "app"
 });
@@ -31388,7 +31394,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\nbody {\r\n  padding: 30px;\r\n  background-color: #f8f8f8;\n}\n.container {\r\n  width: 1200px;\r\n  margin-top: 20px;\r\n  background-color: white;\r\n  padding: 20px;\n}\n.fade-enter-active {\r\n  -webkit-animation: fade-in 200ms ease-out forwards;\r\n          animation: fade-in 200ms ease-out forwards;\n}\n.fade-leave-active {\r\n  -webkit-animation: fade-out 200ms ease-out forwards;\r\n          animation: fade-out 200ms ease-out forwards;\n}\n@-webkit-keyframes fade-in {\nfrom {\r\n    opacity: 0;\n}\nto {\r\n    opacity: 1;\n}\n}\n@keyframes fade-in {\nfrom {\r\n    opacity: 0;\n}\nto {\r\n    opacity: 1;\n}\n}\n@-webkit-keyframes fade-out {\nfrom {\r\n    opacity: 1;\n}\nto {\r\n    opacity: 0;\n}\n}\n@keyframes fade-out {\nfrom {\r\n    opacity: 1;\n}\nto {\r\n    opacity: 0;\n}\n}\r\n", ""]);
+exports.push([module.i, "\nbody {\r\n  padding: 30px;\r\n  background-color: #f8f8f8;\n}\n@media only screen and (max-width: 600px) {\nbody {\r\n    padding: 5px;\n}\n}\n.container {\r\n  width: 1200px;\r\n  margin-top: 20px;\r\n  background-color: white;\r\n  padding: 20px;\n}\n.fade-enter-active {\r\n  -webkit-animation: fade-in 200ms ease-out forwards;\r\n          animation: fade-in 200ms ease-out forwards;\n}\n.fade-leave-active {\r\n  -webkit-animation: fade-out 200ms ease-out forwards;\r\n          animation: fade-out 200ms ease-out forwards;\n}\n@-webkit-keyframes fade-in {\nfrom {\r\n    opacity: 0;\n}\nto {\r\n    opacity: 1;\n}\n}\n@keyframes fade-in {\nfrom {\r\n    opacity: 0;\n}\nto {\r\n    opacity: 1;\n}\n}\n@-webkit-keyframes fade-out {\nfrom {\r\n    opacity: 1;\n}\nto {\r\n    opacity: 0;\n}\n}\n@keyframes fade-out {\nfrom {\r\n    opacity: 1;\n}\nto {\r\n    opacity: 0;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -40063,7 +40069,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("h1", { staticClass: "mb-4" }, [_vm._v("Unit Listings")]),
+      _c("h1", { staticClass: "mb-4 mt-3" }, [_vm._v("Unit Listings")]),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-8 col-sm-12 my-5 mx-0 mx-auto" }, [
         _c("input", {
