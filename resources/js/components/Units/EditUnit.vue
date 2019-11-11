@@ -29,10 +29,10 @@
                 <input
                   type="radio"
                   id="five"
-                  name="rarity"
+                  :name="'rarity'+unit.id"
                   :value="5"
                   @input="new_rarity = $event.target.value"
-                  :checked="checkRarity(unit.rarity)"
+                  :checked="unit.rarity===5"
                 />
                 <label for="five">5&#x2605;</label>
               </div>
@@ -40,9 +40,10 @@
                 <input
                   type="radio"
                   id="six"
-                  name="rarity"
+                  :name="'rarity'+unit.id"
                   :value="6"
                   @input="new_rarity = $event.target.value"
+                  :checked="unit.rarity===6"
                 />
                 <label for="six">6&#x2605;</label>
               </div>
@@ -50,9 +51,10 @@
                 <input
                   type="radio"
                   id="seven"
-                  name="rarity"
+                  :name="'rarity'+unit.id"
                   :value="7"
                   @input="new_rarity = $event.target.value"
+                  :checked="unit.rarity === 7"
                 />
                 <label for="seven">7&#x2605;</label>
               </div>
@@ -169,9 +171,6 @@ export default {
     });
   },
   methods: {
-    checkRarity(value){
-      return true;
-    },
     updateUnit(unit) {
       this.new_atk.trim() === "" ? (this.new_atk = unit.atk) : this.new_atk;
       this.new_mag.trim() === "" ? (this.new_mag = unit.mag) : this.new_mag;

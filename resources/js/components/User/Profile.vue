@@ -99,7 +99,6 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 import { eventBus } from "../../app";
-import { mapActions } from "vuex";
 
 export default {
   data() {

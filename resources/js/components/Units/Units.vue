@@ -172,7 +172,6 @@ export default {
             "Notification sent successfully!",
             "success"
           );
-          console.log(res.data);
         })
         .catch(err => {
           Swal.fire(
