@@ -32,6 +32,7 @@
                   name="rarity"
                   :value="5"
                   @input="new_rarity = $event.target.value"
+                  :checked="checkRarity(unit.rarity)"
                 />
                 <label for="five">5&#x2605;</label>
               </div>
@@ -168,6 +169,9 @@ export default {
     });
   },
   methods: {
+    checkRarity(value){
+      return true;
+    },
     updateUnit(unit) {
       this.new_atk.trim() === "" ? (this.new_atk = unit.atk) : this.new_atk;
       this.new_mag.trim() === "" ? (this.new_mag = unit.mag) : this.new_mag;

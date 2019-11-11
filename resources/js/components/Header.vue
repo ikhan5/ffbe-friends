@@ -16,7 +16,7 @@
       <div class="navbar-nav">
         <router-link to="/" tag="a" active-class="active" class="nav-item nav-link mr-2" exact>All Units</router-link>
       </div>
-      <div class="navbar-nav w-50">
+      <div class="navbar-nav w-50 nav-cta">
         <router-link
           to="/unit/add"
           tag="button"
@@ -24,7 +24,7 @@
           exact
         >+ Add A Unit</router-link>
       </div>
-      <div class="navbar-nav flex-row ml-md-auto d-md-flex">
+      <div class="navbar-nav flex-row ml-md-auto d-md-flex user-options">
         <router-link
           to="/profile"
           tag="a"
@@ -36,3 +36,15 @@
     </div>
   </header>
 </template>
+
+<style scoped>
+  @media only screen and (max-width: 600px) {
+    .user-options{
+      flex-direction: column !important;
+    }
+
+    .nav-cta{
+     width: 100% !important;
+    }
+  }
+</style>
