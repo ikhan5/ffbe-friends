@@ -21,15 +21,14 @@
             <td>{{notification.profile.friendCode | friendCode}}</td>
             <td>
               <button
+                v-if="notification.status !== 'added'"
                 @click="updateStatus(notification.id)"
                 class="btn btn-link text-primary p-0 m-0 pb-1"
               >Added</button>
               <button
                 @click="deleteStatus(notification.id)"
                 class="btn btn-link text-danger p-0 m-0 pb-1"
-              >
-               Delete
-              </button>
+              >Delete</button>
             </td>
           </template>
         </tr>
@@ -41,6 +40,7 @@
 <script>
 import Swal from "sweetalert2";
 import axios from "axios";
+import { eventBus } from "../../app";
 export default {
   props: ["notifications", "isLoading"],
   data() {
@@ -52,7 +52,7 @@ export default {
     updateStatus(id) {
       axios
         .put(`/api/notifications/${id}`, {
-          status: 'added'
+          status: "added"
         })
         .then(res => {
           Swal.fire(
@@ -60,6 +60,7 @@ export default {
             "Notification has been updated successfully!",
             "success"
           );
+          this.$parent.reloadNotifications();
         })
         .catch(err => {
           Swal.fire(
@@ -67,7 +68,6 @@ export default {
             "Notification could not be updated, please try again later!",
             "error"
           );
-          console.log(err.response);
         });
     },
     deleteStatus(id) {
@@ -79,6 +79,7 @@ export default {
             "Notification has been deleted!",
             "success"
           );
+          this.$parent.reloadNotifications();
         })
         .catch(err => {
           Swal.fire(
@@ -86,7 +87,6 @@ export default {
             "Notification could not be deleted, please try again later!",
             "error"
           );
-          console.log(err.response);
         });
     }
   }

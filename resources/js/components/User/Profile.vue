@@ -163,6 +163,21 @@ export default {
     "app-received-requests": receivedRequests
   },
   methods: {
+    reloadNotifications() {
+      axios
+        .get("/api/notifications")
+        .then(res => {
+          this.notifications = res.data;
+          this.notifLoading = false;
+        })
+        .catch(err => {
+          Swal.fire(
+            "Error, Kupo!",
+            "There was an error whilst loading the requests, please try again later",
+            "error"
+          );
+        });
+    },
     addProfile() {
       this.validateFriendCode(this.friendCode);
       this.validate(this.username);
