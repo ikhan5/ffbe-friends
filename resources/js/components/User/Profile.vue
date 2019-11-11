@@ -19,6 +19,7 @@
           class="form-control col-md-8"
           placeholder="In Game Name, Enter without spaces"
           :class="{errors: usernameError}"
+          maxlength="20"
         />
       </div>
       <div class="form-group form-inline">
