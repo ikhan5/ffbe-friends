@@ -19,6 +19,7 @@
             <template v-if="!notification.received">
               <th scope="row">{{notification.profile.ign}}</th>
               <td>{{notification.profile.friendCode | friendCode}}</td>
+              <td>{{notification.status | capitalize}}</td>
             </template>
           </tr>
       </tbody>

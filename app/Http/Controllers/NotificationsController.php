@@ -22,6 +22,9 @@ class NotificationsController extends Controller
             if ($request->receiving_id === Auth::id()) {
                 $request['received'] = true;
                 $profile = Profile::where('user_id', $request->user_id)->first();
+                if ($profile === null) {
+                    $profile = ['ign'=>"User hasn't completed their profile.", 'friendCode' => '0'];
+                }
             } else {
                 $request['received'] = false;
                 $profile = Profile::where('user_id', $request->receiving_id)->first();
@@ -50,8 +53,8 @@ class NotificationsController extends Controller
     public function store(Request $request)
     {
         $user_id = Auth::id();
-        $request_check = Notification::where('user_id', $user_id)->where('receiving_id', $request->receiving_id);
-        if (!$request_check) {
+        $request_check = Notification::where('user_id', $user_id)->where('receiving_id', $request->receiving_id)->count();
+        if ($request_check === 0) {
             $validated_update = $request->validate([
                 'receiving_id' => 'required',
             ]);
@@ -59,7 +62,7 @@ class NotificationsController extends Controller
             $validated_update['user_id'] = $user_id;
             Notification::create($validated_update);
         }
-        return (['message' => 'Notification Sent']);
+        return (['message' => $request_check]);
     }
 
     /**

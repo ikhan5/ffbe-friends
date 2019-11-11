@@ -9,7 +9,6 @@
       <thead class="thead-light">
         <tr>
           <th scope="col" v-for="(column, index) in columns" :key="index">{{column}}</th>
-          <th scope="col">Actions</th>
         </tr>
       </thead>
       <td v-if="isLoading" class="text-center" colspan="7">
@@ -20,24 +19,18 @@
           <template v-if="notification.received">
             <th scope="row">{{notification.profile.ign}}</th>
             <td>{{notification.profile.friendCode | friendCode}}</td>
-            <td v-if="notification.status === 'default'">
-              <select class="form-control" v-model="status" @change="updateStatus(notification.id)">
-                <option disabled value="default">--Status--</option>
-                <option value="added">Added</option>
-                <option value="remove">Remove</option>
-              </select>
+            <td>
+              <button
+                @click="updateStatus(notification.id)"
+                class="btn btn-link text-primary p-0 m-0 pb-1"
+              >Added</button>
+              <button
+                @click="deleteStatus(notification.id)"
+                class="btn btn-link text-danger p-0 m-0 pb-1"
+              >
+               Delete
+              </button>
             </td>
-            <template v-else>
-              <td>{{notification.status | capitalize }}</td>
-              <td>
-                <button
-                  @click="deleteStatus(notification.id)"
-                  class="btn btn-lg btn-link text-danger p-0 m-0 pb-1 ml-4"
-                >
-                  <i class="fas fa-times"></i>
-                </button>
-              </td>
-            </template>
           </template>
         </tr>
       </tbody>
@@ -52,15 +45,14 @@ export default {
   props: ["notifications", "isLoading"],
   data() {
     return {
-      columns: ["User Name", "Friend Code", "Status"],
-      status: "default"
+      columns: ["User Name", "Friend Code", "Actions"]
     };
   },
   methods: {
     updateStatus(id) {
       axios
         .put(`/api/notifications/${id}`, {
-          status: this.status
+          status: 'added'
         })
         .then(res => {
           Swal.fire(
@@ -75,6 +67,7 @@ export default {
             "Notification could not be updated, please try again later!",
             "error"
           );
+          console.log(err.response);
         });
     },
     deleteStatus(id) {
@@ -86,7 +79,6 @@ export default {
             "Notification has been deleted!",
             "success"
           );
-          this.getNotifications();
         })
         .catch(err => {
           Swal.fire(
@@ -95,21 +87,6 @@ export default {
             "error"
           );
           console.log(err.response);
-        });
-    },
-    getNotifications() {
-      axios
-        .get("/api/notifications")
-        .then(res => {
-          this.notifications = res.data;
-          this.notifLoading = false;
-        })
-        .catch(err => {
-          Swal.fire(
-            "Error, Kupo!",
-            "There was an error whilst loading the requests, please try again later",
-            "error"
-          );
         });
     }
   }

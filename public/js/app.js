@@ -1947,53 +1947,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["notifications", "isLoading"],
   data: function data() {
     return {
-      columns: ["User Name", "Friend Code", "Status"],
-      status: "default"
+      columns: ["User Name", "Friend Code", "Actions"]
     };
   },
   methods: {
     updateStatus: function updateStatus(id) {
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.put("/api/notifications/".concat(id), {
-        status: this.status
+        status: 'added'
       }).then(function (res) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire("Status Update", "Notification has been updated successfully!", "success");
       })["catch"](function (err) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire("Status Error", "Notification could not be updated, please try again later!", "error");
-      });
-    },
-    deleteStatus: function deleteStatus(id) {
-      var _this = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]("/api/notifications/" + id).then(function (res) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire("Status Update", "Notification has been deleted!", "success");
-
-        _this.getNotifications();
-      })["catch"](function (err) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire("Status Error", "Notification could not be deleted, please try again later!", "error");
         console.log(err.response);
       });
     },
-    getNotifications: function getNotifications() {
-      var _this2 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/notifications").then(function (res) {
-        _this2.notifications = res.data;
-        _this2.notifLoading = false;
+    deleteStatus: function deleteStatus(id) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]("/api/notifications/" + id).then(function (res) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire("Status Update", "Notification has been deleted!", "success");
       })["catch"](function (err) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire("Error, Kupo!", "There was an error whilst loading the requests, please try again later", "error");
+        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire("Status Error", "Notification could not be deleted, please try again later!", "error");
+        console.log(err.response);
       });
     }
   }
@@ -2014,6 +1993,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+//
 //
 //
 //
@@ -2685,6 +2665,7 @@ __webpack_require__.r(__webpack_exports__);
         receiving_id: id
       }).then(function (res) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.fire("Sending Add Notification", "Notification sent successfully!", "success");
+        console.log(res.data);
       })["catch"](function (err) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.fire("Error, Kupo!", "There was an error whilst sending the notification, please try again later", "error");
       });
@@ -39159,16 +39140,12 @@ var render = function() {
         _c("thead", { staticClass: "thead-light" }, [
           _c(
             "tr",
-            [
-              _vm._l(_vm.columns, function(column, index) {
-                return _c("th", { key: index, attrs: { scope: "col" } }, [
-                  _vm._v(_vm._s(column))
-                ])
-              }),
-              _vm._v(" "),
-              _c("th", { attrs: { scope: "col" } }, [_vm._v("Actions")])
-            ],
-            2
+            _vm._l(_vm.columns, function(column, index) {
+              return _c("th", { key: index, attrs: { scope: "col" } }, [
+                _vm._v(_vm._s(column))
+              ])
+            }),
+            0
           )
         ]),
         _vm._v(" "),
@@ -39202,102 +39179,35 @@ var render = function() {
                             )
                           ]),
                           _vm._v(" "),
-                          notification.status === "default"
-                            ? _c("td", [
-                                _c(
-                                  "select",
-                                  {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.status,
-                                        expression: "status"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    on: {
-                                      change: [
-                                        function($event) {
-                                          var $$selectedVal = Array.prototype.filter
-                                            .call(
-                                              $event.target.options,
-                                              function(o) {
-                                                return o.selected
-                                              }
-                                            )
-                                            .map(function(o) {
-                                              var val =
-                                                "_value" in o
-                                                  ? o._value
-                                                  : o.value
-                                              return val
-                                            })
-                                          _vm.status = $event.target.multiple
-                                            ? $$selectedVal
-                                            : $$selectedVal[0]
-                                        },
-                                        function($event) {
-                                          return _vm.updateStatus(
-                                            notification.id
-                                          )
-                                        }
-                                      ]
-                                    }
-                                  },
-                                  [
-                                    _c(
-                                      "option",
-                                      {
-                                        attrs: {
-                                          disabled: "",
-                                          value: "default"
-                                        }
-                                      },
-                                      [_vm._v("--Status--")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "option",
-                                      { attrs: { value: "added" } },
-                                      [_vm._v("Added")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "option",
-                                      { attrs: { value: "remove" } },
-                                      [_vm._v("Remove")]
-                                    )
-                                  ]
-                                )
-                              ])
-                            : [
-                                _c("td", [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm._f("capitalize")(notification.status)
-                                    )
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "btn btn-lg btn-link text-danger p-0 m-0 pb-1 ml-4",
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.deleteStatus(
-                                            notification.id
-                                          )
-                                        }
-                                      }
-                                    },
-                                    [_c("i", { staticClass: "fas fa-times" })]
-                                  )
-                                ])
-                              ]
+                          _c("td", [
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "btn btn-link text-primary p-0 m-0 pb-1",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.updateStatus(notification.id)
+                                  }
+                                }
+                              },
+                              [_vm._v("Added")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "btn btn-link text-danger p-0 m-0 pb-1",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.deleteStatus(notification.id)
+                                  }
+                                }
+                              },
+                              [_vm._v("\n             Delete\n            ")]
+                            )
+                          ])
                         ]
                       : _vm._e()
                   ],
@@ -39383,6 +39293,12 @@ var render = function() {
                                   notification.profile.friendCode
                                 )
                               )
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              _vm._s(_vm._f("capitalize")(notification.status))
                             )
                           ])
                         ]
