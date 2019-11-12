@@ -21,12 +21,8 @@
       <tbody v-else>
         <tr v-for="unit in units" :key="unit.id">
           <th scope="row">{{unit.name}} {{unit.rarity}}&#x2605;</th>
-          <td>{{unit.atk}}</td>
-          <td>{{unit.mag}}</td>
-          <td>{{unit.def}}</td>
-          <td>{{unit.spr}}</td>
           <td>
-            <a target="_blank" :href="link + unit.build">Build</a>
+            <a target="_blank" :href="link + unit.build">{{unit.build}}</a>
           </td>
           <td>
             <div class="row">
@@ -72,7 +68,7 @@ export default {
   props: ["firstTime"],
   data() {
     return {
-      columns: ["Name", "ATK", "MAG", "DEF", "SPR", "Build Link", "Actions"],
+      columns: ["Name", "Build ID", "Actions"],
       link: "https://ffbeEquip.com/builder.html?server=GL#",
       units: [],
       isLoading: true,

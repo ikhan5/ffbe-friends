@@ -14,9 +14,14 @@ class AddMoreStatsUnits extends Migration
     public function up()
     {
         Schema::table('units', function (Blueprint $table) {
-            $table->string('hp');
-            $table->string('mp');
-            $table->string('pevade');
+            $table->string('hp')->default('100');
+            $table->string('mp')->default('100');
+            $table->string('pevade')->default('0');
+
+            $table->binary('physkillers')->nullable();
+            $table->binary('magkillers')->nullable();
+            $table->binary('status')->nullable();
+            $table->binary('elemental')->nullable();
         });
     }
 

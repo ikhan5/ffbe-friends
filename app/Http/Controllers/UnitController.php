@@ -34,7 +34,10 @@ class UnitController extends Controller
             if ($difference < 15) {
                 $profile = Profile::where('user_id', $unit->user_id)->first();
                 $unit['profile'] = $profile;
-                $unit['difference'] = $difference;
+                $unit['status'] = unserialize($unit->status);
+                $unit['elemental'] = unserialize($unit->elemental);
+                $unit['physkillers'] = unserialize($unit->physkillers);
+                $unit['magkillers'] = unserialize($unit->magkillers);
                 array_push($show_units, $unit);
             }
         }
@@ -73,10 +76,18 @@ class UnitController extends Controller
                 'def' => 'required',
                 'mag' => 'required',
                 'spr' => 'required',
+                'hp' => 'required',
+                'mp' => 'required',
+                'pevade' => 'required',
                 'max_rarity' => 'required',
             ]);
+
             $form_input_sanitized = filter_var_array($validated_create, FILTER_SANITIZE_STRING);
             $form_input_sanitized['user_id'] = $user_id;
+            $form_input_sanitized['physkillers'] = serialize($request->physkillers);
+            $form_input_sanitized['magkillers'] = serialize($request->magkillers);
+            $form_input_sanitized['elemental'] = serialize($request->elemental);
+            $form_input_sanitized['status'] = serialize($request->status);
 
             Unit::create($form_input_sanitized);
             return (['message' => 'Unit Added']);
@@ -132,10 +143,17 @@ class UnitController extends Controller
             'def' => 'required',
             'mag' => 'required',
             'spr' => 'required',
+            'hp' => 'required',
+            'mp' => 'required',
+            'pevade' => 'required',
             'rarity' => 'required',
         ]);
         $form_input_sanitized = filter_var_array($validated_create, FILTER_SANITIZE_STRING);
         $form_input_sanitized['user_id'] = $user_id;
+        $form_input_sanitized['physkillers'] = serialize($request->physkillers);
+        $form_input_sanitized['magkillers'] = serialize($request->magkillers);
+        $form_input_sanitized['elemental'] = serialize($request->elemental);
+        $form_input_sanitized['status'] = serialize($request->status);
         $unit->update($form_input_sanitized);
 
         return ($form_input_sanitized);

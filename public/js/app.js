@@ -2067,6 +2067,7 @@ var _data_units_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__web
 /* harmony import */ var vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-select/dist/vue-select.css */ "./node_modules/vue-select/dist/vue-select.css");
 /* harmony import */ var vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../app */ "./resources/js/app.js");
+/* harmony import */ var _Spinner__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Spinner */ "./resources/js/components/Spinner.vue");
 //
 //
 //
@@ -2280,478 +2281,7 @@ var _data_units_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__web
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 
@@ -2825,10 +2355,16 @@ var _data_units_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__web
       max_rarity: 7,
       rarity: 5,
       errors: false,
-      empty: true,
+      empty: false,
       loggedIn: true,
-      errorMsg: ""
+      unitFound: false,
+      notFound: false,
+      errorMsg: "",
+      isLoading: false
     };
+  },
+  components: {
+    "app-loading": _Spinner__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   created: function created() {
     for (var key in _data_units_json__WEBPACK_IMPORTED_MODULE_0__) {
@@ -2847,7 +2383,6 @@ var _data_units_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__web
     addUnit: function addUnit() {
       var _this = this;
 
-      this.empty = true;
       this.loggedIn = true;
 
       if (this.name && this.buildURL) {
@@ -2855,7 +2390,7 @@ var _data_units_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__web
         this.empty = false;
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/units", {
           rarity: this.rarity,
-          name: this.name.name,
+          name: this.name,
           atk: this.atk,
           def: this.def,
           mag: this.mag,
@@ -2899,75 +2434,87 @@ var _data_units_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__web
     fillForm: function fillForm() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("https://firebasestorage.googleapis.com/v0/b/ffbeequip.appspot.com/o/PartyBuilds%2F" + this.buildURL + ".json?alt=media").then(function (res) {
-        var unit = res.data.units[0].calculatedValues;
-        var key = res.data.units[0].id;
+      if (this.buildURL === "") {
+        this.empty = true;
+      } else {
+        this.empty = false;
+        this.isLoading = true;
+        this.unitFound = false;
+        this.notFound = false;
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("https://firebasestorage.googleapis.com/v0/b/ffbeequip.appspot.com/o/PartyBuilds%2F" + this.buildURL + ".json?alt=media").then(function (res) {
+          _this2.isLoading = false;
+          _this2.unitFound = true;
+          _this2.notFound = false;
+          var unit = res.data.units[0].calculatedValues;
+          var key = res.data.units[0].id;
 
-        var findUnit = _this2.units.find(function (x) {
-          return x.id === key;
-        }); //unit info
+          var findUnit = _this2.units.find(function (x) {
+            return x.id === key;
+          }); //unit info
 
 
-        _this2.rarity = res.data.units[0].rarity;
-        _this2.name = findUnit.name; //base stats
+          _this2.rarity = res.data.units[0].rarity;
+          _this2.name = findUnit.name; //base stats
 
-        _this2.atk = unit.atk.value;
-        _this2.mag = unit.mag.value;
-        _this2.def = unit.def.value;
-        _this2.spr = unit.spr.value;
-        _this2.hp = unit.hp.value;
-        _this2.mp = unit.mp.value;
-        _this2.evade = unit.physicalEvasion.value; //elemental resists
+          _this2.atk = unit.atk.value;
+          _this2.mag = unit.mag.value;
+          _this2.def = unit.def.value;
+          _this2.spr = unit.spr.value;
+          _this2.hp = unit.hp.value;
+          _this2.mp = unit.mp.value;
+          _this2.evade = unit.physicalEvasion.value; //elemental resists
 
-        _this2.elemental.fire = unit.elementResists.fire;
-        _this2.elemental.ice = unit.elementResists.ice;
-        _this2.elemental.lightning = unit.elementResists.lightning;
-        _this2.elemental.wind = unit.elementResists.wind;
-        _this2.elemental.earth = unit.elementResists.earth;
-        _this2.elemental.water = unit.elementResists.water;
-        _this2.elemental.light = unit.elementResists.light;
-        _this2.elemental.dark = unit.elementResists.dark; //ailment resists
+          _this2.elemental.fire = unit.elementResists.fire;
+          _this2.elemental.ice = unit.elementResists.ice;
+          _this2.elemental.lightning = unit.elementResists.lightning;
+          _this2.elemental.wind = unit.elementResists.wind;
+          _this2.elemental.earth = unit.elementResists.earth;
+          _this2.elemental.water = unit.elementResists.water;
+          _this2.elemental.light = unit.elementResists.light;
+          _this2.elemental.dark = unit.elementResists.dark; //ailment resists
 
-        _this2.status.poison = unit.ailmentResists.poison;
-        _this2.status.blind = unit.ailmentResists.blind;
-        _this2.status.sleep = unit.ailmentResists.sleep;
-        _this2.status.silence = unit.ailmentResists.silence;
-        _this2.status.paralyze = unit.ailmentResists.paralysis;
-        _this2.status.confusion = unit.ailmentResists.confuse;
-        _this2.status.disease = unit.ailmentResists.disease;
-        _this2.status.stone = unit.ailmentResists.petrification;
-        _this2.status.death = unit.ailmentResists.death;
-        _this2.status.charm = unit.ailmentResists.charm;
-        _this2.status.stop = unit.ailmentResists.stop; //physical killlers
+          _this2.status.poison = unit.ailmentResists.poison;
+          _this2.status.blind = unit.ailmentResists.blind;
+          _this2.status.sleep = unit.ailmentResists.sleep;
+          _this2.status.silence = unit.ailmentResists.silence;
+          _this2.status.paralyze = unit.ailmentResists.paralysis;
+          _this2.status.confusion = unit.ailmentResists.confuse;
+          _this2.status.disease = unit.ailmentResists.disease;
+          _this2.status.stone = unit.ailmentResists.petrification;
+          _this2.status.death = unit.ailmentResists.death;
+          _this2.status.charm = unit.ailmentResists.charm;
+          _this2.status.stop = unit.ailmentResists.stop; //physical killlers
 
-        _this2.physkillers.aquatic = unit.killers.aquatic.physical;
-        _this2.physkillers.beast = unit.killers.beast.physical;
-        _this2.physkillers.bird = unit.killers.bird.physical;
-        _this2.physkillers.bug = unit.killers.bug.physical;
-        _this2.physkillers.demon = unit.killers.demon.physical;
-        _this2.physkillers.dragon = unit.killers.dragon.physical;
-        _this2.physkillers.human = unit.killers.human.physical;
-        _this2.physkillers.machine = unit.killers.machine.physical;
-        _this2.physkillers.plant = unit.killers.plant.physical;
-        _this2.physkillers.undead = unit.killers.undead.physical;
-        _this2.physkillers.stone = unit.killers.stone.physical;
-        _this2.physkillers.spirit = unit.killers.spirit.physical; //magical killlers
+          _this2.physkillers.aquatic = unit.killers.aquatic.physical;
+          _this2.physkillers.beast = unit.killers.beast.physical;
+          _this2.physkillers.bird = unit.killers.bird.physical;
+          _this2.physkillers.bug = unit.killers.bug.physical;
+          _this2.physkillers.demon = unit.killers.demon.physical;
+          _this2.physkillers.dragon = unit.killers.dragon.physical;
+          _this2.physkillers.human = unit.killers.human.physical;
+          _this2.physkillers.machine = unit.killers.machine.physical;
+          _this2.physkillers.plant = unit.killers.plant.physical;
+          _this2.physkillers.undead = unit.killers.undead.physical;
+          _this2.physkillers.stone = unit.killers.stone.physical;
+          _this2.physkillers.spirit = unit.killers.spirit.physical; //magical killlers
 
-        _this2.magkillers.aquatic = unit.killers.aquatic.magical;
-        _this2.magkillers.beast = unit.killers.beast.magical;
-        _this2.magkillers.bird = unit.killers.bird.magical;
-        _this2.magkillers.bug = unit.killers.bug.magical;
-        _this2.magkillers.demon = unit.killers.demon.magical;
-        _this2.magkillers.dragon = unit.killers.dragon.magical;
-        _this2.magkillers.human = unit.killers.human.magical;
-        _this2.magkillers.machine = unit.killers.machine.magical;
-        _this2.magkillers.plant = unit.killers.plant.magical;
-        _this2.magkillers.undead = unit.killers.undead.magical;
-        _this2.magkillers.stone = unit.killers.stone.magical;
-        _this2.magkillers.spirit = unit.killers.spirit.magical;
-      })["catch"](function (err) {
-        console.log(err);
-      });
+          _this2.magkillers.aquatic = unit.killers.aquatic.magical;
+          _this2.magkillers.beast = unit.killers.beast.magical;
+          _this2.magkillers.bird = unit.killers.bird.magical;
+          _this2.magkillers.bug = unit.killers.bug.magical;
+          _this2.magkillers.demon = unit.killers.demon.magical;
+          _this2.magkillers.dragon = unit.killers.dragon.magical;
+          _this2.magkillers.human = unit.killers.human.magical;
+          _this2.magkillers.machine = unit.killers.machine.magical;
+          _this2.magkillers.plant = unit.killers.plant.magical;
+          _this2.magkillers.undead = unit.killers.undead.magical;
+          _this2.magkillers.stone = unit.killers.stone.magical;
+          _this2.magkillers.spirit = unit.killers.spirit.magical;
+        })["catch"](function (err) {
+          _this2.isLoading = false;
+          _this2.notFound = true;
+        });
+      }
     }
   }
 });
@@ -3073,69 +2620,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3144,11 +2628,6 @@ __webpack_require__.r(__webpack_exports__);
     return {
       name: "",
       new_build: "",
-      new_atk: "",
-      new_def: "",
-      new_spr: "",
-      new_mag: "",
-      new_rarity: "",
       error: false,
       loading: false
     };
@@ -3162,28 +2641,64 @@ __webpack_require__.r(__webpack_exports__);
     updateUnit: function updateUnit(unit) {
       var _this = this;
 
-      this.new_atk.trim() === "" ? this.new_atk = unit.atk : this.new_atk;
-      this.new_mag.trim() === "" ? this.new_mag = unit.mag : this.new_mag;
-      this.new_def.trim() === "" ? this.new_def = unit.def : this.new_def;
-      this.new_spr.trim() === "" ? this.new_spr = unit.spr : this.new_spr;
       this.new_build.trim() === "" ? this.new_build = unit.build : this.new_build;
 
-      if (isNaN(this.new_atk) || isNaN(this.new_def) || isNaN(this.new_spr) || isNaN(this.new_mag)) {
+      if (this.new_build === "") {
         this.error = true;
       } else {
         this.error = false;
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/units/" + unit.id, {
-          name: unit.name,
-          atk: this.new_atk,
-          def: this.new_def,
-          mag: this.new_mag,
-          spr: this.new_spr,
-          build: this.new_build,
-          rarity: this.new_rarity
-        }).then(function (response) {
-          sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.fire("Updating Unit", "Unit updated successfully!", "success").then(unit.atk = _this.new_atk, unit.def = _this.new_def, unit.mag = _this.new_mag, unit.spr = _this.new_spr, unit.rarity = _this.new_rarity, unit.build = _this.new_build);
-        })["catch"](function (error) {
-          _this.error = true;
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("https://firebasestorage.googleapis.com/v0/b/ffbeequip.appspot.com/o/PartyBuilds%2F" + this.new_build + ".json?alt=media").then(function (res) {
+          var newUnit = res.data.units[0].calculatedValues;
+          axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/units/" + unit.id, {
+            name: unit.name,
+            rarity: res.data.units[0].rarity,
+            atk: newUnit.atk.value,
+            def: newUnit.def.value,
+            mag: newUnit.mag.value,
+            spr: newUnit.spr.value,
+            hp: newUnit.hp.value,
+            mp: newUnit.mp.value,
+            pevade: newUnit.physicalEvasion.value,
+            status: newUnit.ailmentResists,
+            elemental: newUnit.elementResists,
+            magkillers: {
+              aquatic: newUnit.killers.aquatic.magical,
+              beast: newUnit.killers.beast.magical,
+              bird: newUnit.killers.bird.magical,
+              bug: newUnit.killers.bug.magical,
+              demon: newUnit.killers.demon.magical,
+              dragon: newUnit.killers.dragon.magical,
+              human: newUnit.killers.human.magical,
+              machine: newUnit.killers.machine.magical,
+              plant: newUnit.killers.plant.magical,
+              undead: newUnit.killers.undead.magical,
+              stone: newUnit.killers.stone.magical,
+              spirit: newUnit.killers.spirit.magical
+            },
+            physkillers: {
+              aquatic: newUnit.killers.aquatic.physical,
+              beast: newUnit.killers.beast.physical,
+              bird: newUnit.killers.bird.physical,
+              bug: newUnit.killers.bug.physical,
+              demon: newUnit.killers.demon.physical,
+              dragon: newUnit.killers.dragon.physical,
+              human: newUnit.killers.human.physical,
+              machine: newUnit.killers.machine.physical,
+              plant: newUnit.killers.plant.physical,
+              undead: newUnit.killers.undead.physical,
+              stone: newUnit.killers.stone.physical,
+              spirit: newUnit.killers.spirit.physical
+            },
+            build: _this.new_build,
+            max_rarity: _this.max_rarity
+          }).then(function (response) {
+            sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.fire("Updating Unit", "Unit updated successfully!", "success").then(unit.build = _this.new_build);
+          })["catch"](function (error) {
+            console.log(error.response);
+            _this.error = true;
+          });
+        })["catch"](function (err) {
+          console.log(err.response);
         });
       }
     }
@@ -3273,17 +2788,88 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      perPage: 10,
+      perPage: 5,
       currentPage: 1,
       search: "",
       fields: [{
         key: "name",
         label: "Unit Name",
+        sortable: true
+      }, {
+        key: "hp",
+        label: "HP",
+        sortable: true
+      }, {
+        key: "mp",
+        label: "MP",
         sortable: true
       }, {
         key: "atk",
@@ -3302,8 +2888,24 @@ __webpack_require__.r(__webpack_exports__);
         label: "SPR",
         sortable: true
       }, {
-        key: "build",
-        label: "Build Link",
+        key: "pevade",
+        label: "P.Evade",
+        sortable: true
+      }, {
+        key: "magkillers",
+        label: "M.Killers",
+        sortable: false
+      }, {
+        key: "physkillers",
+        label: "P.Killers",
+        sortable: false
+      }, {
+        key: "status",
+        label: "Status",
+        sortable: false
+      }, {
+        key: "elemental",
+        label: "Elemental",
         sortable: false
       }, {
         key: "profile",
@@ -3311,10 +2913,9 @@ __webpack_require__.r(__webpack_exports__);
         sortable: true
       }, {
         key: "request",
-        label: "Send Add Notification",
+        label: "Add",
         sortable: false
       }],
-      columns: ["Unit Name", "ATK", "MAG", "DEF", "SPR", "Build Link", "Friend Info"],
       link: "https://ffbeEquip.com/builder.html?server=GL#",
       units: [],
       isLoading: true
@@ -3436,10 +3037,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 
 
@@ -3448,7 +3045,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ["firstTime"],
   data: function data() {
     return {
-      columns: ["Name", "ATK", "MAG", "DEF", "SPR", "Build Link", "Actions"],
+      columns: ["Name", "Build ID", "Actions"],
       link: "https://ffbeEquip.com/builder.html?server=GL#",
       units: [],
       isLoading: true,
@@ -32118,7 +31715,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.error-msg[data-v-d65227ac] {\r\n  margin-bottom: 10px;\r\n  font-size: 1.3em;\n}\n.incomplete[data-v-d65227ac] {\r\n  font-size: 1.3em;\n}\r\n", ""]);
+exports.push([module.i, "\n.error-msg[data-v-d65227ac] {\r\n    margin-bottom: 10px;\r\n    font-size: 1.3em;\n}\n.incomplete[data-v-d65227ac] {\r\n    font-size: 1.3em;\n}\nul[data-v-d65227ac] {\r\n    list-style: none;\n}\n.column-header[data-v-d65227ac] {\r\n    font-size: 1.1em;\r\n    border-bottom: solid 1px black;\n}\n.find-header[data-v-d65227ac]{\r\n  font-size: 1.5em;\n}\n.panel-heading[data-v-d65227ac] {\r\n    font-size: 1.2em;\n}\r\n", ""]);
 
 // exports
 
@@ -32137,7 +31734,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\ndiv[data-v-71fb0014] {\r\n  margin-top: 10px;\n}\nh1[data-v-71fb0014] {\r\n  margin-bottom: 30px;\n}\r\n", ""]);
+exports.push([module.i, "\ndiv[data-v-71fb0014] {\r\n    margin-top: 10px;\n}\nh1[data-v-71fb0014] {\r\n    margin-bottom: 30px;\n}\nul[data-v-71fb0014] {\r\n    list-style-type: none;\r\n    padding-left: 0;\n}\nli[data-v-71fb0014] {\r\n    margin-bottom: 5px;\n}\r\n", ""]);
 
 // exports
 
@@ -40116,11 +39713,11 @@ var render = function() {
       "p",
       { staticClass: "mb-4 incomplete" },
       [
-        _vm._v("\n    Make sure to complete\n    "),
+        _vm._v("\n        Make sure to complete\n        "),
         _c("router-link", { attrs: { to: "/profile", tag: "a" } }, [
           _vm._v("Your Profile")
         ]),
-        _vm._v("before adding a unit\n  ")
+        _vm._v(" before\n        adding a unit\n    ")
       ],
       1
     ),
@@ -40128,8 +39725,18 @@ var render = function() {
     _c("hr"),
     _vm._v(" "),
     _c("form", [
-      _c("div", { staticClass: "form-group mb-5" }, [
-        _c("h3", [_vm._v("Fill Form Using Build Link")]),
+      _c("div", { staticClass: "form-group mb-2" }, [
+        _c("h3", { staticClass: "find-header" }, [
+          _vm._v("Find Unit Using Build ID")
+        ]),
+        _vm._v(" "),
+        _vm.empty
+          ? _c("h3", { staticClass: "text-danger error-msg" }, [
+              _vm._v(
+                "\n                Please enter the Build ID.\n            "
+              )
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c("label", { staticClass: "my-3", attrs: { for: "name" } }, [
           _vm._v("Build URL")
@@ -40183,7 +39790,11 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Fill Form")]
+              [
+                _vm._v(
+                  "\n                        Find Unit\n                    "
+                )
+              ]
             )
           ])
         ])
@@ -40191,1794 +39802,238 @@ var render = function() {
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("h3", { staticClass: "mb-3" }, [_vm._v("Unit Info")]),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _vm.errors
-          ? _c("div", [
-              _vm.empty
-                ? _c("h3", { staticClass: "text-danger error-msg" }, [
-                    _vm._v("Please fill out all fields")
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              !_vm.loggedIn
-                ? _c("h3", { staticClass: "text-danger error-msg" }, [
-                    _vm._v("Error adding unit. " + _vm._s(_vm.errorMsg))
-                  ])
-                : _vm._e()
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-row" }, [
-          _c(
-            "div",
-            { staticClass: "form-group col-md-5" },
-            [
-              _c("label", { attrs: { for: "unitName" } }, [
-                _vm._v("Unit Name")
-              ]),
-              _vm._v(" "),
-              _c("app-v-select", {
-                attrs: {
-                  id: "unitName",
-                  options: _vm.units,
-                  label: "name",
-                  index: "id"
-                },
-                on: { input: _vm.getMaxRarity },
-                model: {
-                  value: _vm.name,
-                  callback: function($$v) {
-                    _vm.name = $$v
-                  },
-                  expression: "name"
-                }
-              })
-            ],
-            1
-          ),
+      _c(
+        "div",
+        { staticClass: "form-group" },
+        [
+          _c("hr"),
           _vm._v(" "),
-          _c("div", { staticClass: "col-3 ml-md-5" }, [
-            _c("label", { attrs: { for: "input-type" } }, [_vm._v("Rarity")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row", attrs: { id: "input-type" } }, [
-              _c("div", { staticClass: "col-md-2" }, [
-                _c("label", { staticClass: "radio-inline" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.rarity,
-                        expression: "rarity"
-                      }
-                    ],
-                    attrs: { name: "rarity", value: "5", type: "radio" },
-                    domProps: { checked: _vm._q(_vm.rarity, "5") },
-                    on: {
-                      change: function($event) {
-                        _vm.rarity = "5"
-                      }
-                    }
-                  }),
-                  _vm._v(" 5★\n              ")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-2" }, [
-                _c("label", { staticClass: "radio-inline" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.rarity,
-                        expression: "rarity"
-                      }
-                    ],
-                    attrs: { name: "rarity", value: "6", type: "radio" },
-                    domProps: { checked: _vm._q(_vm.rarity, "6") },
-                    on: {
-                      change: function($event) {
-                        _vm.rarity = "6"
-                      }
-                    }
-                  }),
-                  _vm._v(" 6★\n              ")
-                ])
-              ]),
-              _vm._v(" "),
-              _vm.max_rarity === 7
-                ? _c("div", { staticClass: "col-md-2" }, [
-                    _c("label", { staticClass: "radio-inline" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.rarity,
-                            expression: "rarity"
-                          }
-                        ],
-                        attrs: { name: "rarity", value: "7", type: "radio" },
-                        domProps: { checked: _vm._q(_vm.rarity, "7") },
-                        on: {
-                          change: function($event) {
-                            _vm.rarity = "7"
-                          }
-                        }
-                      }),
-                      _vm._v(" 7★\n              ")
+          _vm.errors
+            ? _c("div", [
+                !_vm.loggedIn
+                  ? _c("h3", { staticClass: "text-danger error-msg" }, [
+                      _vm._v(
+                        "\n                    Error adding unit. " +
+                          _vm._s(_vm.errorMsg) +
+                          "\n                "
+                      )
                     ])
+                  : _vm._e()
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.isLoading ? _c("app-loading") : _vm._e(),
+          _vm._v(" "),
+          _vm.notFound
+            ? _c("div", [
+                _c("h3", { staticClass: "text-danger" }, [
+                  _vm._v(
+                    "\n                    Cannot Find Unit! Double check your build ID and try\n                    again\n                "
+                  )
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.unitFound
+            ? [
+                [
+                  _c("h3", { staticClass: "mb-3" }, [_vm._v("Unit Info")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "panel panel-default" }, [
+                    _c("div", { staticClass: "panel-heading" }, [
+                      _c("strong", [
+                        _vm._v(
+                          _vm._s(_vm.name) + " " + _vm._s(_vm.rarity) + "★"
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "panel-body" }, [
+                      _c("div", { staticClass: "form-row" }, [
+                        _c("ul", { staticClass: "col-md-2 col-sm-4 col-6" }, [
+                          _c("span", { staticClass: "column-header" }, [
+                            _vm._v(
+                              "Base Stats:\n                                    "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("li", [_vm._v("Health: " + _vm._s(_vm.hp))]),
+                          _vm._v(" "),
+                          _c("li", [_vm._v("Mana: " + _vm._s(_vm.mp))]),
+                          _vm._v(" "),
+                          _c("li", [_vm._v("Atack: " + _vm._s(_vm.atk))]),
+                          _vm._v(" "),
+                          _c("li", [_vm._v("Defense: " + _vm._s(_vm.def))]),
+                          _vm._v(" "),
+                          _c("li", [_vm._v("Magic: " + _vm._s(_vm.mag))]),
+                          _vm._v(" "),
+                          _c("li", [_vm._v("Spirit: " + _vm._s(_vm.spr))]),
+                          _vm._v(" "),
+                          _c("li", [
+                            _vm._v("P.Evasion: " + _vm._s(_vm.evade) + "%")
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "ul",
+                          { staticClass: "col-md-2 col-sm-4 col-6" },
+                          [
+                            _c("span", { staticClass: "column-header" }, [
+                              _vm._v("Status Resist:")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.status, function(resist, key, index) {
+                              return [
+                                resist !== 0
+                                  ? _c("li", { key: index }, [
+                                      _vm._v(
+                                        "\n                                            " +
+                                          _vm._s(key) +
+                                          ": " +
+                                          _vm._s(resist) +
+                                          "%\n                                        "
+                                      )
+                                    ])
+                                  : _vm._e()
+                              ]
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "ul",
+                          { staticClass: "col-md-2 col-sm-4 col-6" },
+                          [
+                            _c("span", { staticClass: "column-header" }, [
+                              _vm._v("Physical Killers:")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.physkillers, function(
+                              killer,
+                              key,
+                              index
+                            ) {
+                              return [
+                                killer !== 0
+                                  ? _c("li", { key: index }, [
+                                      _vm._v(
+                                        "\n                                            " +
+                                          _vm._s(key) +
+                                          ": " +
+                                          _vm._s(killer) +
+                                          "%\n                                        "
+                                      )
+                                    ])
+                                  : _vm._e()
+                              ]
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "ul",
+                          { staticClass: "col-md-2 col-sm-4 col-6" },
+                          [
+                            _c("span", { staticClass: "column-header" }, [
+                              _vm._v("Magic Killers:")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.magkillers, function(
+                              killer,
+                              key,
+                              index
+                            ) {
+                              return [
+                                killer !== 0
+                                  ? _c("li", { key: index }, [
+                                      _vm._v(
+                                        "\n                                            " +
+                                          _vm._s(key) +
+                                          ": " +
+                                          _vm._s(killer) +
+                                          "%\n                                        "
+                                      )
+                                    ])
+                                  : _vm._e()
+                              ]
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "ul",
+                          { staticClass: "col-md-2 col-sm-4 col-6" },
+                          [
+                            _c("span", { staticClass: "column-header" }, [
+                              _vm._v("Elemental Resist:")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.elemental, function(resist, key, index) {
+                              return [
+                                resist !== 0
+                                  ? _c("li", { key: index }, [
+                                      _vm._v(
+                                        "\n                                            " +
+                                          _vm._s(key) +
+                                          ": " +
+                                          _vm._s(resist) +
+                                          "%\n                                        "
+                                      )
+                                    ])
+                                  : _vm._e()
+                              ]
+                            })
+                          ],
+                          2
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "div",
+                      { staticClass: "text-md-right mt-5" },
+                      [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.addUnit($event)
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                Add Your Unit\n                            "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "btn btn-link",
+                            attrs: { to: "/", tag: "button" }
+                          },
+                          [_vm._v("Cancel")]
+                        )
+                      ],
+                      1
+                    )
                   ])
-                : _vm._e()
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("h3", [_vm._v("Unit Stats")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-row" }, [
-          _c("div", { staticClass: "form-group col-md-2 col-3" }, [
-            _c("label", { attrs: { for: "health" } }, [_vm._v("HP")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.hp,
-                  expression: "hp"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "health",
-                placeholder: "Unit Health"
-              },
-              domProps: { value: _vm.hp },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.hp = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-2 col-3" }, [
-            _c("label", { attrs: { for: "mana" } }, [_vm._v("MP")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.mp,
-                  expression: "mp"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "mana",
-                placeholder: "Unit Mana"
-              },
-              domProps: { value: _vm.mp },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.mp = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-2 col-3" }, [
-            _c("label", { attrs: { for: "attack" } }, [_vm._v("ATK")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.atk,
-                  expression: "atk"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "attack",
-                placeholder: "Unit Attack"
-              },
-              domProps: { value: _vm.atk },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.atk = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-2 col-3" }, [
-            _c("label", { attrs: { for: "defense" } }, [_vm._v("DEF")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.def,
-                  expression: "def"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "defense",
-                placeholder: "Unit Defense"
-              },
-              domProps: { value: _vm.def },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.def = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-2 col-3" }, [
-            _c("label", { attrs: { for: "magic" } }, [_vm._v("MAG")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.mag,
-                  expression: "mag"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "magic",
-                placeholder: "Unit Magic"
-              },
-              domProps: { value: _vm.mag },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.mag = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-2 col-3" }, [
-            _c("label", { attrs: { for: "spirit" } }, [_vm._v("SPR")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.spr,
-                  expression: "spr"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "spirit",
-                placeholder: "Unit Spirit"
-              },
-              domProps: { value: _vm.spr },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.spr = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-2 col-3" }, [
-            _c("label", { attrs: { for: "evade" } }, [_vm._v("P.Evade")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.evade,
-                  expression: "evade"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "evade",
-                placeholder: "Unit evade"
-              },
-              domProps: { value: _vm.evade },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.evade = $event.target.value
-                }
-              }
-            })
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("h3", [_vm._v("Elemental Resist")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-row" }, [
-          _c("div", { staticClass: "form-group col-md-2 col-3" }, [
-            _c("label", { attrs: { for: "fire" } }, [_vm._v("Fire")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.elemental.fire,
-                  expression: "elemental.fire"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "fire",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.elemental.fire },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.elemental, "fire", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-2 col-3" }, [
-            _c("label", { attrs: { for: "ice" } }, [_vm._v("Ice")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.elemental.ice,
-                  expression: "elemental.ice"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "ice",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.elemental.ice },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.elemental, "ice", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-2 col-3" }, [
-            _c("label", { attrs: { for: "lightning" } }, [_vm._v("Lightning")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.elemental.lightning,
-                  expression: "elemental.lightning"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "lightning",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.elemental.lightning },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.elemental, "lightning", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-2 col-3" }, [
-            _c("label", { attrs: { for: "water" } }, [_vm._v("Water")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.elemental.water,
-                  expression: "elemental.water"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "water",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.elemental.water },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.elemental, "water", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-2 col-3" }, [
-            _c("label", { attrs: { for: "wind" } }, [_vm._v("Wind")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.elemental.wind,
-                  expression: "elemental.wind"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "wind",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.elemental.wind },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.elemental, "wind", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-2 col-3" }, [
-            _c("label", { attrs: { for: "earth" } }, [_vm._v("Earth")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.elemental.earth,
-                  expression: "elemental.earth"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "earth",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.elemental.earth },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.elemental, "earth", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-2 col-3" }, [
-            _c("label", { attrs: { for: "light" } }, [_vm._v("Light")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.elemental.light,
-                  expression: "elemental.light"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "light",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.elemental.light },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.elemental, "light", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-2 col-3" }, [
-            _c("label", { attrs: { for: "dark" } }, [_vm._v("Dark")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.elemental.dark,
-                  expression: "elemental.dark"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "dark",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.elemental.dark },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.elemental, "dark", $event.target.value)
-                }
-              }
-            })
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("h3", [_vm._v("Status Resist")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-row" }, [
-          _c("div", { staticClass: "form-group col-md-1 col-3 col-xs-4" }, [
-            _c("label", { attrs: { for: "status_poison" } }, [
-              _vm._v("Poison")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.status.poison,
-                  expression: "status.poison"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "status_poison",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.status.poison },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.status, "poison", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3 col-xs-4" }, [
-            _c("label", { attrs: { for: "status_blind" } }, [_vm._v("Blind")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.status.blind,
-                  expression: "status.blind"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "status_blind",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.status.blind },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.status, "blind", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3 col-xs-4" }, [
-            _c("label", { attrs: { for: "status_sleep" } }, [_vm._v("Sleep")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.status.sleep,
-                  expression: "status.sleep"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "status_sleep",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.status.sleep },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.status, "sleep", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3 col-xs-4" }, [
-            _c("label", { attrs: { for: "status_silence" } }, [
-              _vm._v("Silence")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.status.silence,
-                  expression: "status.silence"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "status_silence",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.status.silence },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.status, "silence", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3 col-xs-4" }, [
-            _c("label", { attrs: { for: "status_paralyze" } }, [
-              _vm._v("Paralyze")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.status.paralyze,
-                  expression: "status.paralyze"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "status_paralyze",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.status.paralyze },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.status, "paralyze", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3 col-xs-4" }, [
-            _c("label", { attrs: { for: "status_confusion" } }, [
-              _vm._v("Confusion")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.status.confusion,
-                  expression: "status.confusion"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "status_confusion",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.status.confusion },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.status, "confusion", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3 col-xs-4" }, [
-            _c("label", { attrs: { for: "status_disease" } }, [
-              _vm._v("Disease")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.status.disease,
-                  expression: "status.disease"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "status_disease",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.status.disease },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.status, "disease", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3 col-xs-4" }, [
-            _c("label", { attrs: { for: "status_stone" } }, [_vm._v("Stone")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.status.stone,
-                  expression: "status.stone"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "status_stone",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.status.stone },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.status, "stone", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3 col-xs-4" }, [
-            _c("label", { attrs: { for: "status_death" } }, [_vm._v("Death")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.status.death,
-                  expression: "status.death"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "status_death",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.status.death },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.status, "death", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3 col-xs-4" }, [
-            _c("label", { attrs: { for: "status_charm" } }, [_vm._v("Charm")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.status.charm,
-                  expression: "status.charm"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "status_charm",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.status.charm },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.status, "charm", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3 col-xs-4" }, [
-            _c("label", { attrs: { for: "status_stop" } }, [_vm._v("Stop")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.status.stop,
-                  expression: "status.stop"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "status_",
-                placeholder: "% Resist"
-              },
-              domProps: { value: _vm.status.stop },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.status, "stop", $event.target.value)
-                }
-              }
-            })
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("h3", [_vm._v("Physical Killers")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-row" }, [
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "aquatic-killer" } }, [
-              _vm._v("Aquatic")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.physkillers.aquatic,
-                  expression: "physkillers.aquatic"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "aquatic-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.physkillers.aquatic },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.physkillers, "aquatic", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "beast-killer" } }, [_vm._v("Beast")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.physkillers.beast,
-                  expression: "physkillers.beast"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "beast-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.physkillers.beast },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.physkillers, "beast", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "bird-killer" } }, [_vm._v("Bird")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.physkillers.bird,
-                  expression: "physkillers.bird"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "bird-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.physkillers.bird },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.physkillers, "bird", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "bug-killer" } }, [_vm._v("Bug")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.physkillers.bug,
-                  expression: "physkillers.bug"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "bug-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.physkillers.bug },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.physkillers, "bug", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "demon-killer" } }, [_vm._v("Demon")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.physkillers.demon,
-                  expression: "physkillers.demon"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "demon-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.physkillers.demon },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.physkillers, "demon", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "dragon-killer" } }, [
-              _vm._v("Dragon")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.physkillers.dragon,
-                  expression: "physkillers.dragon"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "dragon-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.physkillers.dragon },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.physkillers, "dragon", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "human-killer" } }, [_vm._v("Human")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.physkillers.human,
-                  expression: "physkillers.human"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "human-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.physkillers.human },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.physkillers, "human", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "machine-killer" } }, [
-              _vm._v("Machine")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.physkillers.machine,
-                  expression: "physkillers.machine"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "machine-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.physkillers.machine },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.physkillers, "machine", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "plant-killer" } }, [_vm._v("Plant")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.physkillers.plant,
-                  expression: "physkillers.plant"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "plant-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.physkillers.plant },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.physkillers, "plant", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "undead-killer" } }, [
-              _vm._v("Undead")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.physkillers.undead,
-                  expression: "physkillers.undead"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "undead-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.physkillers.undead },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.physkillers, "undead", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "stone-killer" } }, [_vm._v("Stone")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.physkillers.stone,
-                  expression: "physkillers.stone"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "stone-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.physkillers.stone },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.physkillers, "stone", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "spirit-killer" } }, [
-              _vm._v("Spirit")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.physkillers.spirit,
-                  expression: "physkillers.spirit"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "spirit-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.physkillers.spirit },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.physkillers, "spirit", $event.target.value)
-                }
-              }
-            })
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("h3", [_vm._v("Magic Killers")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-row" }, [
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "aquatic-mag-killer" } }, [
-              _vm._v("Aquatic")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.magkillers.aquatic,
-                  expression: "magkillers.aquatic"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "aquatic-mag-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.magkillers.aquatic },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.magkillers, "aquatic", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "beast-mag-killer" } }, [
-              _vm._v("Beast")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.magkillers.beast,
-                  expression: "magkillers.beast"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "beast-mag-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.magkillers.beast },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.magkillers, "beast", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "bird-mag-killer" } }, [
-              _vm._v("Bird")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.magkillers.bird,
-                  expression: "magkillers.bird"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "bird-mag-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.magkillers.bird },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.magkillers, "bird", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "bug-mag-killer" } }, [_vm._v("Bug")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.magkillers.bug,
-                  expression: "magkillers.bug"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "bug-mag-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.magkillers.bug },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.magkillers, "bug", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "demon-mag-killer" } }, [
-              _vm._v("Demon")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.magkillers.demon,
-                  expression: "magkillers.demon"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "demon-mag-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.magkillers.demon },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.magkillers, "demon", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "dragon-mag-killer" } }, [
-              _vm._v("Dragon")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.magkillers.dragon,
-                  expression: "magkillers.dragon"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "dragon-mag-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.magkillers.dragon },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.magkillers, "dragon", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "human-mag-killer" } }, [
-              _vm._v("Human")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.magkillers.human,
-                  expression: "magkillers.human"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "human-mag-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.magkillers.human },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.magkillers, "human", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "machine-mag-killer" } }, [
-              _vm._v("Machine")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.magkillers.machine,
-                  expression: "magkillers.machine"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "machine-mag-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.magkillers.machine },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.magkillers, "machine", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "plant-mag-killer" } }, [
-              _vm._v("Plant")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.magkillers.plant,
-                  expression: "magkillers.plant"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "plant-mag-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.magkillers.plant },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.magkillers, "plant", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "undead-mag-killer" } }, [
-              _vm._v("Undead")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.magkillers.undead,
-                  expression: "magkillers.undead"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "undead-mag-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.magkillers.undead },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.magkillers, "undead", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "stone-mag-killer" } }, [
-              _vm._v("Stone")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.magkillers.stone,
-                  expression: "magkillers.stone"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "stone-mag-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.magkillers.stone },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.magkillers, "stone", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group col-md-1 col-3" }, [
-            _c("label", { attrs: { for: "spirit-mag-killer" } }, [
-              _vm._v("Spirit")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.magkillers.spirit,
-                  expression: "magkillers.spirit"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                readonly: "",
-                type: "text",
-                id: "spirit-mag-killer",
-                placeholder: "% Killer"
-              },
-              domProps: { value: _vm.magkillers.spirit },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.magkillers, "spirit", $event.target.value)
-                }
-              }
-            })
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c(
-          "div",
-          { staticClass: "text-md-right mt-5" },
-          [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.addUnit($event)
-                  }
-                }
-              },
-              [_vm._v("Add Your Unit")]
-            ),
-            _vm._v(" "),
-            _c(
-              "router-link",
-              {
-                staticClass: "btn btn-link",
-                attrs: { to: "/", tag: "button" }
-              },
-              [_vm._v("Cancel")]
-            )
-          ],
-          1
-        )
-      ])
+                ]
+              ]
+            : _vm._e()
+        ],
+        2
+      )
     ])
   ])
 }
@@ -42008,7 +40063,7 @@ var staticRenderFns = [
       { staticClass: "form-text text-muted", attrs: { id: "buildUrlBlock" } },
       [
         _vm._v(
-          "\n            The Link can be found under 'Share this Build > FFBE Equip link (this unit only)' on\n            "
+          "\n                        The Link can be found under 'Share this Build > FFBE\n                        Equip link (this unit only)' on\n                        "
         ),
         _c("a", { attrs: { href: "https://ffbeequip.com/builder.html" } }, [
           _vm._v("FFBE Equip")
@@ -42061,7 +40116,11 @@ var render = function() {
                 attrs: { id: "#exampleModalLabel" + _vm.unit.id }
               },
               [
-                _vm._v("\n          " + _vm._s(_vm.unit.name) + "\n          "),
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.unit.name) +
+                    "\n                    "
+                ),
                 _vm.error
                   ? _c("span", { staticClass: "text-danger error-msg ml-3" }, [
                       _vm._v("Please fill out all fields correctly")
@@ -42075,138 +40134,8 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "modal-body" }, [
             _c("div", { staticClass: "form-group" }, [
-              _c("div", { staticClass: "form-row mb-3" }, [
-                _c(
-                  "label",
-                  { staticClass: "col-md-12", attrs: { for: "input-type" } },
-                  [_vm._v("Rarity")]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-4" }, [
-                  _c("input", {
-                    attrs: {
-                      type: "radio",
-                      id: "five",
-                      name: "rarity" + _vm.unit.id
-                    },
-                    domProps: { value: 5, checked: _vm.unit.rarity === 5 },
-                    on: {
-                      input: function($event) {
-                        _vm.new_rarity = $event.target.value
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("label", { attrs: { for: "five" } }, [_vm._v("5★")])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-4" }, [
-                  _c("input", {
-                    attrs: {
-                      type: "radio",
-                      id: "six",
-                      name: "rarity" + _vm.unit.id
-                    },
-                    domProps: { value: 6, checked: _vm.unit.rarity === 6 },
-                    on: {
-                      input: function($event) {
-                        _vm.new_rarity = $event.target.value
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("label", { attrs: { for: "six" } }, [_vm._v("6★")])
-                ]),
-                _vm._v(" "),
-                _vm.unit.max_rarity === 7
-                  ? _c("div", { staticClass: "col-md-4" }, [
-                      _c("input", {
-                        attrs: {
-                          type: "radio",
-                          id: "seven",
-                          name: "rarity" + _vm.unit.id
-                        },
-                        domProps: { value: 7, checked: _vm.unit.rarity === 7 },
-                        on: {
-                          input: function($event) {
-                            _vm.new_rarity = $event.target.value
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("label", { attrs: { for: "seven" } }, [_vm._v("7★")])
-                    ])
-                  : _vm._e()
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("div", { staticClass: "form-row" }, [
-                _c("div", { staticClass: "form-group col-md-3" }, [
-                  _c("label", { attrs: { for: "attack" } }, [_vm._v("ATK")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    staticClass: "form-control",
-                    attrs: { type: "text", id: "attack", placeholder: "100" },
-                    domProps: { value: _vm.unit.atk },
-                    on: {
-                      input: function($event) {
-                        _vm.new_atk = $event.target.value
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-md-3" }, [
-                  _c("label", { attrs: { for: "defense" } }, [_vm._v("DEF")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    staticClass: "form-control",
-                    attrs: { type: "text", id: "defense", placeholder: "100" },
-                    domProps: { value: _vm.unit.def },
-                    on: {
-                      input: function($event) {
-                        _vm.new_def = $event.target.value
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-md-3" }, [
-                  _c("label", { attrs: { for: "magic" } }, [_vm._v("MAG")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    staticClass: "form-control",
-                    attrs: { type: "text", id: "magic", placeholder: "100" },
-                    domProps: { value: _vm.unit.mag },
-                    on: {
-                      input: function($event) {
-                        _vm.new_def = $event.target.value
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group col-md-3" }, [
-                  _c("label", { attrs: { for: "spirit" } }, [_vm._v("SPR")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    staticClass: "form-control",
-                    attrs: { type: "text", id: "spirit", placeholder: "100" },
-                    domProps: { value: _vm.unit.spr },
-                    on: {
-                      input: function($event) {
-                        _vm.new_spr = $event.target.value
-                      }
-                    }
-                  })
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
               _c("label", { staticClass: "my-3", attrs: { for: "name" } }, [
-                _vm._v("Build URL")
+                _vm._v("Update Build")
               ]),
               _vm._v(" "),
               _vm._m(1),
@@ -42240,7 +40169,7 @@ var render = function() {
                 staticClass: "btn btn-secondary",
                 attrs: { type: "button", "data-dismiss": "modal" }
               },
-              [_vm._v("Close")]
+              [_vm._v("\n                    Close\n                ")]
             ),
             _vm._v(" "),
             _c(
@@ -42254,7 +40183,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Save changes")]
+              [_vm._v("\n                    Save changes\n                ")]
             )
           ])
         ])
@@ -42305,7 +40234,7 @@ var staticRenderFns = [
       { staticClass: "form-text text-muted", attrs: { id: "buildUrlBlock" } },
       [
         _vm._v(
-          "\n              Ex. Link can be found under 'Share this Build > FFBE Equip link (this link only)' on\n              "
+          "\n                            Ex. Link can be found under 'Share this Build >\n                            FFBE Equip link (this link only)' on\n                            "
         ),
         _c("a", { attrs: { href: "https://ffbeequip.com/builder.html" } }, [
           _vm._v("FFBE Equip")
@@ -42398,20 +40327,39 @@ var render = function() {
           busy: _vm.isLoading,
           "per-page": _vm.perPage,
           "current-page": _vm.currentPage,
-          responsive: "",
-          "show-empty": ""
+          responsive: "lg",
+          "show-empty": "",
+          "caption-top": ""
         },
         scopedSlots: _vm._u([
+          {
+            key: "table-caption",
+            fn: function() {
+              return [_vm._v("Login/Register to start adding Units")]
+            },
+            proxy: true
+          },
           {
             key: "cell(name)",
             fn: function(data) {
               return [
                 _c("p", [
-                  _vm._v(
-                    _vm._s(data.item.name) +
-                      " " +
-                      _vm._s(data.item.rarity) +
-                      "★"
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        target: "_blank",
+                        href: _vm.link + data.item.build
+                      }
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(data.item.name) +
+                          " " +
+                          _vm._s(data.item.rarity) +
+                          "★\n                "
+                      )
+                    ]
                   )
                 ])
               ]
@@ -42424,33 +40372,168 @@ var render = function() {
             }
           },
           {
-            key: "cell(build)",
-            fn: function(data) {
-              return [
-                _c(
-                  "a",
-                  {
-                    attrs: {
-                      target: "_blank",
-                      href: _vm.link + data.item.build
-                    }
-                  },
-                  [_vm._v("Build")]
-                )
-              ]
-            }
-          },
-          {
             key: "cell(profile)",
             fn: function(data) {
               return [
                 _c("p", [
                   _vm._v(
-                    _vm._s(data.item.profile.ign) +
-                      " - " +
-                      _vm._s(_vm._f("friendCode")(data.item.profile.friendCode))
+                    "\n                " + _vm._s(data.item.profile.ign) + ": "
+                  ),
+                  _c("br"),
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(
+                        _vm._f("friendCode")(data.item.profile.friendCode)
+                      ) +
+                      "\n            "
                   )
                 ])
+              ]
+            }
+          },
+          {
+            key: "cell(pevade)",
+            fn: function(data) {
+              return [
+                _vm._v(
+                  "\n            " + _vm._s(data.item.pevade) + "%\n        "
+                )
+              ]
+            }
+          },
+          {
+            key: "cell(magkillers)",
+            fn: function(data) {
+              return [
+                _c(
+                  "ul",
+                  [
+                    _vm._l(data.item.magkillers, function(killers, key, index) {
+                      return [
+                        killers != 0
+                          ? _c("li", { key: index }, [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(key) +
+                                  ": "
+                              ),
+                              _c("br"),
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(killers) +
+                                  "%\n                    "
+                              )
+                            ])
+                          : _vm._e()
+                      ]
+                    })
+                  ],
+                  2
+                )
+              ]
+            }
+          },
+          {
+            key: "cell(physkillers)",
+            fn: function(data) {
+              return [
+                _c(
+                  "ul",
+                  [
+                    _vm._l(data.item.physkillers, function(
+                      killers,
+                      key,
+                      index
+                    ) {
+                      return [
+                        killers != 0
+                          ? _c("li", { key: index }, [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(key) +
+                                  ": "
+                              ),
+                              _c("br"),
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(killers) +
+                                  "%\n                    "
+                              )
+                            ])
+                          : _vm._e()
+                      ]
+                    })
+                  ],
+                  2
+                )
+              ]
+            }
+          },
+          {
+            key: "cell(status)",
+            fn: function(data) {
+              return [
+                _c(
+                  "ul",
+                  [
+                    _vm._l(data.item.status, function(status, key, index) {
+                      return [
+                        status != 0
+                          ? _c("li", { key: index }, [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(key) +
+                                  ": "
+                              ),
+                              _c("br"),
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(status) +
+                                  "%\n                    "
+                              )
+                            ])
+                          : _vm._e()
+                      ]
+                    })
+                  ],
+                  2
+                )
+              ]
+            }
+          },
+          {
+            key: "cell(elemental)",
+            fn: function(data) {
+              return [
+                _c(
+                  "ul",
+                  [
+                    _vm._l(data.item.elemental, function(
+                      elemental,
+                      key,
+                      index
+                    ) {
+                      return [
+                        elemental != 0
+                          ? _c("li", { key: index }, [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(key) +
+                                  ": "
+                              ),
+                              _c("br"),
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(elemental) +
+                                  "%\n                    "
+                              )
+                            ])
+                          : _vm._e()
+                      ]
+                    })
+                  ],
+                  2
+                )
               ]
             }
           },
@@ -42571,21 +40654,13 @@ var render = function() {
                     _vm._v(_vm._s(unit.name) + " " + _vm._s(unit.rarity) + "★")
                   ]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(unit.atk))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(unit.mag))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(unit.def))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(unit.spr))]),
-                  _vm._v(" "),
                   _c("td", [
                     _c(
                       "a",
                       {
                         attrs: { target: "_blank", href: _vm.link + unit.build }
                       },
-                      [_vm._v("Build")]
+                      [_vm._v(_vm._s(unit.build))]
                     )
                   ]),
                   _vm._v(" "),
