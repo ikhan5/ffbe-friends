@@ -72,7 +72,7 @@
                     <template>
                         <h3 class="mb-3">Unit Info</h3>
                         <div class="panel panel-default">
-                            <div class="panel-heading">
+                            <div class="panel-heading mb-3">
                                 <strong>{{ name }} {{ rarity }}&#x2605;</strong>
                             </div>
                             <div class="panel-body">
@@ -102,7 +102,7 @@
                                                 v-if="resist !== 0"
                                                 :key="index"
                                             >
-                                                {{ key }}: {{ resist }}%
+                                                {{ key | capitalize }}: {{ resist }}%
                                             </li>
                                         </template>
                                     </ul>
@@ -119,7 +119,7 @@
                                                 v-if="killer !== 0"
                                                 :key="index"
                                             >
-                                                {{ key }}: {{ killer }}%
+                                                {{ key | capitalize }}: {{ killer }}%
                                             </li>
                                         </template>
                                     </ul>
@@ -136,7 +136,7 @@
                                                 v-if="killer !== 0"
                                                 :key="index"
                                             >
-                                                {{ key }}: {{ killer }}%
+                                                {{ key | capitalize}}: {{ killer }}%
                                             </li>
                                         </template>
                                     </ul>
@@ -154,7 +154,7 @@
                                                 v-if="resist !== 0"
                                                 :key="index"
                                             >
-                                                {{ key }}: {{ resist }}%
+                                                {{ key | capitalize}}: {{ resist }}%
                                             </li>
                                         </template>
                                     </ul>

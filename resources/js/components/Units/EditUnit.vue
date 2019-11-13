@@ -18,6 +18,13 @@
                         <span v-if="error" class="text-danger error-msg ml-3"
                             >Please fill out all fields correctly</span
                         >
+
+                        <span
+                            v-if="notFound"
+                            class="text-danger error-msg ml-3"
+                        >
+                            Cannot Find Unit! Re-enter build ID.
+                        </span>
                     </h5>
                     <button
                         type="button"
@@ -94,7 +101,8 @@ export default {
             name: "",
             new_build: "",
             error: false,
-            loading: false
+            loading: false,
+            notFound: false
         };
     },
     created() {
@@ -112,6 +120,7 @@ export default {
                 this.error = true;
             } else {
                 this.error = false;
+                this.notFound = false
                 axios
                     .get(
                         "https://firebasestorage.googleapis.com/v0/b/ffbeequip.appspot.com/o/PartyBuilds%2F" +
@@ -177,7 +186,7 @@ export default {
                             });
                     })
                     .catch(err => {
-                        console.log(err.response);
+                        this.notFound = true;
                     });
             }
         }
