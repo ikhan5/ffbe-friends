@@ -2842,15 +2842,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2893,12 +2884,9 @@ __webpack_require__.r(__webpack_exports__);
         sortable: true
       }, {
         key: "magkillers",
-        label: "M.Killers",
-        sortable: false
-      }, {
-        key: "physkillers",
-        label: "P.Killers",
-        sortable: false
+        label: "Killers",
+        sortable: false,
+        colspan: 3
       }, {
         key: "status",
         label: "Status",
@@ -2911,10 +2899,6 @@ __webpack_require__.r(__webpack_exports__);
         key: "profile",
         label: "Profile",
         sortable: true
-      }, {
-        key: "request",
-        label: "Add",
-        sortable: false
       }],
       link: "https://ffbeEquip.com/builder.html?server=GL#",
       units: [],
@@ -31658,7 +31642,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\nbody {\r\n  padding: 30px;\r\n  background-color: #f8f8f8;\n}\n@media only screen and (max-width: 600px) {\nbody {\r\n    padding: 5px;\n}\n}\n.container {\r\n  width: 1200px;\r\n  margin-top: 20px;\r\n  background-color: white;\r\n  padding: 20px;\n}\n.fade-enter-active {\r\n  -webkit-animation: fade-in 200ms ease-out forwards;\r\n          animation: fade-in 200ms ease-out forwards;\n}\n.fade-leave-active {\r\n  -webkit-animation: fade-out 200ms ease-out forwards;\r\n          animation: fade-out 200ms ease-out forwards;\n}\n@-webkit-keyframes fade-in {\nfrom {\r\n    opacity: 0;\n}\nto {\r\n    opacity: 1;\n}\n}\n@keyframes fade-in {\nfrom {\r\n    opacity: 0;\n}\nto {\r\n    opacity: 1;\n}\n}\n@-webkit-keyframes fade-out {\nfrom {\r\n    opacity: 1;\n}\nto {\r\n    opacity: 0;\n}\n}\n@keyframes fade-out {\nfrom {\r\n    opacity: 1;\n}\nto {\r\n    opacity: 0;\n}\n}\r\n", ""]);
+exports.push([module.i, "\nbody {\r\n  padding: 20px;\r\n  background-color: #f8f8f8;\n}\n@media only screen and (max-width: 600px) {\nbody {\r\n    padding: 5px;\n}\n}\n.container {\r\n  width: 1200px;\r\n  margin-top: 20px;\r\n  background-color: white;\r\n  padding: 20px;\n}\n.fade-enter-active {\r\n  -webkit-animation: fade-in 200ms ease-out forwards;\r\n          animation: fade-in 200ms ease-out forwards;\n}\n.fade-leave-active {\r\n  -webkit-animation: fade-out 200ms ease-out forwards;\r\n          animation: fade-out 200ms ease-out forwards;\n}\n@-webkit-keyframes fade-in {\nfrom {\r\n    opacity: 0;\n}\nto {\r\n    opacity: 1;\n}\n}\n@keyframes fade-in {\nfrom {\r\n    opacity: 0;\n}\nto {\r\n    opacity: 1;\n}\n}\n@-webkit-keyframes fade-out {\nfrom {\r\n    opacity: 1;\n}\nto {\r\n    opacity: 0;\n}\n}\n@keyframes fade-out {\nfrom {\r\n    opacity: 1;\n}\nto {\r\n    opacity: 0;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -31734,7 +31718,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\ndiv[data-v-71fb0014] {\r\n    margin-top: 10px;\n}\nh1[data-v-71fb0014] {\r\n    margin-bottom: 30px;\n}\nul[data-v-71fb0014] {\r\n    list-style-type: none;\r\n    padding-left: 0;\n}\nli[data-v-71fb0014] {\r\n    margin-bottom: 5px;\n}\r\n", ""]);
+exports.push([module.i, "\ndiv[data-v-71fb0014] {\r\n    margin-top: 10px;\n}\nh1[data-v-71fb0014] {\r\n    margin-bottom: 30px;\n}\nul[data-v-71fb0014] {\r\n    list-style-type: none;\r\n    padding-left: 0;\n}\nli[data-v-71fb0014] {\r\n    margin-bottom: 5px;\r\n    font-size: 0.95em;\n}\n.killers[data-v-71fb0014] {\r\n    width: 120px;\n}\r\n", ""]);
 
 // exports
 
@@ -40327,7 +40311,7 @@ var render = function() {
           busy: _vm.isLoading,
           "per-page": _vm.perPage,
           "current-page": _vm.currentPage,
-          responsive: "lg",
+          responsive: "",
           "show-empty": "",
           "caption-top": ""
         },
@@ -40387,7 +40371,27 @@ var render = function() {
                       ) +
                       "\n            "
                   )
-                ])
+                ]),
+                _vm._v(" "),
+                data.item.my_unit === 3
+                  ? _c(
+                      "a",
+                      {
+                        attrs: { href: "" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.addNotify(data.item)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                Send Friend Request\n            "
+                        )
+                      ]
+                    )
+                  : _vm._e()
               ]
             }
           },
@@ -40408,38 +40412,8 @@ var render = function() {
                 _c(
                   "ul",
                   [
-                    _vm._l(data.item.magkillers, function(killers, key, index) {
-                      return [
-                        killers != 0
-                          ? _c("li", { key: index }, [
-                              _vm._v(
-                                "\n                        " +
-                                  _vm._s(key) +
-                                  ": "
-                              ),
-                              _c("br"),
-                              _vm._v(
-                                "\n                        " +
-                                  _vm._s(killers) +
-                                  "%\n                    "
-                              )
-                            ])
-                          : _vm._e()
-                      ]
-                    })
-                  ],
-                  2
-                )
-              ]
-            }
-          },
-          {
-            key: "cell(physkillers)",
-            fn: function(data) {
-              return [
-                _c(
-                  "ul",
-                  [
+                    _c("strong", [_vm._v("Physical")]),
+                    _vm._v(" "),
                     _vm._l(data.item.physkillers, function(
                       killers,
                       key,
@@ -40450,12 +40424,28 @@ var render = function() {
                           ? _c("li", { key: index }, [
                               _vm._v(
                                 "\n                        " +
-                                  _vm._s(key) +
-                                  ": "
-                              ),
-                              _c("br"),
+                                  _vm._s(_vm._f("capitalize")(key)) +
+                                  ": " +
+                                  _vm._s(killers) +
+                                  "%\n                    "
+                              )
+                            ])
+                          : _vm._e()
+                      ]
+                    }),
+                    _vm._v(" "),
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("strong", [_vm._v("Magic")]),
+                    _vm._v(" "),
+                    _vm._l(data.item.magkillers, function(killers, key, index) {
+                      return [
+                        killers != 0
+                          ? _c("li", { key: index }, [
                               _vm._v(
                                 "\n                        " +
+                                  _vm._s(_vm._f("capitalize")(key)) +
+                                  ": " +
                                   _vm._s(killers) +
                                   "%\n                    "
                               )
@@ -40482,12 +40472,8 @@ var render = function() {
                           ? _c("li", { key: index }, [
                               _vm._v(
                                 "\n                        " +
-                                  _vm._s(key) +
-                                  ": "
-                              ),
-                              _c("br"),
-                              _vm._v(
-                                "\n                        " +
+                                  _vm._s(_vm._f("capitalize")(key)) +
+                                  ": " +
                                   _vm._s(status) +
                                   "%\n                    "
                               )
@@ -40518,12 +40504,8 @@ var render = function() {
                           ? _c("li", { key: index }, [
                               _vm._v(
                                 "\n                        " +
-                                  _vm._s(key) +
-                                  ": "
-                              ),
-                              _c("br"),
-                              _vm._v(
-                                "\n                        " +
+                                  _vm._s(_vm._f("capitalize")(key)) +
+                                  ": " +
                                   _vm._s(elemental) +
                                   "%\n                    "
                               )
@@ -40534,27 +40516,6 @@ var render = function() {
                   ],
                   2
                 )
-              ]
-            }
-          },
-          {
-            key: "cell(request)",
-            fn: function(data) {
-              return [
-                data.item.my_unit === 3
-                  ? _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-link ml-5",
-                        on: {
-                          click: function($event) {
-                            return _vm.addNotify(data.item)
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "fas fa-plus-circle" })]
-                    )
-                  : _vm._e()
               ]
             }
           },

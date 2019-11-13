@@ -10,7 +10,7 @@
 
 <style>
 body {
-  padding: 30px;
+  padding: 20px;
   background-color: #f8f8f8;
 }
 

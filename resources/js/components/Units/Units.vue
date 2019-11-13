@@ -28,7 +28,7 @@
             :busy="isLoading"
             :per-page="perPage"
             :current-page="currentPage"
-            responsive="lg"
+            responsive
             show-empty
             caption-top
         >
@@ -56,6 +56,13 @@
                     {{ data.item.profile.ign }}: <br />
                     {{ data.item.profile.friendCode | friendCode }}
                 </p>
+                <a
+                    v-if="data.item.my_unit === 3"
+                    href=""
+                    @click.prevent="addNotify(data.item)"
+                >
+                    Send Friend Request
+                </a>
             </template>
 
             <template v-slot:cell(pevade)="data">
@@ -64,24 +71,21 @@
 
             <template v-slot:cell(magkillers)="data">
                 <ul>
-                    <template
-                        v-for="(killers, key, index) in data.item.magkillers"
-                    >
-                        <li v-if="killers != 0" :key="index">
-                            {{ key }}: <br />
-                            {{ killers }}%
-                        </li>
-                    </template>
-                </ul>
-            </template>
-            <template v-slot:cell(physkillers)="data">
-                <ul>
+                    <strong>Physical</strong>
                     <template
                         v-for="(killers, key, index) in data.item.physkillers"
                     >
                         <li v-if="killers != 0" :key="index">
-                            {{ key }}: <br />
-                            {{ killers }}%
+                            {{ key | capitalize }}: {{ killers }}%
+                        </li>
+                    </template>
+                    <hr />
+                    <strong>Magic</strong>
+                    <template
+                        v-for="(killers, key, index) in data.item.magkillers"
+                    >
+                        <li v-if="killers != 0" :key="index">
+                            {{ key | capitalize }}: {{ killers }}%
                         </li>
                     </template>
                 </ul>
@@ -90,8 +94,7 @@
                 <ul>
                     <template v-for="(status, key, index) in data.item.status">
                         <li v-if="status != 0" :key="index">
-                            {{ key }}: <br />
-                            {{ status }}%
+                            {{ key | capitalize }}: {{ status }}%
                         </li>
                     </template>
                 </ul>
@@ -102,23 +105,11 @@
                         v-for="(elemental, key, index) in data.item.elemental"
                     >
                         <li v-if="elemental != 0" :key="index">
-                            {{ key }}: <br />
-                            {{ elemental }}%
+                            {{ key | capitalize }}: {{ elemental }}%
                         </li>
                     </template>
                 </ul>
             </template>
-
-            <template v-slot:cell(request)="data">
-                <button
-                    v-if="data.item.my_unit === 3"
-                    class="btn btn-link ml-5"
-                    @click="addNotify(data.item)"
-                >
-                    <i class="fas fa-plus-circle"></i>
-                </button>
-            </template>
-
             <template v-slot:table-busy>
                 <div class="text-center text-danger my-2">
                     <b-spinner class="align-middle"></b-spinner>
@@ -181,13 +172,9 @@ export default {
                 },
                 {
                     key: "magkillers",
-                    label: "M.Killers",
-                    sortable: false
-                },
-                {
-                    key: "physkillers",
-                    label: "P.Killers",
-                    sortable: false
+                    label: "Killers",
+                    sortable: false,
+                    colspan: 3
                 },
                 {
                     key: "status",
@@ -203,11 +190,6 @@ export default {
                     key: "profile",
                     label: "Profile",
                     sortable: true
-                },
-                {
-                    key: "request",
-                    label: "Add",
-                    sortable: false
                 }
             ],
 
@@ -286,5 +268,10 @@ ul {
 
 li {
     margin-bottom: 5px;
+    font-size: 0.95em;
+}
+
+.killers {
+    width: 120px;
 }
 </style>
