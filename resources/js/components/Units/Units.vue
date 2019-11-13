@@ -7,6 +7,7 @@
                 type="text"
                 v-model="search"
                 placeholder="Search Units..."
+                v-on:keydown.enter.prevent
             />
         </div>
         <div class="d-md-flex float-right mb-4">
@@ -75,7 +76,7 @@
                     <template
                         v-for="(killers, key, index) in data.item.physkillers"
                     >
-                        <li v-if="killers != 0" :key="index">
+                        <li v-if="killers != 0" :key="'phys'+index">
                             {{ key | capitalize }}: {{ killers }}%
                         </li>
                     </template>
@@ -84,7 +85,7 @@
                     <template
                         v-for="(killers, key, index) in data.item.magkillers"
                     >
-                        <li v-if="killers != 0" :key="index">
+                        <li v-if="killers != 0" :key="'mag'+index">
                             {{ key | capitalize }}: {{ killers }}%
                         </li>
                     </template>
@@ -93,7 +94,7 @@
             <template v-slot:cell(status)="data">
                 <ul>
                     <template v-for="(status, key, index) in data.item.status">
-                        <li v-if="status != 0" :key="index">
+                        <li v-if="status != 0" :key="'status'+index">
                             {{ key | capitalize }}: {{ status }}%
                         </li>
                     </template>
@@ -104,7 +105,7 @@
                     <template
                         v-for="(elemental, key, index) in data.item.elemental"
                     >
-                        <li v-if="elemental != 0" :key="index">
+                        <li v-if="elemental != 0" :key="'elem'+index">
                             {{ key | capitalize }}: {{ elemental }}%
                         </li>
                     </template>
