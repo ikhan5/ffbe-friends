@@ -5,6 +5,7 @@ import BootstrapVue from "bootstrap-vue";
 
 import App from "./App.vue";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Spinner from "./components/Spinner";
 
 import { routes } from "./routes";
@@ -40,7 +41,8 @@ const app = new Vue({
     el: "#app",
     components: {
         App,
-        AppHeader: Header
+        AppHeader: Header,
+        AppFooter: Footer
     },
     router
 });

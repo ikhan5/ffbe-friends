@@ -40,6 +40,7 @@
         @include('inc.guestNav')
         @endguest
         <app></app>
+        <app-footer></app-footer>
     </div>
 </body>
 

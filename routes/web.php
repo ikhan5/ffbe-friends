@@ -15,6 +15,10 @@ Route::get('/profile', function () {
     return view('vue');
 })->middleware('auth');
 
+Route::get('/requests', function () {
+    return view('vue');
+})->middleware('auth');
+
 Route::get('/home', function () {
     return redirect('/');
 });
