@@ -11,7 +11,7 @@
           <th scope="col" v-for="(column, index) in columns" :key="index">{{column}}</th>
         </tr>
       </thead>
-      <td v-if="isLoading" class="text-center" colspan="7">
+      <td v-if="isLoading" class="text-center" colspan="3">
         <app-spinner></app-spinner>
       </td>
       <tbody v-else>

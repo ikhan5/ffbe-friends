@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer pt-5">
+    <footer class="footer pt-5 mt-5">
         <hr />
         <div class="container-fluid text-center text-md-left">
             <div class="row">
@@ -55,7 +55,7 @@
             </div>
         </div>
         <div class="text-center py-3">
-            <a href="https://www.patreon.com/bePatron?u=26875929"
+            <a target="_blank" href="https://www.patreon.com/bePatron?u=26875929"
                 >Support me by Becoming a Patron!</a
             >
         </div>

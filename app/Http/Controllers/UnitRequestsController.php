@@ -21,17 +21,38 @@ class UnitRequestsController extends Controller
         $show_requests = [];
         $today = Carbon::now('America/Toronto');
         foreach ($unit_requests as $unit_req) {
-            $difference = Carbon::parse($unit_req->created_at)->diffInDays($today);
-            if ($difference < 2) {
+            $createdTime = new Carbon($unit_req->created_at);
+            $difference = Carbon::parse($createdTime)->diffInHours($today);
+            if ($difference < 48) {
                 $profile = Profile::where('user_id', $unit_req->user_id)->first();
                 $unit_req['profile'] = $profile;
                 $unit_req['status'] = unserialize($unit_req->status);
                 $unit_req['elemental'] = unserialize($unit_req->elemental);
                 $unit_req['killers'] = unserialize($unit_req->killers);
                 array_push($show_requests, $unit_req);
+            } else {
+                $this->destroy($unit_req->id);
             }
         }
         return $show_requests;
+    }
+
+
+    public function getUserRequests()
+    {
+        $user_id = Auth::id();
+
+        $user_reqs = UnitRequest::where('user_id', $user_id)->get();
+        $today = Carbon::now('America/Toronto');
+        foreach ($user_reqs as $user_req) {
+            $createdTime = new Carbon($user_req->created_at);
+            $difference = Carbon::parse($createdTime)->diffInHours($today);
+            $user_req['difference'] = $difference;
+            if ($difference >= 48) {
+                $this->destroy($user_req->id);
+            }
+        }
+        return $user_reqs;
     }
 
     /**
@@ -53,23 +74,32 @@ class UnitRequestsController extends Controller
     public function store(Request $request)
     {
         $user_id = Auth::id();
-        $validated_create = $request->validate([
-            'unit_name' => 'required',
-            'weapon_ele' => 'required',
-            'details' => 'nullable',
-            'killers' => 'nullable',
-            'elemental' => 'nullable',
-            'status' => 'nullable',
-        ]);
+        $active_requests = UnitRequest::where('user_id', $user_id)->get();
+        $request_count = $active_requests->count();
+        if ($request_count < 2) {
+            $validated_create = $request->validate([
+                'unit_name' => 'required',
+                'weapon_ele' => 'required',
+                'details' => 'nullable',
+                'killers' => 'nullable',
+                'elemental' => 'nullable',
+                'status' => 'nullable',
+                'trial_name' => 'nullable',
+            ]);
 
-        $form_input_sanitized = filter_var_array($validated_create, FILTER_SANITIZE_STRING);
-        $form_input_sanitized['user_id'] = $user_id;
-        $form_input_sanitized['killers'] = serialize($request->killers);
-        $form_input_sanitized['elemental'] = serialize($request->elemental);
-        $form_input_sanitized['status'] = serialize($request->status);
+            $form_input_sanitized = filter_var_array($validated_create, FILTER_SANITIZE_STRING);
+            $form_input_sanitized['user_id'] = $user_id;
+            $form_input_sanitized['killers'] = serialize($request->killers);
+            $form_input_sanitized['elemental'] = serialize($request->elemental);
+            $form_input_sanitized['status'] = serialize($request->status);
 
-        UnitRequest::create($form_input_sanitized);
-        return (['message' => 'Request Added']);
+            UnitRequest::create($form_input_sanitized);
+            return (['message' => 'Request Added']);
+        } elseif ($request_count >= 2) {
+            return (response(1, 500)); // requests more than 1
+        } else {
+            return (response(2, 500)); //server error
+        }
     }
 
     /**
@@ -114,6 +144,9 @@ class UnitRequestsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user_id = Auth::id();
+        $unit_req = UnitRequest::where('user_id', $user_id)->findorfail($id);
+        UnitRequest::destroy($unit_req->id);
+        return (['message' => 'Request Deleted']);
     }
 }

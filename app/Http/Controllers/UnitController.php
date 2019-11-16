@@ -92,11 +92,11 @@ class UnitController extends Controller
             Unit::create($form_input_sanitized);
             return (['message' => 'Unit Added']);
         } elseif ($unit_count >= 5) {
-            return (response(1, 500));
+            return (response(1, 500)); //unit count greater than 5
         } elseif (!$profileCreated) {
-            return (response(2, 500));
+            return (response(2, 500)); // user hasnt created their profile
         } else {
-            return (response(3, 500));
+            return (response(3, 500)); // server error
         }
     }
 

@@ -17,8 +17,8 @@ class ProfileController extends Controller
     {
         $user_id = Auth::id();
         $user_info = Profile::where('user_id', $user_id)->get();
-       
-       return $user_info;
+
+        return $user_info;
     }
 
     /**
@@ -43,6 +43,8 @@ class ProfileController extends Controller
         $validated_update = $request->validate([
             'ign' => 'required',
             'friendCode' => 'required',
+            'reddit' => 'nullable',
+            'discord' => 'nullable'
         ]);
         $form_input_sanitized = filter_var_array($validated_update, FILTER_SANITIZE_STRING);
         $form_input_sanitized['user_id'] = $user_id;
@@ -58,9 +60,7 @@ class ProfileController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-       
-    }
+    { }
 
     /**
      * Show the form for editing the specified resource.
@@ -87,6 +87,8 @@ class ProfileController extends Controller
         $validated_update = $request->validate([
             'ign' => 'required',
             'friendCode' => 'required',
+            'reddit' => 'nullable',
+            'discord' => 'nullable'
         ]);
         $form_input_sanitized = filter_var_array($validated_update, FILTER_SANITIZE_STRING);
         $form_input_sanitized['user_id'] = $user_id;

@@ -35,22 +35,34 @@
                 caption-top
             >
                 <template v-slot:table-caption
-                    >Looking for a specific unit for a trial? Create a request
-                    here!</template
-                >
+                    ><p>
+                        Looking for a specific unit for a trial? Create a
+                        request here!
+                    </p>
+                    <p>
+                        Note: Active Requests can be managed in your profile,
+                        and are active for 48 hours.
+                    </p>
+                </template>
 
                 <template v-slot:cell(profile)="data">
-                    <p>
+                    <p class="mb-0">
                         {{ data.item.profile.ign }}: <br />
                         {{ data.item.profile.friendCode | friendCode }}
+                        <span class="mb-0">
+                            <p class="mb-0" v-if="data.item.profile.reddit">
+                                {{ data.item.profile.reddit | reddit }}
+                            </p>
+                            <p v-if="data.item.profile.discord">
+                                {{ data.item.profile.discord }}
+                            </p>
+                        </span>
                     </p>
                 </template>
 
                 <template v-slot:cell(killers)="data">
                     <ul>
-                        <template
-                            v-for="(killers, key, index) in data.item.killers"
-                        >
+                        <template v-for="(killers, index) in data.item.killers">
                             <li :key="'killer' + index">
                                 {{ killers }}<span v-if="killers > 1">, </span>
                             </li>
@@ -60,9 +72,7 @@
 
                 <template v-slot:cell(ailmentResists)="data">
                     <ul>
-                        <template
-                            v-for="(status, key, index) in data.item.status"
-                        >
+                        <template v-for="(status, index) in data.item.status">
                             <li :key="'status' + index">
                                 {{ status
                                 }}<span v-if="status.length > 1">, </span>
@@ -74,7 +84,7 @@
                 <template v-slot:cell(elementalResists)="data">
                     <ul>
                         <template
-                            v-for="(elemental, key, index) in data.item.elemental"
+                            v-for="(elemental, index) in data.item.elemental"
                         >
                             <li :key="'elem' + index">
                                 {{
@@ -109,7 +119,7 @@
                         <h5 class="modal-title" id="addRequestLongTitle">
                             Looking for a(n)...
                             <span class="text-danger ml-4" v-if="errors">
-                                Please select a unit
+                                {{ errorMsg }}
                             </span>
                         </h5>
                         <button
@@ -132,6 +142,15 @@
                             </app-v-select>
                         </div>
                         <div class="form-group">
+                            <label for="trial_name">Trial Name</label>
+                            <app-v-select
+                                id="trial_name"
+                                v-model="trial_name"
+                                :options="trials"
+                            >
+                            </app-v-select>
+                        </div>
+                        <div class="form-group">
                             <label for="weapon_elemental"
                                 >With an Elemental Weapon of:</label
                             >
@@ -140,7 +159,7 @@
                                 class="form-control"
                                 v-model="weapon_ele"
                             >
-                                <option value="elementless" selected
+                                <option value="Elementless" selected
                                     >No Element</option
                                 >
                                 <option
@@ -272,6 +291,7 @@ import Units from "../../../data/units.json";
 import "vue-select/dist/vue-select.css";
 import axios from "axios";
 import Swal from "sweetalert2";
+import Trials from "../../../data/trials.json";
 export default {
     data() {
         return {
@@ -279,18 +299,25 @@ export default {
             currentPage: 1,
             requests: [],
             units: [],
+            trials: [],
             killers: [],
             elemental: [],
             status: [],
             name: "",
+            trial_name: "",
             details: "",
-            weapon_ele: "elementless",
+            weapon_ele: "Elementless",
             isLoading: true,
             errors: false,
+            errorMsg: "",
             fields: [
                 {
                     key: "profile",
                     label: "Requesting User"
+                },
+                {
+                    key: "trial_name",
+                    label: "Trial Name"
                 },
                 {
                     key: "unit_name",
@@ -342,6 +369,7 @@ export default {
                 "Dark"
             ],
             statusOptions: [
+                "Ribbon",
                 "Poison",
                 "Blind",
                 "Sleep",
@@ -371,6 +399,11 @@ export default {
         }
         this.units.sort((a, b) => (a.name > b.name ? 1 : -1));
 
+        for (let key in Trials) {
+            Trials[key].trials.forEach(trial => {
+                this.trials.push(trial);
+            });
+        }
         this.getRequests();
     },
     methods: {
@@ -382,7 +415,6 @@ export default {
                     this.isLoading = false;
                 })
                 .catch(err => {
-                    console.log(err.response);
                     Swal.fire(
                         "Error Getting Requests",
                         "Error, Kupo! Problems trying to get requests. Please try again later.",
@@ -423,9 +455,11 @@ export default {
                     details: this.details,
                     killers: selectedKillers,
                     elemental: selectedElements,
-                    status: selectedStatus
+                    status: selectedStatus,
+                    trial_name: this.trial_name
                 })
                 .then(res => {
+                    this.errors = false;
                     Swal.fire(
                         "Adding Request",
                         "Successfully added request for the unit",
@@ -434,7 +468,21 @@ export default {
                     this.getRequests();
                 })
                 .catch(err => {
-                    console.log(err.response);
+                    if (err.response.data === 1) {
+                        Swal.fire(
+                            "Error Adding Requests",
+                            "Players are allowed 2 Active Requests at a time. Please delete one and try again.",
+                            "error"
+                        );
+                    } else if (err.response.data === 2) {
+                        Swal.fire(
+                            "Error Getting Requests",
+                            "Error, Kupo! Problems trying to add request. Please try again later.",
+                            "error"
+                        );
+                    } else {
+                        this.errorMsg = "Please select a unit";
+                    }
                     this.errors = true;
                 });
         }

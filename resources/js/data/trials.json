@@ -1,0 +1,59 @@
+{
+    "SBB": {
+        "trials": ["Emperor", "Chaotic Darkness", "Neo Exdeath"]
+    },
+    "Vengeful": {
+        "trials": ["Demon Matsuri", "The Emperess Supreme", "Armeggedon"]
+    },
+    "Fallen": {
+        "trials": [
+            "Ancient Hellbringer",
+            "Beasts of the Dark II",
+            "The Mad Doll",
+            "The Rumble of Malboro",
+            "Great Explosion Festival",
+            "Armor of Oppression",
+            "Wicked Moon",
+            "Machina of Destruction",
+            "The Legendary Stag",
+            "The Fallen Ice Bird",
+            "The Octopus and the Teacher",
+            "The Lure of Echidna",
+            "Beast of the Dark",
+            "Attack of Gilgamesh",
+            "March of the Beasts",
+            "Attack of the 2-Headed Dragon",
+            "Attack of Antenolla",
+            "Surging Menace",
+            "Attack of the Intangir"
+        ]
+    },
+    "Reborn": {
+        "trials": [
+            "Rebirth of the Brachiosaur",
+            "Rebirth of the Demon Chimera",
+            "Rebirth of the White Dragon"
+        ]
+    },
+    "Indignant": {
+        "trials": [
+            "Scorn of the Machina of Destruction",
+            "Scorn of the Legendary Stag",
+            "Scorn of the Wicked Moon",
+            "Scorn of the Fallen Ice Bird",
+            "Scorn of The Octopus and the Teacher",
+            "Scorn of The Beast of the Dark",
+            "Scorn of The Marching Beasts",
+            "Scorn of the 2-Headed Dragon",
+            "Scorn of Antenolla",
+            "Scorn of the Surging Menace",
+            "Scorn of the Intangir",
+            "Scorn of the Brachiosaur",
+            "Scorn of the Demon Chimera",
+            "Scorn of the White Dragon"
+        ]
+    },
+    "Event": {
+        "trials": ["Running Through Daybreak: Bonus Stage", "Narsh: LGD"]
+    }
+}
