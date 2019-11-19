@@ -41,7 +41,6 @@
                     type="text"
                     class="form-control col-md-8"
                     placeholder="Just enter the username, no need for the u/"
-                    :class="{ errors: friendCodeError }"
                 />
             </div>
             <div class="form-group form-inline">
@@ -53,7 +52,6 @@
                     type="text"
                     class="form-control col-md-8"
                     placeholder="Enter a DiscordTag#00000"
-                    :class="{ errors: friendCodeError }"
                 />
             </div>
             <div class="text-right col-md-12 mt-5">

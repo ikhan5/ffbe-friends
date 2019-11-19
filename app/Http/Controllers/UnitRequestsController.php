@@ -29,6 +29,7 @@ class UnitRequestsController extends Controller
                 $unit_req['status'] = unserialize($unit_req->status);
                 $unit_req['elemental'] = unserialize($unit_req->elemental);
                 $unit_req['killers'] = unserialize($unit_req->killers);
+                $unit_req['difference']= $difference;
                 array_push($show_requests, $unit_req);
             } else {
                 $this->destroy($unit_req->id);
@@ -144,8 +145,7 @@ class UnitRequestsController extends Controller
      */
     public function destroy($id)
     {
-        $user_id = Auth::id();
-        $unit_req = UnitRequest::where('user_id', $user_id)->findorfail($id);
+        $unit_req = UnitRequest::findorfail($id);
         UnitRequest::destroy($unit_req->id);
         return (['message' => 'Request Deleted']);
     }
