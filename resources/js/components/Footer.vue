@@ -55,7 +55,7 @@
             </div>
         </div>
         <div class="text-center py-3">
-            <a target="_blank" href="https://www.patreon.com/bePatron?u=26875929"
+            <a target="_blank" href="https://www.patreon.com/ikon_noki"
                 >Support me by Becoming a Patron!</a
             >
         </div>

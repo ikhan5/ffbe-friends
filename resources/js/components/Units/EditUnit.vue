@@ -36,6 +36,32 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div class="col">
+                        <div class="form-group row">
+                            <label class="col-md-2" for="slotNum"
+                                >Slot #:</label
+                            >
+
+                            <select
+                                :name="'slot' + unit.id"
+                                @input="new_slot = $event.target.value"
+                                class="form-control col-md-9"
+                                id="slotNum"
+                            >
+                                <option
+                                    v-for="(slotOption, index) in slotOptions"
+                                    :key="'slot' + index"
+                                    :value="slotOption"
+                                    :selected="
+                                        slotOption === unit.slot
+                                            ? 'selected'
+                                            : ''
+                                    "
+                                    >{{ slotOption }}</option
+                                >
+                            </select>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="name" class="my-3">Update Build</label>
                         <div class="col">
@@ -63,7 +89,9 @@
                             >
                                 Ex. Link can be found under 'Share this Build >
                                 FFBE Equip link (this link only)' on
-                                <a href="https://ffbeequip.com/builder.html"
+                                <a
+                                    target="_blank"
+                                    href="https://ffbeequip.com/builder.html"
                                     >FFBE Equip</a
                                 >
                             </small>
@@ -94,12 +122,23 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
+import Items from "../../data/items.json";
 export default {
     props: ["unit"],
     data() {
         return {
             name: "",
             new_build: "",
+            new_slot: "",
+            slotOptions: [
+                "",
+                "Favourite",
+                "Event 1",
+                "Event 2",
+                "Nemesis 1",
+                "Nemesis 2"
+            ],
+            elementWeapons: [],
             error: false,
             loading: false,
             notFound: false
@@ -116,11 +155,15 @@ export default {
                 ? (this.new_build = unit.build)
                 : this.new_build;
 
+            this.new_slot.trim() === ""
+                ? (this.new_slot = unit.slot)
+                : this.new_slot;
+
             if (this.new_build === "") {
                 this.error = true;
             } else {
                 this.error = false;
-                this.notFound = false
+                this.notFound = false;
                 axios
                     .get(
                         "https://firebasestorage.googleapis.com/v0/b/ffbeequip.appspot.com/o/PartyBuilds%2F" +
@@ -128,7 +171,20 @@ export default {
                             ".json?alt=media"
                     )
                     .then(res => {
+                        this.elementWeapons = [];
                         let newUnit = res.data.units[0].calculatedValues;
+                        let weapons = res.data.units[0].items.slice(0, 2);
+
+                        weapons.forEach(weapon => {
+                            let temp = Items.find(i => i.id === weapon.id);
+                            if (temp.element) {
+                                this.elementWeapons.push(
+                                    temp.element[0].charAt(0).toUpperCase() +
+                                        temp.element[0].slice(1)
+                                );
+                            }
+                        });
+
                         axios
                             .put("/api/units/" + unit.id, {
                                 name: unit.name,
@@ -140,6 +196,7 @@ export default {
                                 hp: newUnit.hp.value,
                                 mp: newUnit.mp.value,
                                 pevade: newUnit.physicalEvasion.value,
+                                lb_damage: newUnit.lbDamage.value,
                                 status: newUnit.ailmentResists,
                                 elemental: newUnit.elementResists,
                                 magkillers: {
@@ -171,7 +228,9 @@ export default {
                                     spirit: newUnit.killers.spirit.physical
                                 },
                                 build: this.new_build,
-                                max_rarity: this.max_rarity
+                                max_rarity: this.max_rarity,
+                                element_weapon: this.elementWeapons.join(", "),
+                                slot: this.new_slot
                             })
                             .then(response => {
                                 Swal.fire(
@@ -181,7 +240,6 @@ export default {
                                 ).then((unit.build = this.new_build));
                             })
                             .catch(error => {
-                                console.log(error.response);
                                 this.error = true;
                             });
                     })

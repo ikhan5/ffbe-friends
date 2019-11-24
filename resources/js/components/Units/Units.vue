@@ -42,6 +42,7 @@
                         >{{ data.item.name }} {{ data.item.rarity }}&#x2605;
                     </a>
                 </p>
+                <p>Slot: {{ data.item.slot }}</p>
                 <p class="mb-0">
                     {{ data.item.profile.ign }}: <br />
                     {{ data.item.profile.friendCode | friendCode }}
@@ -55,14 +56,6 @@
                         {{ data.item.profile.discord }}
                     </p>
                 </span>
-
-                <!-- <a
-                    v-if="data.item.my_unit === 3"
-                    href=""
-                    @click.prevent="addNotify(data.item)"
-                >
-                    Send Friend Request
-                </a> -->
             </template>
 
             <template v-slot:empty="scope">
@@ -73,38 +66,72 @@
                 <h4>{{ scope.emptyFilteredText }}</h4>
             </template>
 
-            <template v-slot:cell(profile)="data"> </template>
+            <template v-slot:cell(element_weapon)="data">
+                <p>
+                    {{
+                        data.item.element_weapon === "" ||
+                        data.item.element_weapon === "Elementless"
+                            ? "No Element"
+                            : data.item.element_weapon
+                    }}
+                </p>
+            </template>
 
             <template v-slot:cell(pevade)="data">
                 {{ data.item.pevade }}%
             </template>
 
+            <template v-slot:cell(lb_damage)="data">
+                {{ data.item.lb_damage === '' ? 0 : data.item.lb_damage }}%
+            </template>
+
             <template v-slot:cell(magkillers)="data">
                 <ul>
-                    <strong>Physical</strong>
-                    <template
-                        v-for="(killers, key, index) in data.item.physkillers"
+                    <b-button
+                        v-b-toggle="'collapse-physkillers' + data.item.id"
+                        variant="primary"
+                        >Physical</b-button
                     >
-                        <li v-if="killers != 0" :key="'phys' + index">
-                            {{ key | capitalize }}: {{ killers }}%
-                        </li>
-                    </template>
+                    <b-collapse
+                        :id="'collapse-physkillers' + data.item.id"
+                        class="mt-2"
+                    >
+                        <template
+                            v-for="(killers, key, index) in data.item
+                                .physkillers"
+                        >
+                            <li v-if="killers != 0" :key="'phys' + index">
+                                {{ key | capitalize }}: {{ killers }}%
+                            </li>
+                        </template>
+                    </b-collapse>
                     <hr />
-                    <strong>Magic</strong>
-                    <template
-                        v-for="(killers, key, index) in data.item.magkillers"
+                    <b-button
+                        v-b-toggle="'collapse-magkillers' + data.item.id"
+                        variant="success"
+                        >Magical</b-button
                     >
-                        <li v-if="killers != 0" :key="'mag' + index">
-                            {{ key | capitalize }}: {{ killers }}%
-                        </li>
-                    </template>
+                    <b-collapse
+                        :id="'collapse-magkillers' + data.item.id"
+                        class="mt-2"
+                    >
+                        <template
+                            v-for="(killers, key, index) in data.item
+                                .magkillers"
+                        >
+                            <li v-if="killers != 0" :key="'mag' + index">
+                                {{ key | capitalize }}: {{ killers }}%
+                            </li>
+                        </template>
+                    </b-collapse>
                 </ul>
             </template>
             <template v-slot:cell(status)="data">
                 <ul>
                     <template v-for="(status, key, index) in data.item.status">
                         <li v-if="status != 0" :key="'status' + index">
-                            {{ key | capitalize }}: {{ status }}%
+                            {{ key | capitalize }}:
+                            {{ status > 100 ? 100 : status }}%
                         </li>
                     </template>
                 </ul>
@@ -146,6 +173,11 @@ export default {
                     sortable: true
                 },
                 {
+                    key: "element_weapon",
+                    label: "Element(s)",
+                    sortable: true
+                },
+                {
                     key: "hp",
                     label: "HP",
                     sortable: true
@@ -178,6 +210,11 @@ export default {
                 {
                     key: "pevade",
                     label: "P.Evade",
+                    sortable: true
+                },
+                {
+                    key: "lb_damage",
+                    label: "LB",
                     sortable: true
                 },
                 {
@@ -229,29 +266,6 @@ export default {
         },
         rows() {
             return this.filterUnits.length;
-        }
-    },
-    methods: {
-        addNotify(unit) {
-            let id = parseInt(unit.user_id);
-            axios
-                .post("/api/notifications", {
-                    receiving_id: id
-                })
-                .then(res => {
-                    Swal.fire(
-                        "Sending Add Notification",
-                        "Notification sent successfully!",
-                        "success"
-                    );
-                })
-                .catch(err => {
-                    Swal.fire(
-                        "Error, Kupo!",
-                        "There was an error whilst sending the notification, please try again later",
-                        "error"
-                    );
-                });
         }
     }
 };

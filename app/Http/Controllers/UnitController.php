@@ -80,6 +80,9 @@ class UnitController extends Controller
                 'mp' => 'required',
                 'pevade' => 'required',
                 'max_rarity' => 'required',
+                'slot' => 'nullable',
+                'element_weapon' => 'nullable',
+                'lb_damage'=> 'nullable'
             ]);
 
             $form_input_sanitized = filter_var_array($validated_create, FILTER_SANITIZE_STRING);
@@ -147,6 +150,9 @@ class UnitController extends Controller
             'mp' => 'required',
             'pevade' => 'required',
             'rarity' => 'required',
+            'slot'=> 'nullable',
+            'element_weapon'=>'nullable',
+            'lb_damage' => 'nullable'
         ]);
         $form_input_sanitized = filter_var_array($validated_create, FILTER_SANITIZE_STRING);
         $form_input_sanitized['user_id'] = $user_id;

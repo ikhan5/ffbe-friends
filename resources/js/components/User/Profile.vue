@@ -97,41 +97,9 @@
                     >Unit Requests</a
                 >
             </li>
-            <!-- <li class="nav-item">
-                <a
-                    class="nav-link"
-                    id="sentRequests-tab"
-                    data-toggle="tab"
-                    href="#sentRequests"
-                    role="tab"
-                    aria-controls="sentRequests"
-                    aria-selected="true"
-                    >Sent Requests</a
-                >
-            </li>
-            <li class="nav-item">
-                <a
-                    class="nav-link"
-                    id="receivedRequests-tab"
-                    data-toggle="tab"
-                    href="#receivedRequests"
-                    role="tab"
-                    aria-controls="receivedRequests"
-                    aria-selected="true"
-                    >Received Requests</a
-                >
-            </li> -->
         </ul>
         <div class="tab-content" id="myTabContent">
             <app-added-units :firstTime="firstTime"></app-added-units>
-            <!-- <app-sent-requests
-                :isLoading="notifLoading"
-                :notifications="notifications"
-            ></app-sent-requests>
-            <app-received-requests
-                :isLoading="notifLoading"
-                :notifications="notifications"
-            ></app-received-requests> -->
             <app-active-requests
                 :isLoading="requestsLoading"
                 :unitRequests="unitRequests"

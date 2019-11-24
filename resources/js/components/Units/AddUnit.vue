@@ -76,6 +76,41 @@
                                 <strong>{{ name }} {{ rarity }}&#x2605;</strong>
                             </div>
                             <div class="panel-body">
+                                <div class="form-group row">
+                                    <label class="col-md-2" for="slotNum"
+                                        >Slot #:</label
+                                    >
+                                    <select
+                                        class="form-control col-md-4"
+                                        v-model="slot"
+                                        id="slotNum"
+                                    >
+                                        <option
+                                            v-for="(slotOption,
+                                            index) in slotOptions"
+                                            :key="'slot' + index"
+                                            :value="slotOption"
+                                            >{{ slotOption }}</option
+                                        >
+                                    </select>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-2"
+                                        >Weapon Element(s):</label
+                                    >
+                                    <template
+                                        v-for="(eleWeapon,
+                                        index) in elementWeapons"
+                                    >
+                                        <p
+                                            class="mr-2"
+                                            :key="'eleweapon' + index"
+                                        >
+                                            {{ eleWeapon }}
+                                        </p>
+                                    </template>
+                                </div>
+
                                 <div class="form-row">
                                     <ul class="col-md-2 col-sm-4 col-6">
                                         <span class="column-header"
@@ -88,6 +123,7 @@
                                         <li>Magic: {{ mag }}</li>
                                         <li>Spirit: {{ spr }}</li>
                                         <li>P.Evasion: {{ evade }}%</li>
+                                        <li>LB Damage: {{lb_damage}}%</li>
                                     </ul>
                                     <ul class="col-md-2 col-sm-4 col-6">
                                         <span class="column-header"
@@ -102,7 +138,8 @@
                                                 v-if="resist !== 0"
                                                 :key="index"
                                             >
-                                                {{ key | capitalize }}: {{ resist }}%
+                                                {{ key | capitalize }}:
+                                                {{ resist }}%
                                             </li>
                                         </template>
                                     </ul>
@@ -119,7 +156,8 @@
                                                 v-if="killer !== 0"
                                                 :key="index"
                                             >
-                                                {{ key | capitalize }}: {{ killer }}%
+                                                {{ key | capitalize }}:
+                                                {{ killer }}%
                                             </li>
                                         </template>
                                     </ul>
@@ -136,7 +174,8 @@
                                                 v-if="killer !== 0"
                                                 :key="index"
                                             >
-                                                {{ key | capitalize}}: {{ killer }}%
+                                                {{ key | capitalize }}:
+                                                {{ killer }}%
                                             </li>
                                         </template>
                                     </ul>
@@ -154,7 +193,8 @@
                                                 v-if="resist !== 0"
                                                 :key="index"
                                             >
-                                                {{ key | capitalize}}: {{ resist }}%
+                                                {{ key | capitalize }}:
+                                                {{ resist }}%
                                             </li>
                                         </template>
                                     </ul>
@@ -202,8 +242,8 @@ ul {
     border-bottom: solid 1px black;
 }
 
-.find-header{
-  font-size: 1.5em;
+.find-header {
+    font-size: 1.5em;
 }
 
 .panel-heading {
@@ -213,6 +253,7 @@ ul {
 
 <script>
 import Units from "../../data/units.json";
+import Items from "../../data/items.json";
 import axios from "axios";
 import Swal from "sweetalert2";
 import "vue-select/dist/vue-select.css";
@@ -224,7 +265,16 @@ export default {
         return {
             units: [],
             name: "",
-            buildURL: "", //test value = 2e4a2060-04d0-11ea-b49c-71a479b2e937
+            slot: "",
+            elementWeapons: [],
+            slotOptions: [
+                "Favourite",
+                "Event 1",
+                "Event 2",
+                "Nemesis 1",
+                "Nemesis 2"
+            ],
+            buildURL: "", //test value = 22181910-0f01-11ea-b959-9b5568739fdf
             status: {
                 poison: "",
                 blind: "",
@@ -283,6 +333,7 @@ export default {
             spr: "",
             mag: "",
             evade: "",
+            lb_damage: "",
             max_rarity: 7,
             rarity: 5,
             errors: false,
@@ -329,7 +380,10 @@ export default {
                         magkillers: this.magkillers,
                         physkillers: this.physkillers,
                         build: this.buildURL,
-                        max_rarity: this.max_rarity
+                        max_rarity: this.max_rarity,
+                        slot: this.slot,
+                        element_weapon: this.elementWeapons.join(", "),
+                        lb_damage: this.lb_damage
                     })
                     .then(res => {
                         this.errors = false;
@@ -383,6 +437,20 @@ export default {
                         let unit = res.data.units[0].calculatedValues;
                         let key = res.data.units[0].id;
                         let findUnit = this.units.find(x => x.id === key);
+                        this.elementWeapons = [];
+                        this.slot='';
+                        // Get weapon elements
+                        let weapons = res.data.units[0].items.slice(0, 2);
+
+                        weapons.forEach(weapon => {
+                            let temp = Items.find(i => i.id === weapon.id);
+                            if (temp.element) {
+                                this.elementWeapons.push(
+                                    temp.element[0].charAt(0).toUpperCase() +
+                                        temp.element[0].slice(1)
+                                );
+                            }
+                        });
 
                         //unit info
                         this.rarity = res.data.units[0].rarity;
@@ -396,6 +464,7 @@ export default {
                         this.hp = unit.hp.value;
                         this.mp = unit.mp.value;
                         this.evade = unit.physicalEvasion.value;
+                        this.lb_damage = unit.lbDamage.value;
 
                         //elemental resists
                         this.elemental.fire = unit.elementResists.fire;
