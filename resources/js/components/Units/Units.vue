@@ -10,12 +10,36 @@
                 v-on:keydown.enter.prevent
             />
         </div>
-        <div>
-            <b-button v-b-toggle.advancedSearch variant="btn btn-link"
-                >+ Advanced Search</b-button
-            >
-            <b-collapse id="advancedSearch">
-                <hr />
+
+        <b-button v-b-toggle.advancedSearch variant="btn btn-link"
+            >+ Advanced Search</b-button
+        >
+        <b-collapse id="advancedSearch">
+            <hr />
+            <div class="row">
+                <label class="col-md-2 col-sm-4 col-6"
+                    ><input type="checkbox" v-model="toggleHeaders" /> Hide/Show
+                    Columns</label
+                >
+                <label class="col-md-2 col-sm-4 col-6"
+                    ><input type="checkbox" v-model="toggleStat" /> Stat
+                    Restrictions</label
+                >
+                <label class="col-md-2 col-sm-4 col-6"
+                    ><input type="checkbox" v-model="toggleStatus" /> Status
+                    Resists</label
+                >
+                <label class="col-md-2 col-sm-4 col-6"
+                    ><input type="checkbox" v-model="togglePhysical" /> Physical
+                    Killers</label
+                >
+                <label class="col-md-2 col-sm-4 col-6"
+                    ><input type="checkbox" v-model="toggleMagical" /> Magical
+                    Killers</label
+                >
+            </div>
+            <hr />
+            <div v-show="toggleHeaders">
                 <p class="searchHeader">
                     Hide/Show Columns:
                 </p>
@@ -88,6 +112,7 @@
                             class="pevade"
                             type="checkbox"
                             @change="show_hide('pevade')"
+                            checked
                         />
                         Show Physical Evade</label
                     >
@@ -96,6 +121,7 @@
                             class="lb_damage"
                             type="checkbox"
                             @change="show_hide('lb_damage')"
+                            checked
                         />
                         Show LB Damage</label
                     >
@@ -125,6 +151,8 @@
                     >
                 </div>
                 <hr />
+            </div>
+            <div v-show="toggleStat">
                 <p class="searchHeader">
                     Stat Restrictions:
                 </p>
@@ -242,24 +270,477 @@
                         ></b-form-input>
                     </div>
                 </div>
-                <div class="row mt-4">
-                    <div class="mx-auto mx-0">
-                        <b-button
-                            v-b-toggle.advancedSearch
-                            variant="btn btn-link"
-                            >Close Search</b-button
-                        >
-                        <button
-                            class="btn btn-outline-danger"
-                            @click="resetFilters"
-                        >
-                            Reset Filters
-                        </button>
-                    </div>
+                <hr />
+            </div>
+            <div v-show="toggleStatus">
+                <p class="searchHeader">
+                    Status Resists (100%):
+                </p>
+                <div class="row mt-2">
+                    <label class="col-md-2 col-sm-4 col-6"
+                        ><input
+                            class="status"
+                            type="checkbox"
+                            v-model="ribbonCheck"
+                        />
+                        Ribbon</label
+                    >
+                    <label class="col-md-2 col-sm-4 col-6"
+                        ><input
+                            class="status"
+                            type="checkbox"
+                            v-model="poisonCheck"
+                        />
+                        Poison</label
+                    >
+                    <label class="col-md-2 col-sm-4 col-6"
+                        ><input
+                            class="status"
+                            type="checkbox"
+                            v-model="blindCheck"
+                        />
+                        Blind</label
+                    >
+                    <label class="col-md-2 col-sm-4 col-6"
+                        ><input
+                            class="status"
+                            type="checkbox"
+                            v-model="sleepCheck"
+                        />
+                        Sleep</label
+                    >
+                    <label class="col-md-2 col-sm-4 col-6"
+                        ><input
+                            class="status"
+                            type="checkbox"
+                            v-model="paralyzeCheck"
+                        />
+                        Paralyze</label
+                    >
+                    <label class="col-md-2 col-sm-4 col-6"
+                        ><input
+                            class="status"
+                            type="checkbox"
+                            v-model="silenceCheck"
+                        />
+                        Silence</label
+                    >
+                    <label class="col-md-2 col-sm-4 col-6"
+                        ><input
+                            class="status"
+                            type="checkbox"
+                            v-model="confusionCheck"
+                        />
+                        Confusion</label
+                    >
+                    <label class="col-md-2 col-sm-4 col-6"
+                        ><input
+                            class="status"
+                            type="checkbox"
+                            v-model="diseaseCheck"
+                        />
+                        Disease</label
+                    >
+                    <label class="col-md-2 col-sm-4 col-6"
+                        ><input
+                            class="status"
+                            type="checkbox"
+                            v-model="deathCheck"
+                        />
+                        Death</label
+                    >
+                    <label class="col-md-2 col-sm-4 col-6"
+                        ><input
+                            class="status"
+                            type="checkbox"
+                            v-model="charmCheck"
+                        />
+                        Charm</label
+                    >
+                    <label class="col-md-2 col-sm-4 col-6"
+                        ><input
+                            class="status"
+                            type="checkbox"
+                            v-model="stopCheck"
+                        />
+                        Stop</label
+                    >
                 </div>
                 <hr />
-            </b-collapse>
-        </div>
+            </div>
+            <div v-show="togglePhysical">
+                <p class="searchHeader">
+                    Physical Killers (Greater than):
+                </p>
+
+                <div class="row mt-2">
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Aquatic Killer:
+                            {{ physKillerLimits.aquatic }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="physKillerLimits.aquatic"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Beast Killer: {{ physKillerLimits.beast }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="physKillerLimits.beast"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Bird Killer: {{ physKillerLimits.bird }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="physKillerLimits.bird"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Bug Killer: {{ physKillerLimits.bug }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="physKillerLimits.bug"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Demon Killer: {{ physKillerLimits.demon }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="physKillerLimits.demon"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Dragon Killer: {{ physKillerLimits.dragon }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="physKillerLimits.dragon"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Human Killer: {{ physKillerLimits.human }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="physKillerLimits.human"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Machine Killer:
+                            {{ physKillerLimits.machine }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="physKillerLimits.machine"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Plant Killer: {{ physKillerLimits.plant }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="physKillerLimits.plant"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Undead Killer: {{ physKillerLimits.undead }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="physKillerLimits.undead"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Stone Killer: {{ physKillerLimits.stone }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="physKillerLimits.stone"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Spirit Killer: {{ physKillerLimits.spirit }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="physKillerLimits.spirit"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                </div>
+
+                <hr />
+            </div>
+            <div v-show="toggleMagical">
+                <p class="searchHeader">
+                    Magical Killers (Greater than):
+                </p>
+
+                <div class="row mt-2">
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Aquatic Killer:
+                            {{ magKillerLimits.aquatic }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="magKillerLimits.aquatic"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Beast Killer: {{ magKillerLimits.beast }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="magKillerLimits.beast"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Bird Killer: {{ magKillerLimits.bird }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="magKillerLimits.bird"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Bug Killer: {{ magKillerLimits.bug }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="magKillerLimits.bug"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Demon Killer: {{ magKillerLimits.demon }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="magKillerLimits.demon"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Dragon Killer: {{ magKillerLimits.dragon }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="magKillerLimits.dragon"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Human Killer: {{ magKillerLimits.human }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="magKillerLimits.human"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Machine Killer:
+                            {{ magKillerLimits.machine }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="magKillerLimits.machine"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Plant Killer: {{ magKillerLimits.plant }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="magKillerLimits.plant"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Undead Killer: {{ magKillerLimits.undead }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="magKillerLimits.undead"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Stone Killer: {{ magKillerLimits.stone }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="magKillerLimits.stone"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-6">
+                        <label for="range-hp"
+                            >Spirit Killer: {{ magKillerLimits.spirit }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-hp"
+                            v-model.number="magKillerLimits.spirit"
+                            type="range"
+                            min="0"
+                            step="25"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="mx-auto mx-0">
+                    <b-button v-b-toggle.advancedSearch variant="btn btn-link"
+                        >Close Search</b-button
+                    >
+                    <button
+                        class="btn btn-outline-danger"
+                        @click="resetFilters"
+                    >
+                        Reset Filters
+                    </button>
+                </div>
+            </div>
+            <hr />
+        </b-collapse>
         <div class="d-md-flex float-right mb-4">
             <b-pagination
                 v-model="currentPage"
@@ -431,6 +912,11 @@ export default {
             perPage: 5,
             currentPage: 1,
             search: "",
+            toggleHeaders: true,
+            toggleStat: false,
+            toggleStatus: false,
+            togglePhysical: false,
+            toggleMagical: false,
             hpLimit: 0,
             mpLimit: 0,
             atkLimit: 0,
@@ -439,7 +925,45 @@ export default {
             sprLimit: 0,
             lbLimit: 0,
             evadeLimit: 0,
-            ribbon: false,
+            physKillerLimits: {
+                aquatic: 0,
+                beast: 0,
+                bird: 0,
+                bug: 0,
+                demon: 0,
+                dragon: 0,
+                human: 0,
+                machine: 0,
+                plant: 0,
+                undead: 0,
+                stone: 0,
+                spirit: 0
+            },
+            magKillerLimits: {
+                aquatic: 0,
+                beast: 0,
+                bird: 0,
+                bug: 0,
+                demon: 0,
+                dragon: 0,
+                human: 0,
+                machine: 0,
+                plant: 0,
+                undead: 0,
+                stone: 0,
+                spirit: 0
+            },
+            ribbonCheck: false,
+            stopCheck: false,
+            charmCheck: false,
+            deathCheck: false,
+            poisonCheck: false,
+            blindCheck: false,
+            sleepCheck: false,
+            paralyzeCheck: false,
+            silenceCheck: false,
+            confusionCheck: false,
+            diseaseCheck: false,
             fields: [
                 {
                     key: "name",
@@ -504,17 +1028,15 @@ export default {
                     key: "pevade",
                     label: "P.Evade",
                     sortable: true,
-                    thClass: "d-none",
-                    tdClass: "d-none",
-                    defaultCol: false
+                    thClass: "",
+                    tdClass: ""
                 },
                 {
                     key: "lb_damage",
                     label: "LB",
                     sortable: true,
-                    thClass: "d-none",
-                    tdClass: "d-none",
-                    defaultCol: false
+                    thClass: "",
+                    tdClass: ""
                 },
                 {
                     key: "magkillers",
@@ -568,12 +1090,15 @@ export default {
     computed: {
         filterUnits() {
             return this.units.filter(unit => {
+                //search filters
                 let unitName = unit.name
                     .toLowerCase()
                     .match(this.search.toLowerCase());
                 let inGameName = unit.profile.ign
                     .toLowerCase()
                     .match(this.search.toLowerCase());
+
+                //stat filters
                 let attackLimit = unit.atk >= this.atkLimit;
                 let magicLimit = unit.mag >= this.magLimit;
                 let defenseLimit = unit.def >= this.defLimit;
@@ -582,6 +1107,77 @@ export default {
                 let manaLimit = unit.mp >= this.mpLimit;
                 let limitLimit = unit.lb_damage >= this.lbLimit;
                 let evadeLimit = unit.pevade >= this.evadeLimit;
+
+                //status filters
+                let stop = unit.status.stop >= 100;
+                let charm = unit.status.charm >= 100;
+                let death = unit.status.death >= 100;
+                let poison = unit.status.poison >= 100;
+                let blind = unit.status.blind >= 100;
+                let sleep = unit.status.sleep >= 100;
+                let paralyze = unit.status.paralyze >= 100;
+                let silence = unit.status.silence >= 100;
+                let confusion = unit.status.confusion >= 100;
+                let disease = unit.status.disease >= 100;
+                let ribbon =
+                    poison &&
+                    blind &&
+                    sleep &&
+                    paralyze &&
+                    silence &&
+                    confusion &&
+                    disease;
+
+                //physical killer filters
+                let phys_aquatic =
+                    unit.physkillers.aquatic >= this.physKillerLimits.aquatic;
+                let phys_beast =
+                    unit.physkillers.beast >= this.physKillerLimits.beast;
+                let phys_bird =
+                    unit.physkillers.bird >= this.physKillerLimits.bird;
+                let phys_bug =
+                    unit.physkillers.bug >= this.physKillerLimits.bug;
+                let phys_demon =
+                    unit.physkillers.demon >= this.physKillerLimits.demon;
+                let phys_dragon =
+                    unit.physkillers.dragon >= this.physKillerLimits.dragon;
+                let phys_human =
+                    unit.physkillers.human >= this.physKillerLimits.human;
+                let phys_machine =
+                    unit.physkillers.machine >= this.physKillerLimits.machine;
+                let phys_plant =
+                    unit.physkillers.plant >= this.physKillerLimits.plant;
+                let phys_undead =
+                    unit.physkillers.undead >= this.physKillerLimits.undead;
+                let phys_stone =
+                    unit.physkillers.stone >= this.physKillerLimits.stone;
+                let phys_spirit =
+                    unit.physkillers.spirit >= this.physKillerLimits.spirit;
+
+                //magica killers filters
+                let mag_aquatic =
+                    unit.magkillers.aquatic >= this.magKillerLimits.aquatic;
+                let mag_beast =
+                    unit.magkillers.beast >= this.magKillerLimits.beast;
+                let mag_bird =
+                    unit.magkillers.bird >= this.magKillerLimits.bird;
+                let mag_bug = unit.magkillers.bug >= this.magKillerLimits.bug;
+                let mag_demon =
+                    unit.magkillers.demon >= this.magKillerLimits.demon;
+                let mag_dragon =
+                    unit.magkillers.dragon >= this.magKillerLimits.dragon;
+                let mag_human =
+                    unit.magkillers.human >= this.magKillerLimits.human;
+                let mag_machine =
+                    unit.magkillers.machine >= this.magKillerLimits.machine;
+                let mag_plant =
+                    unit.magkillers.plant >= this.magKillerLimits.plant;
+                let mag_undead =
+                    unit.magkillers.undead >= this.magKillerLimits.undead;
+                let mag_stone =
+                    unit.magkillers.stone >= this.magKillerLimits.stone;
+                let mag_spirit =
+                    unit.magkillers.spirit >= this.magKillerLimits.spirit;
 
                 return (
                     (unitName || inGameName) &&
@@ -592,7 +1188,42 @@ export default {
                     healthLimit &&
                     manaLimit &&
                     evadeLimit &&
-                    limitLimit
+                    limitLimit &&
+                    phys_aquatic &&
+                    phys_beast &&
+                    phys_bird &&
+                    phys_bug &&
+                    phys_demon &&
+                    phys_dragon &&
+                    phys_human &&
+                    phys_machine &&
+                    phys_plant &&
+                    phys_undead &&
+                    phys_stone &&
+                    phys_spirit &&
+                    mag_aquatic &&
+                    mag_beast &&
+                    mag_bird &&
+                    mag_bug &&
+                    mag_demon &&
+                    mag_dragon &&
+                    mag_human &&
+                    mag_machine &&
+                    mag_plant &&
+                    mag_undead &&
+                    mag_stone &&
+                    mag_spirit &&
+                    (ribbon || !this.ribbonCheck) &&
+                    (stop || !this.stopCheck) &&
+                    (charm || !this.charmCheck) &&
+                    (death || !this.deathCheck) &&
+                    (poison || !this.poisonCheck) &&
+                    (blind || !this.blindCheck) &&
+                    (sleep || !this.sleepCheck) &&
+                    (paralyze || !this.paralyzeCheck) &&
+                    (silence || !this.silenceCheck) &&
+                    (confusion || !this.confusionCheck) &&
+                    (disease || !this.diseaseCheck)
                 );
             });
         },
@@ -622,6 +1253,7 @@ export default {
                     col.tdClass = "d-none";
                 }
             });
+            //reset stat filters
             this.hpLimit = 0;
             this.mpLimit = 0;
             this.atkLimit = 0;
@@ -630,6 +1262,29 @@ export default {
             this.sprLimit = 0;
             this.lbLimit = 0;
             this.evadeLimit = 0;
+
+            //reset physical killers
+            Object.keys(this.physKillerLimits).forEach(key => {
+                this.physKillerLimits[key] = 0;
+            });
+
+            //reset magical killers
+            Object.keys(this.magKillerLimits).forEach(key => {
+                this.magKillerLimits[key] = 0;
+            });
+
+            //reset status filters
+            this.poisonCheck = false;
+            this.blindCheck = false;
+            this.sleepCheck = false;
+            this.paralyzeCheck = false;
+            this.silenceCheck = false;
+            this.confusionCheck = false;
+            this.diseaseCheck = false;
+            this.ribbonCheck = false;
+            this.deathCheck = false;
+            this.charmCheck = false;
+            this.stopCheck = false;
         }
     }
 };
