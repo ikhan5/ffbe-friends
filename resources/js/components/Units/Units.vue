@@ -17,29 +17,29 @@
         <b-collapse id="advancedSearch">
             <hr />
             <div class="row">
-                <label class="col-md-2 col-sm-4 col-6"
+                <label class="col-md-2 col-sm-4 col-6 searchHeader"
                     ><input type="checkbox" v-model="toggleHeaders" /> Hide/Show
                     Columns</label
                 >
-                <label class="col-md-2 col-sm-4 col-6"
+                <label class="col-md-2 col-sm-4 col-6 searchHeader"
                     ><input type="checkbox" v-model="toggleStat" /> Stat
-                    Restrictions</label
+                    Filters</label
                 >
-                <label class="col-md-2 col-sm-4 col-6"
+                <label class="col-md-2 col-sm-4 col-6 searchHeader"
                     ><input type="checkbox" v-model="toggleElemental" />
-                    Elemental Resists</label
+                    Elemental Filters</label
                 >
-                <label class="col-md-2 col-sm-4 col-6"
-                    ><input type="checkbox" v-model="toggleStatus" /> Status
-                    Resists</label
+                <label class="col-md-2 col-sm-4 col-6 searchHeader"
+                    ><input type="checkbox" v-model="toggleStatus" /> Status Resist
+                    Filters</label
                 >
-                <label class="col-md-2 col-sm-4 col-6"
+                <label class="col-md-2 col-sm-4 col-6 searchHeader"
                     ><input type="checkbox" v-model="togglePhysical" /> Physical
-                    Killers</label
+                    Killer Filters</label
                 >
-                <label class="col-md-2 col-sm-4 col-6"
+                <label class="col-md-2 col-sm-4 col-6 searchHeader"
                     ><input type="checkbox" v-model="toggleMagical" /> Magical
-                    Killers</label
+                    Killer Filters</label
                 >
             </div>
             <hr />
@@ -173,12 +173,12 @@
             </div>
             <div v-show="toggleStat">
                 <p class="searchHeader">
-                    Stat Restrictions:
+                    Stat Restrictions (Greater or Equal To):
                 </p>
                 <div class="row mt-2">
                     <div class="col-md-3 col-sm-6 col-12">
                         <label for="range-hp"
-                            >HP greater than: {{ hpLimit }}</label
+                            >HP: {{ hpLimit }}</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -192,7 +192,7 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
                         <label for="range-mp"
-                            >MP greater than: {{ mpLimit }}</label
+                            >MP: {{ mpLimit }}</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -206,7 +206,7 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
                         <label for="range-atk"
-                            >Attack greater than: {{ atkLimit }}</label
+                            >Attack: {{ atkLimit }}</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -220,7 +220,7 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
                         <label for="range-mag"
-                            >Magic greater than: {{ magLimit }}</label
+                            >Magic: {{ magLimit }}</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -234,7 +234,7 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
                         <label for="range-def"
-                            >Defense greater than: {{ defLimit }}</label
+                            >Defense: {{ defLimit }}</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -248,7 +248,7 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
                         <label for="range-spr"
-                            >Spirit greater than: {{ sprLimit }}</label
+                            >Spirit: {{ sprLimit }}</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -262,7 +262,7 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
                         <label for="range-limit"
-                            >LB greater than: {{ lbLimit }}</label
+                            >LB: {{ lbLimit }}</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -276,7 +276,7 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
                         <label for="range-limit"
-                            >Evade greater than: {{ evadeLimit }}</label
+                            >Evade: {{ evadeLimit }}</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -289,37 +289,47 @@
                         ></b-form-input>
                     </div>
                 </div>
+                <button @click="resetStatFilters" class="btn btn-link text-danger pl-0 ml-0 mt-4">Clear Stat Restrictions</button>
                 <hr />
             </div>
             <div v-show="toggleElemental">
                 <p class="searchHeader">
                     Elemental Resistance (Greater or Equal To):
                 </p>
+                <label for="negativeElements">
+                    <input
+                        id="negativeElements"
+                        type="checkbox"
+                        v-model="negativeElements"
+                        @change="changeElementalLimit"
+                    />
+                    Allow Negative Resistance
+                </label>
                 <div class="row mt-2">
                     <div class="col-md-3 col-sm-6 col-12">
                         <label for="range-fire"
-                            >Fire Resist: {{ elementalLimits.fire }}</label
+                            >Fire Resist: {{ elementalLimits.fire }}%</label
                         >
                         <b-form-input
                             class="mt-2"
                             id="range-fire"
                             v-model.number="elementalLimits.fire"
                             type="range"
-                            min="0"
+                            :min="negativeElements ? -300 : 0"
                             step="10"
                             max="300"
                         ></b-form-input>
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
                         <label for="range-ice"
-                            >Ice Resist: {{ elementalLimits.ice }}</label
+                            >Ice Resist: {{ elementalLimits.ice }}%</label
                         >
                         <b-form-input
                             class="mt-2"
                             id="range-ice"
                             v-model.number="elementalLimits.ice"
                             type="range"
-                            min="0"
+                            :min="negativeElements ? -300 : 0"
                             step="10"
                             max="300"
                         ></b-form-input>
@@ -327,89 +337,90 @@
                     <div class="col-md-3 col-sm-6 col-12">
                         <label for="range-lightning"
                             >Lightning Resist:
-                            {{ elementalLimits.lightning }}</label
+                            {{ elementalLimits.lightning }}%</label
                         >
                         <b-form-input
                             class="mt-2"
                             id="range-lightning"
                             v-model.number="elementalLimits.lightning"
                             type="range"
-                            min="0"
+                            :min="negativeElements ? -300 : 0"
                             step="10"
                             max="300"
                         ></b-form-input>
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
                         <label for="range-water"
-                            >Water Resist: {{ elementalLimits.water }}</label
+                            >Water Resist: {{ elementalLimits.water }}%</label
                         >
                         <b-form-input
                             class="mt-2"
                             id="range-water"
                             v-model.number="elementalLimits.water"
                             type="range"
-                            min="0"
+                            :min="negativeElements ? -300 : 0"
                             step="10"
                             max="300"
                         ></b-form-input>
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
                         <label for="range-wind"
-                            >Wind Resist: {{ elementalLimits.wind }}</label
+                            >Wind Resist: {{ elementalLimits.wind }}%</label
                         >
                         <b-form-input
                             class="mt-2"
                             id="range-wind"
                             v-model.number="elementalLimits.wind"
                             type="range"
-                            min="0"
+                            :min="negativeElements ? -300 : 0"
                             step="10"
                             max="300"
                         ></b-form-input>
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
                         <label for="range-earth"
-                            >Earth Resist: {{ elementalLimits.earth }}</label
+                            >Earth Resist: {{ elementalLimits.earth }}%</label
                         >
                         <b-form-input
                             class="mt-2"
                             id="range-earth"
                             v-model.number="elementalLimits.earth"
                             type="range"
-                            min="0"
+                            :min="negativeElements ? -300 : 0"
                             step="10"
                             max="300"
                         ></b-form-input>
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
                         <label for="range-light"
-                            >Light Resist: {{ elementalLimits.light }}</label
+                            >Light Resist: {{ elementalLimits.light }}%</label
                         >
                         <b-form-input
                             class="mt-2"
                             id="range-light"
                             v-model.number="elementalLimits.light"
                             type="range"
-                            min="0"
+                            :min="negativeElements ? -300 : 0"
                             step="10"
                             max="300"
                         ></b-form-input>
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
                         <label for="range-dark"
-                            >Dark Resist: {{ elementalLimits.dark }}</label
+                            >Dark Resist: {{ elementalLimits.dark }}%</label
                         >
                         <b-form-input
                             class="mt-2"
                             id="range-dark"
                             v-model.number="elementalLimits.dark"
                             type="range"
-                            min="0"
+                            :min="negativeElements ? -300 : 0"
                             step="10"
                             max="300"
                         ></b-form-input>
                     </div>
                 </div>
+                 <button @click="resetElementalFilters" class="btn btn-link text-danger pl-0 ml-0 mt-4">Clear Elemental Restrictions</button>
                 <hr />
             </div>
             <div v-show="toggleStatus">
@@ -514,6 +525,7 @@
                         Stone</label
                     >
                 </div>
+                  <button @click="resetStatusFilters" class="btn btn-link text-danger pl-0 ml-0 mt-4">Clear Ailment Restrictions</button>
                 <hr />
             </div>
             <div v-show="togglePhysical">
@@ -525,7 +537,7 @@
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-physAqua"
                             >Aquatic Killer:
-                            {{ physKillerLimits.aquatic }}</label
+                            {{ physKillerLimits.aquatic }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -539,7 +551,7 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-physBeast"
-                            >Beast Killer: {{ physKillerLimits.beast }}</label
+                            >Beast Killer: {{ physKillerLimits.beast }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -553,7 +565,7 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-physBird"
-                            >Bird Killer: {{ physKillerLimits.bird }}</label
+                            >Bird Killer: {{ physKillerLimits.bird }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -567,7 +579,7 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-physBug"
-                            >Bug Killer: {{ physKillerLimits.bug }}</label
+                            >Bug Killer: {{ physKillerLimits.bug }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -581,7 +593,7 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-physDemon"
-                            >Demon Killer: {{ physKillerLimits.demon }}</label
+                            >Demon Killer: {{ physKillerLimits.demon }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -595,7 +607,8 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-physDragon"
-                            >Dragon Killer: {{ physKillerLimits.dragon }}</label
+                            >Dragon Killer:
+                            {{ physKillerLimits.dragon }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -609,7 +622,7 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-physHuman"
-                            >Human Killer: {{ physKillerLimits.human }}</label
+                            >Human Killer: {{ physKillerLimits.human }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -624,7 +637,7 @@
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-physMachine"
                             >Machine Killer:
-                            {{ physKillerLimits.machine }}</label
+                            {{ physKillerLimits.machine }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -638,7 +651,7 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-physPlant"
-                            >Plant Killer: {{ physKillerLimits.plant }}</label
+                            >Plant Killer: {{ physKillerLimits.plant }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -652,7 +665,8 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-physUndead"
-                            >Undead Killer: {{ physKillerLimits.undead }}</label
+                            >Undead Killer:
+                            {{ physKillerLimits.undead }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -666,7 +680,7 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-phyStone"
-                            >Stone Killer: {{ physKillerLimits.stone }}</label
+                            >Stone Killer: {{ physKillerLimits.stone }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -680,7 +694,8 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-physSpirit"
-                            >Spirit Killer: {{ physKillerLimits.spirit }}</label
+                            >Spirit Killer:
+                            {{ physKillerLimits.spirit }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -693,7 +708,7 @@
                         ></b-form-input>
                     </div>
                 </div>
-
+ <button @click="resetPhysicalKillers" class="btn btn-link text-danger pl-0 ml-0 mt-4">Clear Physical Killer Restrictions</button>
                 <hr />
             </div>
             <div v-show="toggleMagical">
@@ -705,7 +720,7 @@
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-magAquatic"
                             >Aquatic Killer:
-                            {{ magKillerLimits.aquatic }}</label
+                            {{ magKillerLimits.aquatic }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -719,7 +734,7 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-magBeast"
-                            >Beast Killer: {{ magKillerLimits.beast }}</label
+                            >Beast Killer: {{ magKillerLimits.beast }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -733,7 +748,7 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-magBird"
-                            >Bird Killer: {{ magKillerLimits.bird }}</label
+                            >Bird Killer: {{ magKillerLimits.bird }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -747,7 +762,7 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-magBug"
-                            >Bug Killer: {{ magKillerLimits.bug }}</label
+                            >Bug Killer: {{ magKillerLimits.bug }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -761,7 +776,7 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-magDemon"
-                            >Demon Killer: {{ magKillerLimits.demon }}</label
+                            >Demon Killer: {{ magKillerLimits.demon }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -775,7 +790,7 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-magDragon"
-                            >Dragon Killer: {{ magKillerLimits.dragon }}</label
+                            >Dragon Killer: {{ magKillerLimits.dragon }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -789,7 +804,7 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-magDemon"
-                            >Human Killer: {{ magKillerLimits.human }}</label
+                            >Human Killer: {{ magKillerLimits.human }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -804,7 +819,7 @@
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-magMachine"
                             >Machine Killer:
-                            {{ magKillerLimits.machine }}</label
+                            {{ magKillerLimits.machine }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -818,7 +833,7 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-magPlant"
-                            >Plant Killer: {{ magKillerLimits.plant }}</label
+                            >Plant Killer: {{ magKillerLimits.plant }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -832,7 +847,7 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-magPlant"
-                            >Undead Killer: {{ magKillerLimits.undead }}</label
+                            >Undead Killer: {{ magKillerLimits.undead }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -846,7 +861,7 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-magStone"
-                            >Stone Killer: {{ magKillerLimits.stone }}</label
+                            >Stone Killer: {{ magKillerLimits.stone }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -860,7 +875,7 @@
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
                         <label for="range-magSpirit"
-                            >Spirit Killer: {{ magKillerLimits.spirit }}</label
+                            >Spirit Killer: {{ magKillerLimits.spirit }}%</label
                         >
                         <b-form-input
                             class="mt-2"
@@ -873,6 +888,7 @@
                         ></b-form-input>
                     </div>
                 </div>
+                <button @click="resetMagicalKillers" class="btn btn-link text-danger pl-0 ml-0 mt-4">Clear Magical Killer Restrictions</button>
             </div>
             <div class="row mt-4">
                 <div class="mx-auto mx-0">
@@ -883,7 +899,7 @@
                         class="btn btn-outline-danger"
                         @click="resetFilters"
                     >
-                        Reset Filters
+                        Reset All Filters
                     </button>
                 </div>
             </div>
@@ -1085,15 +1101,16 @@ export default {
                 spirit: 0
             },
             elementalLimits: {
-                fire: 0,
-                ice: 0,
-                lightning: 0,
-                water: 0,
-                wind: 0,
-                earth: 0,
-                light: 0,
-                dark: 0
+                fire: -300,
+                ice: -300,
+                lightning: -300,
+                water: -300,
+                wind: -300,
+                earth: -300,
+                light: -300,
+                dark: -300
             },
+            negativeElements: true,
             ribbonCheck: false,
             stopCheck: false,
             charmCheck: false,
@@ -1273,6 +1290,7 @@ export default {
                 let confusion = unit.status.confusion >= 100;
                 let disease = unit.status.disease >= 100;
                 let stone = unit.status.stone >= 100;
+
                 let ribbon =
                     poison &&
                     blind &&
@@ -1280,7 +1298,8 @@ export default {
                     paralyze &&
                     silence &&
                     confusion &&
-                    disease;
+                    disease &&
+                    stone;
 
                 //physical killer filters
                 let phys_aquatic =
@@ -1406,6 +1425,17 @@ export default {
         }
     },
     methods: {
+        changeElementalLimit() {
+            if (!this.negativeElements) {
+                Object.keys(this.elementalLimits).forEach(key => {
+                    this.elementalLimits[key] = 0;
+                });
+            } else {
+                Object.keys(this.elementalLimits).forEach(key => {
+                    this.elementalLimits[key] = -300;
+                });
+            }
+        },
         show_hide(colName) {
             this.fields.filter(col => {
                 if (col.key === colName) {
@@ -1419,21 +1449,7 @@ export default {
                 }
             });
         },
-        resetFilters() {
-            this.fields.forEach(col => {
-                if (col.defaultCol === false) {
-                    document.querySelector("." + col.key).checked = false;
-                    col.thClass = "d-none";
-                    col.tdClass = "d-none";
-                } else {
-                    if (col.key !== "name") {
-                        document.querySelector("." + col.key).checked = true;
-                        col.thClass = "";
-                        col.tdClass = "";
-                    }
-                }
-            });
-
+        resetStatFilters() {
             //reset stat filters
             this.hpLimit = 0;
             this.mpLimit = 0;
@@ -1443,27 +1459,20 @@ export default {
             this.sprLimit = 0;
             this.lbLimit = 0;
             this.evadeLimit = 0;
-
+        },
+        resetElementalFilters() {
+            this.negativeElements = true;
             //reset elemental filters
-            this.elementalLimits.fire = 0;
-            this.elementalLimits.ice = 0;
-            this.elementalLimits.lightning = 0;
-            this.elementalLimits.water = 0;
-            this.elementalLimits.wind = 0;
-            this.elementalLimits.earth = 0;
-            this.elementalLimits.light = 0;
-            this.elementalLimits.dark = 0;
-
-            //reset physical killers
-            Object.keys(this.physKillerLimits).forEach(key => {
-                this.physKillerLimits[key] = 0;
-            });
-
-            //reset magical killers
-            Object.keys(this.magKillerLimits).forEach(key => {
-                this.magKillerLimits[key] = 0;
-            });
-
+            this.elementalLimits.fire = this.negativeElements ? -300 : 0;
+            this.elementalLimits.ice = this.negativeElements ? -300 : 0;
+            this.elementalLimits.lightning = this.negativeElements ? -300 : 0;
+            this.elementalLimits.water = this.negativeElements ? -300 : 0;
+            this.elementalLimits.wind = this.negativeElements ? -300 : 0;
+            this.elementalLimits.earth = this.negativeElements ? -300 : 0;
+            this.elementalLimits.light = this.negativeElements ? -300 : 0;
+            this.elementalLimits.dark = this.negativeElements ? -300 : 0;
+        },
+        resetStatusFilters() {
             //reset status filters
             this.poisonCheck = false;
             this.blindCheck = false;
@@ -1477,6 +1486,40 @@ export default {
             this.charmCheck = false;
             this.stopCheck = false;
             this.stoneCheck = false;
+        },
+        resetPhysicalKillers() {
+            //reset physical killers
+            Object.keys(this.physKillerLimits).forEach(key => {
+                this.physKillerLimits[key] = 0;
+            });
+        },
+        resetMagicalKillers() {
+            //reset magical killers
+            Object.keys(this.magKillerLimits).forEach(key => {
+                this.magKillerLimits[key] = 0;
+            });
+        },
+        resetColumnFilters() {
+            this.fields.forEach(col => {
+                if (col.defaultCol === false) {
+                    document.querySelector("." + col.key).checked = false;
+                    col.thClass = "d-none";
+                    col.tdClass = "d-none";
+                } else {
+                    if (col.key !== "name") {
+                        document.querySelector("." + col.key).checked = true;
+                        col.thClass = "";
+                        col.tdClass = "";
+                    }
+                }
+            });
+        },
+        resetFilters() {
+            this.resetStatFilters();
+            this.resetElementalFilters();
+            this.resetPhysicalKillers();
+            this.resetMagicalKillers();
+            this.resetStatusFilters();
         }
     }
 };
