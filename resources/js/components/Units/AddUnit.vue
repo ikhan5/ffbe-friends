@@ -38,7 +38,7 @@
                             Equip link (this unit only)' on
                             <a href="https://ffbeequip.com/builder.html"
                                 >FFBE Equip</a
-                            >
+                            >. Please avoid using external percentage buffs. 
                         </small>
                     </div>
                 </div>
