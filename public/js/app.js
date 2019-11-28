@@ -4310,6 +4310,136 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4323,6 +4453,7 @@ __webpack_require__.r(__webpack_exports__);
       toggleStatus: false,
       togglePhysical: false,
       toggleMagical: false,
+      toggleElemental: false,
       hpLimit: 0,
       mpLimit: 0,
       atkLimit: 0,
@@ -4359,6 +4490,16 @@ __webpack_require__.r(__webpack_exports__);
         stone: 0,
         spirit: 0
       },
+      elementalLimits: {
+        fire: 0,
+        ice: 0,
+        lightning: 0,
+        water: 0,
+        wind: 0,
+        earth: 0,
+        light: 0,
+        dark: 0
+      },
       ribbonCheck: false,
       stopCheck: false,
       charmCheck: false,
@@ -4370,6 +4511,7 @@ __webpack_require__.r(__webpack_exports__);
       silenceCheck: false,
       confusionCheck: false,
       diseaseCheck: false,
+      stoneCheck: false,
       fields: [{
         key: "name",
         label: "Unit Name",
@@ -4377,7 +4519,9 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         key: "profile",
         label: "Profile",
-        sortable: false
+        sortable: false,
+        thClass: "",
+        tdClass: ""
       }, {
         key: "element_weapon",
         label: "Element(s)",
@@ -4424,19 +4568,27 @@ __webpack_require__.r(__webpack_exports__);
         key: "pevade",
         label: "P.Evade",
         sortable: true,
-        thClass: "",
-        tdClass: ""
+        thClass: "d-none",
+        tdClass: "d-none",
+        defaultCol: false
       }, {
         key: "lb_damage",
         label: "LB",
         sortable: true,
-        thClass: "",
-        tdClass: ""
+        thClass: "d-none",
+        tdClass: "d-none",
+        defaultCol: false
       }, {
         key: "magkillers",
-        label: "Killers",
+        label: "M.Killers",
         sortable: false,
-        colspan: 3,
+        thClass: "d-none",
+        tdClass: "d-none",
+        defaultCol: false
+      }, {
+        key: "physkillers",
+        label: "P.Killers",
+        sortable: false,
         thClass: "d-none",
         tdClass: "d-none",
         defaultCol: false
@@ -4501,6 +4653,7 @@ __webpack_require__.r(__webpack_exports__);
         var silence = unit.status.silence >= 100;
         var confusion = unit.status.confusion >= 100;
         var disease = unit.status.disease >= 100;
+        var stone = unit.status.stone >= 100;
         var ribbon = poison && blind && sleep && paralyze && silence && confusion && disease; //physical killer filters
 
         var phys_aquatic = unit.physkillers.aquatic >= _this2.physKillerLimits.aquatic;
@@ -4527,8 +4680,17 @@ __webpack_require__.r(__webpack_exports__);
         var mag_plant = unit.magkillers.plant >= _this2.magKillerLimits.plant;
         var mag_undead = unit.magkillers.undead >= _this2.magKillerLimits.undead;
         var mag_stone = unit.magkillers.stone >= _this2.magKillerLimits.stone;
-        var mag_spirit = unit.magkillers.spirit >= _this2.magKillerLimits.spirit;
-        return (unitName || inGameName) && attackLimit && magicLimit && defenseLimit && spiritLimit && healthLimit && manaLimit && evadeLimit && limitLimit && phys_aquatic && phys_beast && phys_bird && phys_bug && phys_demon && phys_dragon && phys_human && phys_machine && phys_plant && phys_undead && phys_stone && phys_spirit && mag_aquatic && mag_beast && mag_bird && mag_bug && mag_demon && mag_dragon && mag_human && mag_machine && mag_plant && mag_undead && mag_stone && mag_spirit && (ribbon || !_this2.ribbonCheck) && (stop || !_this2.stopCheck) && (charm || !_this2.charmCheck) && (death || !_this2.deathCheck) && (poison || !_this2.poisonCheck) && (blind || !_this2.blindCheck) && (sleep || !_this2.sleepCheck) && (paralyze || !_this2.paralyzeCheck) && (silence || !_this2.silenceCheck) && (confusion || !_this2.confusionCheck) && (disease || !_this2.diseaseCheck);
+        var mag_spirit = unit.magkillers.spirit >= _this2.magKillerLimits.spirit; //elemental filters
+
+        var fire = unit.elemental.fire >= _this2.elementalLimits.fire;
+        var ice = unit.elemental.ice >= _this2.elementalLimits.ice;
+        var lightning = unit.elemental.lightning >= _this2.elementalLimits.lightning;
+        var water = unit.elemental.water >= _this2.elementalLimits.water;
+        var wind = unit.elemental.wind >= _this2.elementalLimits.wind;
+        var earth = unit.elemental.earth >= _this2.elementalLimits.earth;
+        var light = unit.elemental.light >= _this2.elementalLimits.light;
+        var dark = unit.elemental.dark >= _this2.elementalLimits.dark;
+        return (unitName || inGameName) && attackLimit && magicLimit && defenseLimit && spiritLimit && healthLimit && manaLimit && evadeLimit && limitLimit && phys_aquatic && phys_beast && phys_bird && phys_bug && phys_demon && phys_dragon && phys_human && phys_machine && phys_plant && phys_undead && phys_stone && phys_spirit && mag_aquatic && mag_beast && mag_bird && mag_bug && mag_demon && mag_dragon && mag_human && mag_machine && mag_plant && mag_undead && mag_stone && mag_spirit && fire && ice && lightning && water && wind && earth && light && dark && (ribbon || !_this2.ribbonCheck) && (stop || !_this2.stopCheck) && (charm || !_this2.charmCheck) && (death || !_this2.deathCheck) && (poison || !_this2.poisonCheck) && (blind || !_this2.blindCheck) && (sleep || !_this2.sleepCheck) && (paralyze || !_this2.paralyzeCheck) && (silence || !_this2.silenceCheck) && (confusion || !_this2.confusionCheck) && (disease || !_this2.diseaseCheck) && (stone || !_this2.stoneCheck);
       });
     },
     rows: function rows() {
@@ -4557,6 +4719,12 @@ __webpack_require__.r(__webpack_exports__);
           document.querySelector("." + col.key).checked = false;
           col.thClass = "d-none";
           col.tdClass = "d-none";
+        } else {
+          if (col.key !== "name") {
+            document.querySelector("." + col.key).checked = true;
+            col.thClass = "";
+            col.tdClass = "";
+          }
         }
       }); //reset stat filters
 
@@ -4567,7 +4735,16 @@ __webpack_require__.r(__webpack_exports__);
       this.magLimit = 0;
       this.sprLimit = 0;
       this.lbLimit = 0;
-      this.evadeLimit = 0; //reset physical killers
+      this.evadeLimit = 0; //reset elemental filters
+
+      this.elementalLimits.fire = 0;
+      this.elementalLimits.ice = 0;
+      this.elementalLimits.lightning = 0;
+      this.elementalLimits.water = 0;
+      this.elementalLimits.wind = 0;
+      this.elementalLimits.earth = 0;
+      this.elementalLimits.light = 0;
+      this.elementalLimits.dark = 0; //reset physical killers
 
       Object.keys(this.physKillerLimits).forEach(function (key) {
         _this3.physKillerLimits[key] = 0;
@@ -43274,6 +43451,47 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
+                  value: _vm.toggleElemental,
+                  expression: "toggleElemental"
+                }
+              ],
+              attrs: { type: "checkbox" },
+              domProps: {
+                checked: Array.isArray(_vm.toggleElemental)
+                  ? _vm._i(_vm.toggleElemental, null) > -1
+                  : _vm.toggleElemental
+              },
+              on: {
+                change: function($event) {
+                  var $$a = _vm.toggleElemental,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.toggleElemental = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.toggleElemental = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.toggleElemental = $$c
+                  }
+                }
+              }
+            }),
+            _vm._v("\n                Elemental Resists")
+          ]),
+          _vm._v(" "),
+          _c("label", { staticClass: "col-md-2 col-sm-4 col-6" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
                   value: _vm.toggleStatus,
                   expression: "toggleStatus"
                 }
@@ -43414,6 +43632,19 @@ var render = function() {
             _c("div", { staticClass: "row" }, [
               _c("label", { staticClass: "col-md-2 col-sm-4 col-6" }, [
                 _c("input", {
+                  staticClass: "profile",
+                  attrs: { type: "checkbox", checked: "" },
+                  on: {
+                    change: function($event) {
+                      return _vm.show_hide("profile")
+                    }
+                  }
+                }),
+                _vm._v("\n                    Show Profile")
+              ]),
+              _vm._v(" "),
+              _c("label", { staticClass: "col-md-2 col-sm-4 col-6" }, [
+                _c("input", {
                   staticClass: "element_weapon",
                   attrs: { type: "checkbox", checked: "" },
                   on: {
@@ -43506,7 +43737,7 @@ var render = function() {
               _c("label", { staticClass: "col-md-2 col-sm-4 col-6" }, [
                 _c("input", {
                   staticClass: "pevade",
-                  attrs: { type: "checkbox", checked: "" },
+                  attrs: { type: "checkbox" },
                   on: {
                     change: function($event) {
                       return _vm.show_hide("pevade")
@@ -43519,7 +43750,7 @@ var render = function() {
               _c("label", { staticClass: "col-md-2 col-sm-4 col-6" }, [
                 _c("input", {
                   staticClass: "lb_damage",
-                  attrs: { type: "checkbox", checked: "" },
+                  attrs: { type: "checkbox" },
                   on: {
                     change: function($event) {
                       return _vm.show_hide("lb_damage")
@@ -43527,6 +43758,19 @@ var render = function() {
                   }
                 }),
                 _vm._v("\n                    Show LB Damage")
+              ]),
+              _vm._v(" "),
+              _c("label", { staticClass: "col-md-2 col-sm-4 col-6" }, [
+                _c("input", {
+                  staticClass: "physkillers",
+                  attrs: { type: "checkbox" },
+                  on: {
+                    change: function($event) {
+                      return _vm.show_hide("physkillers")
+                    }
+                  }
+                }),
+                _vm._v("\n                    Show Physical Killers")
               ]),
               _vm._v(" "),
               _c("label", { staticClass: "col-md-2 col-sm-4 col-6" }, [
@@ -43539,7 +43783,7 @@ var render = function() {
                     }
                   }
                 }),
-                _vm._v("\n                    Show Killers")
+                _vm._v("\n                    Show Magic Killers")
               ]),
               _vm._v(" "),
               _c("label", { staticClass: "col-md-2 col-sm-4 col-6" }, [
@@ -43835,6 +44079,266 @@ var render = function() {
               {
                 name: "show",
                 rawName: "v-show",
+                value: _vm.toggleElemental,
+                expression: "toggleElemental"
+              }
+            ]
+          },
+          [
+            _c("p", { staticClass: "searchHeader" }, [
+              _vm._v(
+                "\n                Elemental Resistance (Greater or Equal To):\n            "
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row mt-2" }, [
+              _c(
+                "div",
+                { staticClass: "col-md-3 col-sm-6 col-12" },
+                [
+                  _c("label", { attrs: { for: "range-fire" } }, [
+                    _vm._v("Fire Resist: " + _vm._s(_vm.elementalLimits.fire))
+                  ]),
+                  _vm._v(" "),
+                  _c("b-form-input", {
+                    staticClass: "mt-2",
+                    attrs: {
+                      id: "range-fire",
+                      type: "range",
+                      min: "0",
+                      step: "10",
+                      max: "300"
+                    },
+                    model: {
+                      value: _vm.elementalLimits.fire,
+                      callback: function($$v) {
+                        _vm.$set(_vm.elementalLimits, "fire", _vm._n($$v))
+                      },
+                      expression: "elementalLimits.fire"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-3 col-sm-6 col-12" },
+                [
+                  _c("label", { attrs: { for: "range-ice" } }, [
+                    _vm._v("Ice Resist: " + _vm._s(_vm.elementalLimits.ice))
+                  ]),
+                  _vm._v(" "),
+                  _c("b-form-input", {
+                    staticClass: "mt-2",
+                    attrs: {
+                      id: "range-ice",
+                      type: "range",
+                      min: "0",
+                      step: "10",
+                      max: "300"
+                    },
+                    model: {
+                      value: _vm.elementalLimits.ice,
+                      callback: function($$v) {
+                        _vm.$set(_vm.elementalLimits, "ice", _vm._n($$v))
+                      },
+                      expression: "elementalLimits.ice"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-3 col-sm-6 col-12" },
+                [
+                  _c("label", { attrs: { for: "range-lightning" } }, [
+                    _vm._v(
+                      "Lightning Resist:\n                        " +
+                        _vm._s(_vm.elementalLimits.lightning)
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("b-form-input", {
+                    staticClass: "mt-2",
+                    attrs: {
+                      id: "range-lightning",
+                      type: "range",
+                      min: "0",
+                      step: "10",
+                      max: "300"
+                    },
+                    model: {
+                      value: _vm.elementalLimits.lightning,
+                      callback: function($$v) {
+                        _vm.$set(_vm.elementalLimits, "lightning", _vm._n($$v))
+                      },
+                      expression: "elementalLimits.lightning"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-3 col-sm-6 col-12" },
+                [
+                  _c("label", { attrs: { for: "range-water" } }, [
+                    _vm._v("Water Resist: " + _vm._s(_vm.elementalLimits.water))
+                  ]),
+                  _vm._v(" "),
+                  _c("b-form-input", {
+                    staticClass: "mt-2",
+                    attrs: {
+                      id: "range-water",
+                      type: "range",
+                      min: "0",
+                      step: "10",
+                      max: "300"
+                    },
+                    model: {
+                      value: _vm.elementalLimits.water,
+                      callback: function($$v) {
+                        _vm.$set(_vm.elementalLimits, "water", _vm._n($$v))
+                      },
+                      expression: "elementalLimits.water"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-3 col-sm-6 col-12" },
+                [
+                  _c("label", { attrs: { for: "range-wind" } }, [
+                    _vm._v("Wind Resist: " + _vm._s(_vm.elementalLimits.wind))
+                  ]),
+                  _vm._v(" "),
+                  _c("b-form-input", {
+                    staticClass: "mt-2",
+                    attrs: {
+                      id: "range-wind",
+                      type: "range",
+                      min: "0",
+                      step: "10",
+                      max: "300"
+                    },
+                    model: {
+                      value: _vm.elementalLimits.wind,
+                      callback: function($$v) {
+                        _vm.$set(_vm.elementalLimits, "wind", _vm._n($$v))
+                      },
+                      expression: "elementalLimits.wind"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-3 col-sm-6 col-12" },
+                [
+                  _c("label", { attrs: { for: "range-earth" } }, [
+                    _vm._v("Earth Resist: " + _vm._s(_vm.elementalLimits.earth))
+                  ]),
+                  _vm._v(" "),
+                  _c("b-form-input", {
+                    staticClass: "mt-2",
+                    attrs: {
+                      id: "range-earth",
+                      type: "range",
+                      min: "0",
+                      step: "10",
+                      max: "300"
+                    },
+                    model: {
+                      value: _vm.elementalLimits.earth,
+                      callback: function($$v) {
+                        _vm.$set(_vm.elementalLimits, "earth", _vm._n($$v))
+                      },
+                      expression: "elementalLimits.earth"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-3 col-sm-6 col-12" },
+                [
+                  _c("label", { attrs: { for: "range-light" } }, [
+                    _vm._v("Light Resist: " + _vm._s(_vm.elementalLimits.light))
+                  ]),
+                  _vm._v(" "),
+                  _c("b-form-input", {
+                    staticClass: "mt-2",
+                    attrs: {
+                      id: "range-light",
+                      type: "range",
+                      min: "0",
+                      step: "10",
+                      max: "300"
+                    },
+                    model: {
+                      value: _vm.elementalLimits.light,
+                      callback: function($$v) {
+                        _vm.$set(_vm.elementalLimits, "light", _vm._n($$v))
+                      },
+                      expression: "elementalLimits.light"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-3 col-sm-6 col-12" },
+                [
+                  _c("label", { attrs: { for: "range-dark" } }, [
+                    _vm._v("Dark Resist: " + _vm._s(_vm.elementalLimits.dark))
+                  ]),
+                  _vm._v(" "),
+                  _c("b-form-input", {
+                    staticClass: "mt-2",
+                    attrs: {
+                      id: "range-dark",
+                      type: "range",
+                      min: "0",
+                      step: "10",
+                      max: "300"
+                    },
+                    model: {
+                      value: _vm.elementalLimits.dark,
+                      callback: function($$v) {
+                        _vm.$set(_vm.elementalLimits, "dark", _vm._n($$v))
+                      },
+                      expression: "elementalLimits.dark"
+                    }
+                  })
+                ],
+                1
+              )
+            ]),
+            _vm._v(" "),
+            _c("hr")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
                 value: _vm.toggleStatus,
                 expression: "toggleStatus"
               }
@@ -43886,6 +44390,132 @@ var render = function() {
                   }
                 }),
                 _vm._v("\n                    Ribbon")
+              ]),
+              _vm._v(" "),
+              _c("label", { staticClass: "col-md-2 col-sm-4 col-6" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.deathCheck,
+                      expression: "deathCheck"
+                    }
+                  ],
+                  staticClass: "status",
+                  attrs: { type: "checkbox" },
+                  domProps: {
+                    checked: Array.isArray(_vm.deathCheck)
+                      ? _vm._i(_vm.deathCheck, null) > -1
+                      : _vm.deathCheck
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$a = _vm.deathCheck,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = null,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 && (_vm.deathCheck = $$a.concat([$$v]))
+                        } else {
+                          $$i > -1 &&
+                            (_vm.deathCheck = $$a
+                              .slice(0, $$i)
+                              .concat($$a.slice($$i + 1)))
+                        }
+                      } else {
+                        _vm.deathCheck = $$c
+                      }
+                    }
+                  }
+                }),
+                _vm._v("\n                    Death")
+              ]),
+              _vm._v(" "),
+              _c("label", { staticClass: "col-md-2 col-sm-4 col-6" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.charmCheck,
+                      expression: "charmCheck"
+                    }
+                  ],
+                  staticClass: "status",
+                  attrs: { type: "checkbox" },
+                  domProps: {
+                    checked: Array.isArray(_vm.charmCheck)
+                      ? _vm._i(_vm.charmCheck, null) > -1
+                      : _vm.charmCheck
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$a = _vm.charmCheck,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = null,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 && (_vm.charmCheck = $$a.concat([$$v]))
+                        } else {
+                          $$i > -1 &&
+                            (_vm.charmCheck = $$a
+                              .slice(0, $$i)
+                              .concat($$a.slice($$i + 1)))
+                        }
+                      } else {
+                        _vm.charmCheck = $$c
+                      }
+                    }
+                  }
+                }),
+                _vm._v("\n                    Charm")
+              ]),
+              _vm._v(" "),
+              _c("label", { staticClass: "col-md-2 col-sm-4 col-6" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.stopCheck,
+                      expression: "stopCheck"
+                    }
+                  ],
+                  staticClass: "status",
+                  attrs: { type: "checkbox" },
+                  domProps: {
+                    checked: Array.isArray(_vm.stopCheck)
+                      ? _vm._i(_vm.stopCheck, null) > -1
+                      : _vm.stopCheck
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$a = _vm.stopCheck,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = null,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 && (_vm.stopCheck = $$a.concat([$$v]))
+                        } else {
+                          $$i > -1 &&
+                            (_vm.stopCheck = $$a
+                              .slice(0, $$i)
+                              .concat($$a.slice($$i + 1)))
+                        }
+                      } else {
+                        _vm.stopCheck = $$c
+                      }
+                    }
+                  }
+                }),
+                _vm._v("\n                    Stop")
               ]),
               _vm._v(" "),
               _c("label", { staticClass: "col-md-2 col-sm-4 col-6" }, [
@@ -44188,124 +44818,40 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.deathCheck,
-                      expression: "deathCheck"
+                      value: _vm.stoneCheck,
+                      expression: "stoneCheck"
                     }
                   ],
                   staticClass: "status",
                   attrs: { type: "checkbox" },
                   domProps: {
-                    checked: Array.isArray(_vm.deathCheck)
-                      ? _vm._i(_vm.deathCheck, null) > -1
-                      : _vm.deathCheck
+                    checked: Array.isArray(_vm.stoneCheck)
+                      ? _vm._i(_vm.stoneCheck, null) > -1
+                      : _vm.stoneCheck
                   },
                   on: {
                     change: function($event) {
-                      var $$a = _vm.deathCheck,
+                      var $$a = _vm.stoneCheck,
                         $$el = $event.target,
                         $$c = $$el.checked ? true : false
                       if (Array.isArray($$a)) {
                         var $$v = null,
                           $$i = _vm._i($$a, $$v)
                         if ($$el.checked) {
-                          $$i < 0 && (_vm.deathCheck = $$a.concat([$$v]))
+                          $$i < 0 && (_vm.stoneCheck = $$a.concat([$$v]))
                         } else {
                           $$i > -1 &&
-                            (_vm.deathCheck = $$a
+                            (_vm.stoneCheck = $$a
                               .slice(0, $$i)
                               .concat($$a.slice($$i + 1)))
                         }
                       } else {
-                        _vm.deathCheck = $$c
+                        _vm.stoneCheck = $$c
                       }
                     }
                   }
                 }),
-                _vm._v("\n                    Death")
-              ]),
-              _vm._v(" "),
-              _c("label", { staticClass: "col-md-2 col-sm-4 col-6" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.charmCheck,
-                      expression: "charmCheck"
-                    }
-                  ],
-                  staticClass: "status",
-                  attrs: { type: "checkbox" },
-                  domProps: {
-                    checked: Array.isArray(_vm.charmCheck)
-                      ? _vm._i(_vm.charmCheck, null) > -1
-                      : _vm.charmCheck
-                  },
-                  on: {
-                    change: function($event) {
-                      var $$a = _vm.charmCheck,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 && (_vm.charmCheck = $$a.concat([$$v]))
-                        } else {
-                          $$i > -1 &&
-                            (_vm.charmCheck = $$a
-                              .slice(0, $$i)
-                              .concat($$a.slice($$i + 1)))
-                        }
-                      } else {
-                        _vm.charmCheck = $$c
-                      }
-                    }
-                  }
-                }),
-                _vm._v("\n                    Charm")
-              ]),
-              _vm._v(" "),
-              _c("label", { staticClass: "col-md-2 col-sm-4 col-6" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.stopCheck,
-                      expression: "stopCheck"
-                    }
-                  ],
-                  staticClass: "status",
-                  attrs: { type: "checkbox" },
-                  domProps: {
-                    checked: Array.isArray(_vm.stopCheck)
-                      ? _vm._i(_vm.stopCheck, null) > -1
-                      : _vm.stopCheck
-                  },
-                  on: {
-                    change: function($event) {
-                      var $$a = _vm.stopCheck,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 && (_vm.stopCheck = $$a.concat([$$v]))
-                        } else {
-                          $$i > -1 &&
-                            (_vm.stopCheck = $$a
-                              .slice(0, $$i)
-                              .concat($$a.slice($$i + 1)))
-                        }
-                      } else {
-                        _vm.stopCheck = $$c
-                      }
-                    }
-                  }
-                }),
-                _vm._v("\n                    Stop")
+                _vm._v("\n                    Stone")
               ])
             ]),
             _vm._v(" "),
@@ -44328,7 +44874,7 @@ var render = function() {
           [
             _c("p", { staticClass: "searchHeader" }, [
               _vm._v(
-                "\n                Physical Killers (Greater than):\n            "
+                "\n                Physical Killers (Greater or Equal To):\n            "
               )
             ]),
             _vm._v(" "),
@@ -44337,7 +44883,7 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-physAqua" } }, [
                     _vm._v(
                       "Aquatic Killer:\n                        " +
                         _vm._s(_vm.physKillerLimits.aquatic)
@@ -44347,7 +44893,7 @@ var render = function() {
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-physAqua",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44369,7 +44915,7 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-physBeast" } }, [
                     _vm._v(
                       "Beast Killer: " + _vm._s(_vm.physKillerLimits.beast)
                     )
@@ -44378,7 +44924,7 @@ var render = function() {
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-physBeast",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44400,14 +44946,14 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-physBird" } }, [
                     _vm._v("Bird Killer: " + _vm._s(_vm.physKillerLimits.bird))
                   ]),
                   _vm._v(" "),
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-physBird",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44429,14 +44975,14 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-physBug" } }, [
                     _vm._v("Bug Killer: " + _vm._s(_vm.physKillerLimits.bug))
                   ]),
                   _vm._v(" "),
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-physBug",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44458,7 +45004,7 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-physDemon" } }, [
                     _vm._v(
                       "Demon Killer: " + _vm._s(_vm.physKillerLimits.demon)
                     )
@@ -44467,7 +45013,7 @@ var render = function() {
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-physDemon",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44489,7 +45035,7 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-physDragon" } }, [
                     _vm._v(
                       "Dragon Killer: " + _vm._s(_vm.physKillerLimits.dragon)
                     )
@@ -44498,7 +45044,7 @@ var render = function() {
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-physDragon",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44520,7 +45066,7 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-physHuman" } }, [
                     _vm._v(
                       "Human Killer: " + _vm._s(_vm.physKillerLimits.human)
                     )
@@ -44529,7 +45075,7 @@ var render = function() {
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-physHuman",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44551,7 +45097,7 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-physMachine" } }, [
                     _vm._v(
                       "Machine Killer:\n                        " +
                         _vm._s(_vm.physKillerLimits.machine)
@@ -44561,7 +45107,7 @@ var render = function() {
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-physMachine",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44583,7 +45129,7 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-physPlant" } }, [
                     _vm._v(
                       "Plant Killer: " + _vm._s(_vm.physKillerLimits.plant)
                     )
@@ -44592,7 +45138,7 @@ var render = function() {
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-physPlant",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44614,7 +45160,7 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-physUndead" } }, [
                     _vm._v(
                       "Undead Killer: " + _vm._s(_vm.physKillerLimits.undead)
                     )
@@ -44623,7 +45169,7 @@ var render = function() {
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-physUndead",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44645,7 +45191,7 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-phyStone" } }, [
                     _vm._v(
                       "Stone Killer: " + _vm._s(_vm.physKillerLimits.stone)
                     )
@@ -44654,7 +45200,7 @@ var render = function() {
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-phyStone",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44676,7 +45222,7 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-physSpirit" } }, [
                     _vm._v(
                       "Spirit Killer: " + _vm._s(_vm.physKillerLimits.spirit)
                     )
@@ -44685,7 +45231,7 @@ var render = function() {
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-physSpirit",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44723,7 +45269,7 @@ var render = function() {
           [
             _c("p", { staticClass: "searchHeader" }, [
               _vm._v(
-                "\n                Magical Killers (Greater than):\n            "
+                "\n                Magical Killers (Greater or Equal To):\n            "
               )
             ]),
             _vm._v(" "),
@@ -44732,7 +45278,7 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-magAquatic" } }, [
                     _vm._v(
                       "Aquatic Killer:\n                        " +
                         _vm._s(_vm.magKillerLimits.aquatic)
@@ -44742,7 +45288,7 @@ var render = function() {
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-magAquatic",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44764,14 +45310,14 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-magBeast" } }, [
                     _vm._v("Beast Killer: " + _vm._s(_vm.magKillerLimits.beast))
                   ]),
                   _vm._v(" "),
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-magBeast",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44793,14 +45339,14 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-magBird" } }, [
                     _vm._v("Bird Killer: " + _vm._s(_vm.magKillerLimits.bird))
                   ]),
                   _vm._v(" "),
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-magBird",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44822,14 +45368,14 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-magBug" } }, [
                     _vm._v("Bug Killer: " + _vm._s(_vm.magKillerLimits.bug))
                   ]),
                   _vm._v(" "),
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-magBug",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44851,14 +45397,14 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-magDemon" } }, [
                     _vm._v("Demon Killer: " + _vm._s(_vm.magKillerLimits.demon))
                   ]),
                   _vm._v(" "),
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-magDemon",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44880,7 +45426,7 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-magDragon" } }, [
                     _vm._v(
                       "Dragon Killer: " + _vm._s(_vm.magKillerLimits.dragon)
                     )
@@ -44889,7 +45435,7 @@ var render = function() {
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-magDragon",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44911,14 +45457,14 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-magDemon" } }, [
                     _vm._v("Human Killer: " + _vm._s(_vm.magKillerLimits.human))
                   ]),
                   _vm._v(" "),
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-magDemon",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44940,7 +45486,7 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-magMachine" } }, [
                     _vm._v(
                       "Machine Killer:\n                        " +
                         _vm._s(_vm.magKillerLimits.machine)
@@ -44950,7 +45496,7 @@ var render = function() {
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-magMachine",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -44972,14 +45518,14 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-magPlant" } }, [
                     _vm._v("Plant Killer: " + _vm._s(_vm.magKillerLimits.plant))
                   ]),
                   _vm._v(" "),
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-magPlant",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -45001,7 +45547,7 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-magPlant" } }, [
                     _vm._v(
                       "Undead Killer: " + _vm._s(_vm.magKillerLimits.undead)
                     )
@@ -45010,7 +45556,7 @@ var render = function() {
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-magPlant",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -45032,14 +45578,14 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-magStone" } }, [
                     _vm._v("Stone Killer: " + _vm._s(_vm.magKillerLimits.stone))
                   ]),
                   _vm._v(" "),
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-magStone",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -45061,7 +45607,7 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-2 col-sm-4 col-6" },
                 [
-                  _c("label", { attrs: { for: "range-hp" } }, [
+                  _c("label", { attrs: { for: "range-magSpirit" } }, [
                     _vm._v(
                       "Spirit Killer: " + _vm._s(_vm.magKillerLimits.spirit)
                     )
@@ -45070,7 +45616,7 @@ var render = function() {
                   _c("b-form-input", {
                     staticClass: "mt-2",
                     attrs: {
-                      id: "range-hp",
+                      id: "range-magSpirit",
                       type: "range",
                       min: "0",
                       step: "25",
@@ -45303,101 +45849,55 @@ var render = function() {
                 _c(
                   "ul",
                   [
-                    _c(
-                      "b-button",
-                      {
-                        directives: [
-                          {
-                            name: "b-toggle",
-                            rawName: "v-b-toggle",
-                            value: "collapse-physkillers" + data.item.id,
-                            expression: "'collapse-physkillers' + data.item.id"
-                          }
-                        ],
-                        attrs: { variant: "primary" }
-                      },
-                      [_vm._v("Physical")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-collapse",
-                      {
-                        staticClass: "mt-2",
-                        attrs: { id: "collapse-physkillers" + data.item.id }
-                      },
-                      [
-                        _vm._l(data.item.physkillers, function(
-                          killers,
-                          key,
-                          index
-                        ) {
-                          return [
-                            killers != 0
-                              ? _c("li", { key: "phys" + index }, [
-                                  _vm._v(
-                                    "\n                            " +
-                                      _vm._s(_vm._f("capitalize")(key)) +
-                                      ": " +
-                                      _vm._s(killers) +
-                                      "%\n                        "
-                                  )
-                                ])
-                              : _vm._e()
-                          ]
-                        })
-                      ],
-                      2
-                    ),
-                    _vm._v(" "),
-                    _c("hr"),
-                    _vm._v(" "),
-                    _c(
-                      "b-button",
-                      {
-                        directives: [
-                          {
-                            name: "b-toggle",
-                            rawName: "v-b-toggle",
-                            value: "collapse-magkillers" + data.item.id,
-                            expression: "'collapse-magkillers' + data.item.id"
-                          }
-                        ],
-                        attrs: { variant: "success" }
-                      },
-                      [_vm._v("Magical")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-collapse",
-                      {
-                        staticClass: "mt-2",
-                        attrs: { id: "collapse-magkillers" + data.item.id }
-                      },
-                      [
-                        _vm._l(data.item.magkillers, function(
-                          killers,
-                          key,
-                          index
-                        ) {
-                          return [
-                            killers != 0
-                              ? _c("li", { key: "mag" + index }, [
-                                  _vm._v(
-                                    "\n                            " +
-                                      _vm._s(_vm._f("capitalize")(key)) +
-                                      ": " +
-                                      _vm._s(killers) +
-                                      "%\n                        "
-                                  )
-                                ])
-                              : _vm._e()
-                          ]
-                        })
-                      ],
-                      2
-                    )
+                    _vm._l(data.item.magkillers, function(killers, key, index) {
+                      return [
+                        killers != 0
+                          ? _c("li", { key: "mag" + index }, [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(_vm._f("capitalize")(key)) +
+                                  ": " +
+                                  _vm._s(killers) +
+                                  "%\n                    "
+                              )
+                            ])
+                          : _vm._e()
+                      ]
+                    })
                   ],
-                  1
+                  2
+                )
+              ]
+            }
+          },
+          {
+            key: "cell(physkillers)",
+            fn: function(data) {
+              return [
+                _c(
+                  "ul",
+                  [
+                    _vm._l(data.item.physkillers, function(
+                      killers,
+                      key,
+                      index
+                    ) {
+                      return [
+                        killers != 0
+                          ? _c("li", { key: "phys" + index }, [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(_vm._f("capitalize")(key)) +
+                                  ": " +
+                                  _vm._s(killers) +
+                                  "%\n                    "
+                              )
+                            ])
+                          : _vm._e()
+                      ]
+                    })
+                  ],
+                  2
                 )
               ]
             }

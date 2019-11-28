@@ -26,6 +26,10 @@
                     Restrictions</label
                 >
                 <label class="col-md-2 col-sm-4 col-6"
+                    ><input type="checkbox" v-model="toggleElemental" />
+                    Elemental Resists</label
+                >
+                <label class="col-md-2 col-sm-4 col-6"
                     ><input type="checkbox" v-model="toggleStatus" /> Status
                     Resists</label
                 >
@@ -44,6 +48,15 @@
                     Hide/Show Columns:
                 </p>
                 <div class="row">
+                    <label class="col-md-2 col-sm-4 col-6"
+                        ><input
+                            class="profile"
+                            type="checkbox"
+                            @change="show_hide('profile')"
+                            checked
+                        />
+                        Show Profile</label
+                    >
                     <label class="col-md-2 col-sm-4 col-6"
                         ><input
                             class="element_weapon"
@@ -112,7 +125,6 @@
                             class="pevade"
                             type="checkbox"
                             @change="show_hide('pevade')"
-                            checked
                         />
                         Show Physical Evade</label
                     >
@@ -121,9 +133,16 @@
                             class="lb_damage"
                             type="checkbox"
                             @change="show_hide('lb_damage')"
-                            checked
                         />
                         Show LB Damage</label
+                    >
+                    <label class="col-md-2 col-sm-4 col-6"
+                        ><input
+                            class="physkillers"
+                            type="checkbox"
+                            @change="show_hide('physkillers')"
+                        />
+                        Show Physical Killers</label
                     >
                     <label class="col-md-2 col-sm-4 col-6"
                         ><input
@@ -131,7 +150,7 @@
                             type="checkbox"
                             @change="show_hide('magkillers')"
                         />
-                        Show Killers</label
+                        Show Magic Killers</label
                     >
                     <label class="col-md-2 col-sm-4 col-6"
                         ><input
@@ -272,6 +291,127 @@
                 </div>
                 <hr />
             </div>
+            <div v-show="toggleElemental">
+                <p class="searchHeader">
+                    Elemental Resistance (Greater or Equal To):
+                </p>
+                <div class="row mt-2">
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <label for="range-fire"
+                            >Fire Resist: {{ elementalLimits.fire }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-fire"
+                            v-model.number="elementalLimits.fire"
+                            type="range"
+                            min="0"
+                            step="10"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <label for="range-ice"
+                            >Ice Resist: {{ elementalLimits.ice }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-ice"
+                            v-model.number="elementalLimits.ice"
+                            type="range"
+                            min="0"
+                            step="10"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <label for="range-lightning"
+                            >Lightning Resist:
+                            {{ elementalLimits.lightning }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-lightning"
+                            v-model.number="elementalLimits.lightning"
+                            type="range"
+                            min="0"
+                            step="10"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <label for="range-water"
+                            >Water Resist: {{ elementalLimits.water }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-water"
+                            v-model.number="elementalLimits.water"
+                            type="range"
+                            min="0"
+                            step="10"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <label for="range-wind"
+                            >Wind Resist: {{ elementalLimits.wind }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-wind"
+                            v-model.number="elementalLimits.wind"
+                            type="range"
+                            min="0"
+                            step="10"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <label for="range-earth"
+                            >Earth Resist: {{ elementalLimits.earth }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-earth"
+                            v-model.number="elementalLimits.earth"
+                            type="range"
+                            min="0"
+                            step="10"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <label for="range-light"
+                            >Light Resist: {{ elementalLimits.light }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-light"
+                            v-model.number="elementalLimits.light"
+                            type="range"
+                            min="0"
+                            step="10"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <label for="range-dark"
+                            >Dark Resist: {{ elementalLimits.dark }}</label
+                        >
+                        <b-form-input
+                            class="mt-2"
+                            id="range-dark"
+                            v-model.number="elementalLimits.dark"
+                            type="range"
+                            min="0"
+                            step="10"
+                            max="300"
+                        ></b-form-input>
+                    </div>
+                </div>
+                <hr />
+            </div>
             <div v-show="toggleStatus">
                 <p class="searchHeader">
                     Status Resists (100%):
@@ -284,6 +424,30 @@
                             v-model="ribbonCheck"
                         />
                         Ribbon</label
+                    >
+                    <label class="col-md-2 col-sm-4 col-6"
+                        ><input
+                            class="status"
+                            type="checkbox"
+                            v-model="deathCheck"
+                        />
+                        Death</label
+                    >
+                    <label class="col-md-2 col-sm-4 col-6"
+                        ><input
+                            class="status"
+                            type="checkbox"
+                            v-model="charmCheck"
+                        />
+                        Charm</label
+                    >
+                    <label class="col-md-2 col-sm-4 col-6"
+                        ><input
+                            class="status"
+                            type="checkbox"
+                            v-model="stopCheck"
+                        />
+                        Stop</label
                     >
                     <label class="col-md-2 col-sm-4 col-6"
                         ><input
@@ -345,43 +509,27 @@
                         ><input
                             class="status"
                             type="checkbox"
-                            v-model="deathCheck"
+                            v-model="stoneCheck"
                         />
-                        Death</label
-                    >
-                    <label class="col-md-2 col-sm-4 col-6"
-                        ><input
-                            class="status"
-                            type="checkbox"
-                            v-model="charmCheck"
-                        />
-                        Charm</label
-                    >
-                    <label class="col-md-2 col-sm-4 col-6"
-                        ><input
-                            class="status"
-                            type="checkbox"
-                            v-model="stopCheck"
-                        />
-                        Stop</label
+                        Stone</label
                     >
                 </div>
                 <hr />
             </div>
             <div v-show="togglePhysical">
                 <p class="searchHeader">
-                    Physical Killers (Greater than):
+                    Physical Killers (Greater or Equal To):
                 </p>
 
                 <div class="row mt-2">
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-physAqua"
                             >Aquatic Killer:
                             {{ physKillerLimits.aquatic }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-physAqua"
                             v-model.number="physKillerLimits.aquatic"
                             type="range"
                             min="0"
@@ -390,12 +538,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-physBeast"
                             >Beast Killer: {{ physKillerLimits.beast }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-physBeast"
                             v-model.number="physKillerLimits.beast"
                             type="range"
                             min="0"
@@ -404,12 +552,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-physBird"
                             >Bird Killer: {{ physKillerLimits.bird }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-physBird"
                             v-model.number="physKillerLimits.bird"
                             type="range"
                             min="0"
@@ -418,12 +566,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-physBug"
                             >Bug Killer: {{ physKillerLimits.bug }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-physBug"
                             v-model.number="physKillerLimits.bug"
                             type="range"
                             min="0"
@@ -432,12 +580,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-physDemon"
                             >Demon Killer: {{ physKillerLimits.demon }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-physDemon"
                             v-model.number="physKillerLimits.demon"
                             type="range"
                             min="0"
@@ -446,12 +594,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-physDragon"
                             >Dragon Killer: {{ physKillerLimits.dragon }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-physDragon"
                             v-model.number="physKillerLimits.dragon"
                             type="range"
                             min="0"
@@ -460,12 +608,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-physHuman"
                             >Human Killer: {{ physKillerLimits.human }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-physHuman"
                             v-model.number="physKillerLimits.human"
                             type="range"
                             min="0"
@@ -474,13 +622,13 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-physMachine"
                             >Machine Killer:
                             {{ physKillerLimits.machine }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-physMachine"
                             v-model.number="physKillerLimits.machine"
                             type="range"
                             min="0"
@@ -489,12 +637,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-physPlant"
                             >Plant Killer: {{ physKillerLimits.plant }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-physPlant"
                             v-model.number="physKillerLimits.plant"
                             type="range"
                             min="0"
@@ -503,12 +651,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-physUndead"
                             >Undead Killer: {{ physKillerLimits.undead }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-physUndead"
                             v-model.number="physKillerLimits.undead"
                             type="range"
                             min="0"
@@ -517,12 +665,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-phyStone"
                             >Stone Killer: {{ physKillerLimits.stone }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-phyStone"
                             v-model.number="physKillerLimits.stone"
                             type="range"
                             min="0"
@@ -531,12 +679,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-physSpirit"
                             >Spirit Killer: {{ physKillerLimits.spirit }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-physSpirit"
                             v-model.number="physKillerLimits.spirit"
                             type="range"
                             min="0"
@@ -550,18 +698,18 @@
             </div>
             <div v-show="toggleMagical">
                 <p class="searchHeader">
-                    Magical Killers (Greater than):
+                    Magical Killers (Greater or Equal To):
                 </p>
 
                 <div class="row mt-2">
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-magAquatic"
                             >Aquatic Killer:
                             {{ magKillerLimits.aquatic }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-magAquatic"
                             v-model.number="magKillerLimits.aquatic"
                             type="range"
                             min="0"
@@ -570,12 +718,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-magBeast"
                             >Beast Killer: {{ magKillerLimits.beast }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-magBeast"
                             v-model.number="magKillerLimits.beast"
                             type="range"
                             min="0"
@@ -584,12 +732,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-magBird"
                             >Bird Killer: {{ magKillerLimits.bird }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-magBird"
                             v-model.number="magKillerLimits.bird"
                             type="range"
                             min="0"
@@ -598,12 +746,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-magBug"
                             >Bug Killer: {{ magKillerLimits.bug }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-magBug"
                             v-model.number="magKillerLimits.bug"
                             type="range"
                             min="0"
@@ -612,12 +760,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-magDemon"
                             >Demon Killer: {{ magKillerLimits.demon }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-magDemon"
                             v-model.number="magKillerLimits.demon"
                             type="range"
                             min="0"
@@ -626,12 +774,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-magDragon"
                             >Dragon Killer: {{ magKillerLimits.dragon }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-magDragon"
                             v-model.number="magKillerLimits.dragon"
                             type="range"
                             min="0"
@@ -640,12 +788,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-magDemon"
                             >Human Killer: {{ magKillerLimits.human }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-magDemon"
                             v-model.number="magKillerLimits.human"
                             type="range"
                             min="0"
@@ -654,13 +802,13 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-magMachine"
                             >Machine Killer:
                             {{ magKillerLimits.machine }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-magMachine"
                             v-model.number="magKillerLimits.machine"
                             type="range"
                             min="0"
@@ -669,12 +817,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-magPlant"
                             >Plant Killer: {{ magKillerLimits.plant }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-magPlant"
                             v-model.number="magKillerLimits.plant"
                             type="range"
                             min="0"
@@ -683,12 +831,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-magPlant"
                             >Undead Killer: {{ magKillerLimits.undead }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-magPlant"
                             v-model.number="magKillerLimits.undead"
                             type="range"
                             min="0"
@@ -697,12 +845,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-magStone"
                             >Stone Killer: {{ magKillerLimits.stone }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-magStone"
                             v-model.number="magKillerLimits.stone"
                             type="range"
                             min="0"
@@ -711,12 +859,12 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-2 col-sm-4 col-6">
-                        <label for="range-hp"
+                        <label for="range-magSpirit"
                             >Spirit Killer: {{ magKillerLimits.spirit }}</label
                         >
                         <b-form-input
                             class="mt-2"
-                            id="range-hp"
+                            id="range-magSpirit"
                             v-model.number="magKillerLimits.spirit"
                             type="range"
                             min="0"
@@ -821,45 +969,27 @@
 
             <template v-slot:cell(magkillers)="data">
                 <ul>
-                    <b-button
-                        v-b-toggle="'collapse-physkillers' + data.item.id"
-                        variant="primary"
-                        >Physical</b-button
+                    <template
+                        v-for="(killers, key, index) in data.item.magkillers"
                     >
-                    <b-collapse
-                        :id="'collapse-physkillers' + data.item.id"
-                        class="mt-2"
-                    >
-                        <template
-                            v-for="(killers, key, index) in data.item
-                                .physkillers"
-                        >
-                            <li v-if="killers != 0" :key="'phys' + index">
-                                {{ key | capitalize }}: {{ killers }}%
-                            </li>
-                        </template>
-                    </b-collapse>
-                    <hr />
-                    <b-button
-                        v-b-toggle="'collapse-magkillers' + data.item.id"
-                        variant="success"
-                        >Magical</b-button
-                    >
-                    <b-collapse
-                        :id="'collapse-magkillers' + data.item.id"
-                        class="mt-2"
-                    >
-                        <template
-                            v-for="(killers, key, index) in data.item
-                                .magkillers"
-                        >
-                            <li v-if="killers != 0" :key="'mag' + index">
-                                {{ key | capitalize }}: {{ killers }}%
-                            </li>
-                        </template>
-                    </b-collapse>
+                        <li v-if="killers != 0" :key="'mag' + index">
+                            {{ key | capitalize }}: {{ killers }}%
+                        </li>
+                    </template>
                 </ul>
             </template>
+            <template v-slot:cell(physkillers)="data">
+                <ul>
+                    <template
+                        v-for="(killers, key, index) in data.item.physkillers"
+                    >
+                        <li v-if="killers != 0" :key="'phys' + index">
+                            {{ key | capitalize }}: {{ killers }}%
+                        </li>
+                    </template>
+                </ul>
+            </template>
+
             <template v-slot:cell(status)="data">
                 <ul>
                     <template v-for="(status, key, index) in data.item.status">
@@ -917,6 +1047,7 @@ export default {
             toggleStatus: false,
             togglePhysical: false,
             toggleMagical: false,
+            toggleElemental: false,
             hpLimit: 0,
             mpLimit: 0,
             atkLimit: 0,
@@ -953,6 +1084,16 @@ export default {
                 stone: 0,
                 spirit: 0
             },
+            elementalLimits: {
+                fire: 0,
+                ice: 0,
+                lightning: 0,
+                water: 0,
+                wind: 0,
+                earth: 0,
+                light: 0,
+                dark: 0
+            },
             ribbonCheck: false,
             stopCheck: false,
             charmCheck: false,
@@ -964,6 +1105,7 @@ export default {
             silenceCheck: false,
             confusionCheck: false,
             diseaseCheck: false,
+            stoneCheck: false,
             fields: [
                 {
                     key: "name",
@@ -973,7 +1115,9 @@ export default {
                 {
                     key: "profile",
                     label: "Profile",
-                    sortable: false
+                    sortable: false,
+                    thClass: "",
+                    tdClass: ""
                 },
                 {
                     key: "element_weapon",
@@ -1028,21 +1172,30 @@ export default {
                     key: "pevade",
                     label: "P.Evade",
                     sortable: true,
-                    thClass: "",
-                    tdClass: ""
+                    thClass: "d-none",
+                    tdClass: "d-none",
+                    defaultCol: false
                 },
                 {
                     key: "lb_damage",
                     label: "LB",
                     sortable: true,
-                    thClass: "",
-                    tdClass: ""
+                    thClass: "d-none",
+                    tdClass: "d-none",
+                    defaultCol: false
                 },
                 {
                     key: "magkillers",
-                    label: "Killers",
+                    label: "M.Killers",
                     sortable: false,
-                    colspan: 3,
+                    thClass: "d-none",
+                    tdClass: "d-none",
+                    defaultCol: false
+                },
+                {
+                    key: "physkillers",
+                    label: "P.Killers",
+                    sortable: false,
                     thClass: "d-none",
                     tdClass: "d-none",
                     defaultCol: false
@@ -1119,6 +1272,7 @@ export default {
                 let silence = unit.status.silence >= 100;
                 let confusion = unit.status.confusion >= 100;
                 let disease = unit.status.disease >= 100;
+                let stone = unit.status.stone >= 100;
                 let ribbon =
                     poison &&
                     blind &&
@@ -1179,6 +1333,17 @@ export default {
                 let mag_spirit =
                     unit.magkillers.spirit >= this.magKillerLimits.spirit;
 
+                //elemental filters
+                let fire = unit.elemental.fire >= this.elementalLimits.fire;
+                let ice = unit.elemental.ice >= this.elementalLimits.ice;
+                let lightning =
+                    unit.elemental.lightning >= this.elementalLimits.lightning;
+                let water = unit.elemental.water >= this.elementalLimits.water;
+                let wind = unit.elemental.wind >= this.elementalLimits.wind;
+                let earth = unit.elemental.earth >= this.elementalLimits.earth;
+                let light = unit.elemental.light >= this.elementalLimits.light;
+                let dark = unit.elemental.dark >= this.elementalLimits.dark;
+
                 return (
                     (unitName || inGameName) &&
                     attackLimit &&
@@ -1213,6 +1378,14 @@ export default {
                     mag_undead &&
                     mag_stone &&
                     mag_spirit &&
+                    fire &&
+                    ice &&
+                    lightning &&
+                    water &&
+                    wind &&
+                    earth &&
+                    light &&
+                    dark &&
                     (ribbon || !this.ribbonCheck) &&
                     (stop || !this.stopCheck) &&
                     (charm || !this.charmCheck) &&
@@ -1223,7 +1396,8 @@ export default {
                     (paralyze || !this.paralyzeCheck) &&
                     (silence || !this.silenceCheck) &&
                     (confusion || !this.confusionCheck) &&
-                    (disease || !this.diseaseCheck)
+                    (disease || !this.diseaseCheck) &&
+                    (stone || !this.stoneCheck)
                 );
             });
         },
@@ -1251,8 +1425,15 @@ export default {
                     document.querySelector("." + col.key).checked = false;
                     col.thClass = "d-none";
                     col.tdClass = "d-none";
+                } else {
+                    if (col.key !== "name") {
+                        document.querySelector("." + col.key).checked = true;
+                        col.thClass = "";
+                        col.tdClass = "";
+                    }
                 }
             });
+
             //reset stat filters
             this.hpLimit = 0;
             this.mpLimit = 0;
@@ -1262,6 +1443,16 @@ export default {
             this.sprLimit = 0;
             this.lbLimit = 0;
             this.evadeLimit = 0;
+
+            //reset elemental filters
+            this.elementalLimits.fire = 0;
+            this.elementalLimits.ice = 0;
+            this.elementalLimits.lightning = 0;
+            this.elementalLimits.water = 0;
+            this.elementalLimits.wind = 0;
+            this.elementalLimits.earth = 0;
+            this.elementalLimits.light = 0;
+            this.elementalLimits.dark = 0;
 
             //reset physical killers
             Object.keys(this.physKillerLimits).forEach(key => {
