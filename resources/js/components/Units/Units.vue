@@ -1476,6 +1476,7 @@ export default {
             this.deathCheck = false;
             this.charmCheck = false;
             this.stopCheck = false;
+            this.stoneCheck = false;
         }
     }
 };
