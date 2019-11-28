@@ -30,8 +30,8 @@
                     Elemental Filters</label
                 >
                 <label class="col-md-2 col-sm-4 col-6 searchHeader"
-                    ><input type="checkbox" v-model="toggleStatus" /> Status Resist
-                    Filters</label
+                    ><input type="checkbox" v-model="toggleStatus" /> Status
+                    Resist Filters</label
                 >
                 <label class="col-md-2 col-sm-4 col-6 searchHeader"
                     ><input type="checkbox" v-model="togglePhysical" /> Physical
@@ -177,9 +177,7 @@
                 </p>
                 <div class="row mt-2">
                     <div class="col-md-3 col-sm-6 col-12">
-                        <label for="range-hp"
-                            >HP: {{ hpLimit }}</label
-                        >
+                        <label for="range-hp">HP: {{ hpLimit }}</label>
                         <b-form-input
                             class="mt-2"
                             id="range-hp"
@@ -191,9 +189,7 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
-                        <label for="range-mp"
-                            >MP: {{ mpLimit }}</label
-                        >
+                        <label for="range-mp">MP: {{ mpLimit }}</label>
                         <b-form-input
                             class="mt-2"
                             id="range-mp"
@@ -205,9 +201,7 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
-                        <label for="range-atk"
-                            >Attack: {{ atkLimit }}</label
-                        >
+                        <label for="range-atk">Attack: {{ atkLimit }}</label>
                         <b-form-input
                             class="mt-2"
                             id="range-atk"
@@ -219,9 +213,7 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
-                        <label for="range-mag"
-                            >Magic: {{ magLimit }}</label
-                        >
+                        <label for="range-mag">Magic: {{ magLimit }}</label>
                         <b-form-input
                             class="mt-2"
                             id="range-mag"
@@ -233,9 +225,7 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
-                        <label for="range-def"
-                            >Defense: {{ defLimit }}</label
-                        >
+                        <label for="range-def">Defense: {{ defLimit }}</label>
                         <b-form-input
                             class="mt-2"
                             id="range-def"
@@ -247,9 +237,7 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
-                        <label for="range-spr"
-                            >Spirit: {{ sprLimit }}</label
-                        >
+                        <label for="range-spr">Spirit: {{ sprLimit }}</label>
                         <b-form-input
                             class="mt-2"
                             id="range-spr"
@@ -261,9 +249,7 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
-                        <label for="range-limit"
-                            >LB: {{ lbLimit }}</label
-                        >
+                        <label for="range-limit">LB: {{ lbLimit }}</label>
                         <b-form-input
                             class="mt-2"
                             id="range-limit"
@@ -275,9 +261,7 @@
                         ></b-form-input>
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
-                        <label for="range-limit"
-                            >Evade: {{ evadeLimit }}</label
-                        >
+                        <label for="range-limit">Evade: {{ evadeLimit }}</label>
                         <b-form-input
                             class="mt-2"
                             id="range-limit"
@@ -289,7 +273,12 @@
                         ></b-form-input>
                     </div>
                 </div>
-                <button @click="resetStatFilters" class="btn btn-link text-danger pl-0 ml-0 mt-4">Clear Stat Restrictions</button>
+                <button
+                    @click="resetStatFilters"
+                    class="btn btn-link text-danger pl-0 ml-0 mt-4"
+                >
+                    Clear Stat Restrictions
+                </button>
                 <hr />
             </div>
             <div v-show="toggleElemental">
@@ -304,7 +293,13 @@
                         @change="changeElementalLimit"
                     />
                     Allow Negative Resistance
+                    <span id="negativeInfo" class="text-primary"
+                        ><i class="far fa-question-circle"></i
+                    ></span>
                 </label>
+                <b-tooltip target="negativeInfo" triggers="hover">
+                    Includes Unit's with -50% (or below) Elemental Resists whether due to Esper's or Equipment
+                </b-tooltip>
                 <div class="row mt-2">
                     <div class="col-md-3 col-sm-6 col-12">
                         <label for="range-fire"
@@ -420,7 +415,12 @@
                         ></b-form-input>
                     </div>
                 </div>
-                 <button @click="resetElementalFilters" class="btn btn-link text-danger pl-0 ml-0 mt-4">Clear Elemental Restrictions</button>
+                <button
+                    @click="resetElementalFilters"
+                    class="btn btn-link text-danger pl-0 ml-0 mt-4"
+                >
+                    Clear Elemental Restrictions
+                </button>
                 <hr />
             </div>
             <div v-show="toggleStatus">
@@ -525,7 +525,12 @@
                         Stone</label
                     >
                 </div>
-                  <button @click="resetStatusFilters" class="btn btn-link text-danger pl-0 ml-0 mt-4">Clear Ailment Restrictions</button>
+                <button
+                    @click="resetStatusFilters"
+                    class="btn btn-link text-danger pl-0 ml-0 mt-4"
+                >
+                    Clear Ailment Restrictions
+                </button>
                 <hr />
             </div>
             <div v-show="togglePhysical">
@@ -708,7 +713,12 @@
                         ></b-form-input>
                     </div>
                 </div>
- <button @click="resetPhysicalKillers" class="btn btn-link text-danger pl-0 ml-0 mt-4">Clear Physical Killer Restrictions</button>
+                <button
+                    @click="resetPhysicalKillers"
+                    class="btn btn-link text-danger pl-0 ml-0 mt-4"
+                >
+                    Clear Physical Killer Restrictions
+                </button>
                 <hr />
             </div>
             <div v-show="toggleMagical">
@@ -888,7 +898,12 @@
                         ></b-form-input>
                     </div>
                 </div>
-                <button @click="resetMagicalKillers" class="btn btn-link text-danger pl-0 ml-0 mt-4">Clear Magical Killer Restrictions</button>
+                <button
+                    @click="resetMagicalKillers"
+                    class="btn btn-link text-danger pl-0 ml-0 mt-4"
+                >
+                    Clear Magical Killer Restrictions
+                </button>
             </div>
             <div class="row mt-4">
                 <div class="mx-auto mx-0">
@@ -1550,5 +1565,9 @@ li {
 
 .searchHeader {
     font-weight: bold;
+}
+
+#negativeInfo {
+    cursor: pointer;
 }
 </style>
