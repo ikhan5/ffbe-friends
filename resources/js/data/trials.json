@@ -1,6 +1,6 @@
 {
     "SBB": {
-        "trials": ["Emperor", "Chaotic Darkness", "Neo Exdeath"]
+        "trials": ["Emperor", "Chaotic Darkness", "Neo Exdeath", "Kefka"]
     },
     "Vengeful": {
         "trials": ["Demon Matsuri", "The Emperess Supreme", "Armeggedon"]
@@ -54,6 +54,6 @@
         ]
     },
     "Event": {
-        "trials": ["Running Through Daybreak: Bonus Stage", "Narsh: LGD"]
+        "trials": []
     }
 }

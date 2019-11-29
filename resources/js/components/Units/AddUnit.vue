@@ -38,7 +38,7 @@
                             Equip link (this unit only)' on
                             <a href="https://ffbeequip.com/builder.html"
                                 >FFBE Equip</a
-                            >. Please avoid using external percentage buffs. 
+                            >. Please avoid using external percentage buffs.
                         </small>
                     </div>
                 </div>
@@ -66,6 +66,12 @@
                     <h3 class="text-danger">
                         Cannot Find Unit! Double check your build ID and try
                         again
+                    </h3>
+                </div>
+                <div v-if="buffed">
+                    <h3 class="text-danger">
+                        Please remove all external percentage buffs from your
+                        unit.
                     </h3>
                 </div>
                 <template v-if="unitFound">
@@ -123,7 +129,7 @@
                                         <li>Magic: {{ mag }}</li>
                                         <li>Spirit: {{ spr }}</li>
                                         <li>P.Evasion: {{ evade }}%</li>
-                                        <li>LB Damage: {{lb_damage}}%</li>
+                                        <li>LB Damage: {{ lb_damage }}%</li>
                                     </ul>
                                     <ul class="col-md-2 col-sm-4 col-6">
                                         <span class="column-header"
@@ -274,6 +280,7 @@ export default {
                 "Nemesis 1",
                 "Nemesis 2"
             ],
+            buffed: false,
             buildURL: "", //test value = 22181910-0f01-11ea-b959-9b5568739fdf
             status: {
                 poison: "",
@@ -424,6 +431,7 @@ export default {
                 this.isLoading = true;
                 this.unitFound = false;
                 this.notFound = false;
+                this.buffed = false;
                 axios
                     .get(
                         "https://firebasestorage.googleapis.com/v0/b/ffbeequip.appspot.com/o/PartyBuilds%2F" +
@@ -431,100 +439,144 @@ export default {
                             ".json?alt=media"
                     )
                     .then(res => {
+                        let checkBuff = this.checkBuffs(
+                            res.data.units[0].buffs
+                        );
                         this.isLoading = false;
-                        this.unitFound = true;
-                        this.notFound = false;
-                        let unit = res.data.units[0].calculatedValues;
-                        let key = res.data.units[0].id;
-                        let findUnit = this.units.find(x => x.id === key);
-                        this.elementWeapons = [];
-                        this.slot='';
-                        // Get weapon elements
-                        let weapons = res.data.units[0].items.slice(0, 2);
+                        if (checkBuff) {
+                            //b6091bd0-12f1-11ea-9f71-fbb311f0fb55 test value
+                            this.buffed = true;
+                        } else {
+                            this.buffed = false;
+                            this.unitFound = true;
+                            this.notFound = false;
+                            let unit = res.data.units[0].calculatedValues;
+                            let key = res.data.units[0].id;
+                            let findUnit = this.units.find(x => x.id === key);
+                            this.elementWeapons = [];
+                            this.slot = "";
+                            // Get weapon elements
+                            let weapons = res.data.units[0].items;
+                            weapons.find(x => {
+                                if (x.slot === 0 || x.slot === 1) {
+                                    let temp = Items.find(i => i.id === x.id);
+                                    if (temp.element) {
+                                        this.elementWeapons.push(
+                                            temp.element[0]
+                                                .charAt(0)
+                                                .toUpperCase() +
+                                                temp.element[0].slice(1)
+                                        );
+                                    }
+                                }
+                            });
 
-                        weapons.forEach(weapon => {
-                            let temp = Items.find(i => i.id === weapon.id);
-                            if (temp.element) {
-                                this.elementWeapons.push(
-                                    temp.element[0].charAt(0).toUpperCase() +
-                                        temp.element[0].slice(1)
-                                );
-                            }
-                        });
+                            //unit info
+                            this.rarity = res.data.units[0].rarity;
+                            this.name = findUnit.name;
 
-                        //unit info
-                        this.rarity = res.data.units[0].rarity;
-                        this.name = findUnit.name;
+                            //base stats
+                            this.atk = unit.atk.value;
+                            this.mag = unit.mag.value;
+                            this.def = unit.def.value;
+                            this.spr = unit.spr.value;
+                            this.hp = unit.hp.value;
+                            this.mp = unit.mp.value;
+                            this.evade = unit.physicalEvasion.value;
+                            this.lb_damage = unit.lbDamage.value;
 
-                        //base stats
-                        this.atk = unit.atk.value;
-                        this.mag = unit.mag.value;
-                        this.def = unit.def.value;
-                        this.spr = unit.spr.value;
-                        this.hp = unit.hp.value;
-                        this.mp = unit.mp.value;
-                        this.evade = unit.physicalEvasion.value;
-                        this.lb_damage = unit.lbDamage.value;
+                            //elemental resists
+                            this.elemental.fire = unit.elementResists.fire;
+                            this.elemental.ice = unit.elementResists.ice;
+                            this.elemental.lightning =
+                                unit.elementResists.lightning;
+                            this.elemental.wind = unit.elementResists.wind;
+                            this.elemental.earth = unit.elementResists.earth;
+                            this.elemental.water = unit.elementResists.water;
+                            this.elemental.light = unit.elementResists.light;
+                            this.elemental.dark = unit.elementResists.dark;
 
-                        //elemental resists
-                        this.elemental.fire = unit.elementResists.fire;
-                        this.elemental.ice = unit.elementResists.ice;
-                        this.elemental.lightning =
-                            unit.elementResists.lightning;
-                        this.elemental.wind = unit.elementResists.wind;
-                        this.elemental.earth = unit.elementResists.earth;
-                        this.elemental.water = unit.elementResists.water;
-                        this.elemental.light = unit.elementResists.light;
-                        this.elemental.dark = unit.elementResists.dark;
+                            //ailment resists
+                            this.status.poison = unit.ailmentResists.poison;
+                            this.status.blind = unit.ailmentResists.blind;
+                            this.status.sleep = unit.ailmentResists.sleep;
+                            this.status.silence = unit.ailmentResists.silence;
+                            this.status.paralyze =
+                                unit.ailmentResists.paralysis;
+                            this.status.confusion = unit.ailmentResists.confuse;
+                            this.status.disease = unit.ailmentResists.disease;
+                            this.status.stone =
+                                unit.ailmentResists.petrification;
+                            this.status.death = unit.ailmentResists.death;
+                            this.status.charm = unit.ailmentResists.charm;
+                            this.status.stop = unit.ailmentResists.stop;
 
-                        //ailment resists
-                        this.status.poison = unit.ailmentResists.poison;
-                        this.status.blind = unit.ailmentResists.blind;
-                        this.status.sleep = unit.ailmentResists.sleep;
-                        this.status.silence = unit.ailmentResists.silence;
-                        this.status.paralyze = unit.ailmentResists.paralysis;
-                        this.status.confusion = unit.ailmentResists.confuse;
-                        this.status.disease = unit.ailmentResists.disease;
-                        this.status.stone = unit.ailmentResists.petrification;
-                        this.status.death = unit.ailmentResists.death;
-                        this.status.charm = unit.ailmentResists.charm;
-                        this.status.stop = unit.ailmentResists.stop;
+                            //physical killlers
+                            this.physkillers.aquatic =
+                                unit.killers.aquatic.physical;
+                            this.physkillers.beast =
+                                unit.killers.beast.physical;
+                            this.physkillers.bird = unit.killers.bird.physical;
+                            this.physkillers.bug = unit.killers.bug.physical;
+                            this.physkillers.demon =
+                                unit.killers.demon.physical;
+                            this.physkillers.dragon =
+                                unit.killers.dragon.physical;
+                            this.physkillers.human =
+                                unit.killers.human.physical;
+                            this.physkillers.machine =
+                                unit.killers.machine.physical;
+                            this.physkillers.plant =
+                                unit.killers.plant.physical;
+                            this.physkillers.undead =
+                                unit.killers.undead.physical;
+                            this.physkillers.stone =
+                                unit.killers.stone.physical;
+                            this.physkillers.spirit =
+                                unit.killers.spirit.physical;
 
-                        //physical killlers
-                        this.physkillers.aquatic =
-                            unit.killers.aquatic.physical;
-                        this.physkillers.beast = unit.killers.beast.physical;
-                        this.physkillers.bird = unit.killers.bird.physical;
-                        this.physkillers.bug = unit.killers.bug.physical;
-                        this.physkillers.demon = unit.killers.demon.physical;
-                        this.physkillers.dragon = unit.killers.dragon.physical;
-                        this.physkillers.human = unit.killers.human.physical;
-                        this.physkillers.machine =
-                            unit.killers.machine.physical;
-                        this.physkillers.plant = unit.killers.plant.physical;
-                        this.physkillers.undead = unit.killers.undead.physical;
-                        this.physkillers.stone = unit.killers.stone.physical;
-                        this.physkillers.spirit = unit.killers.spirit.physical;
-
-                        //magical killlers
-                        this.magkillers.aquatic = unit.killers.aquatic.magical;
-                        this.magkillers.beast = unit.killers.beast.magical;
-                        this.magkillers.bird = unit.killers.bird.magical;
-                        this.magkillers.bug = unit.killers.bug.magical;
-                        this.magkillers.demon = unit.killers.demon.magical;
-                        this.magkillers.dragon = unit.killers.dragon.magical;
-                        this.magkillers.human = unit.killers.human.magical;
-                        this.magkillers.machine = unit.killers.machine.magical;
-                        this.magkillers.plant = unit.killers.plant.magical;
-                        this.magkillers.undead = unit.killers.undead.magical;
-                        this.magkillers.stone = unit.killers.stone.magical;
-                        this.magkillers.spirit = unit.killers.spirit.magical;
+                            //magical killlers
+                            this.magkillers.aquatic =
+                                unit.killers.aquatic.magical;
+                            this.magkillers.beast = unit.killers.beast.magical;
+                            this.magkillers.bird = unit.killers.bird.magical;
+                            this.magkillers.bug = unit.killers.bug.magical;
+                            this.magkillers.demon = unit.killers.demon.magical;
+                            this.magkillers.dragon =
+                                unit.killers.dragon.magical;
+                            this.magkillers.human = unit.killers.human.magical;
+                            this.magkillers.machine =
+                                unit.killers.machine.magical;
+                            this.magkillers.plant = unit.killers.plant.magical;
+                            this.magkillers.undead =
+                                unit.killers.undead.magical;
+                            this.magkillers.stone = unit.killers.stone.magical;
+                            this.magkillers.spirit =
+                                unit.killers.spirit.magical;
+                        }
                     })
                     .catch(err => {
                         this.isLoading = false;
                         this.notFound = true;
                     });
             }
+        },
+        checkBuffs(buffs) {
+            let buffed = false;
+            Object.values(buffs).forEach(value => {
+                if (typeof value === "object") {
+                    Object.values(value).forEach(i => {
+                        if (i !== 0) {
+                            buffed = true;
+                        }
+                    });
+                } else {
+                    if (value !== 0) {
+                        buffed = true;
+                    }
+                }
+            });
+            return buffed;
         }
     }
 };
