@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1 class="mb-4 mt-3">Unit Listings</h1>
-        <div class="col-md-8 col-sm-12 mt-5 mb-3 mx-0 mx-auto">
+        <div class="col-md-8 col-sm-12 mt-5 mb-5 mx-0 mx-auto">
             <input
                 class="form-control"
                 type="text"
@@ -298,7 +298,8 @@
                     ></span>
                 </label>
                 <b-tooltip target="negativeInfo" triggers="hover">
-                    Includes Unit's with -50% (or below) Elemental Resists whether due to Esper's or Equipment
+                    Includes Unit's with -50% (or below) Elemental Resists
+                    whether due to Esper's or Equipment
                 </b-tooltip>
                 <div class="row mt-2">
                     <div class="col-md-3 col-sm-6 col-12">
@@ -920,153 +921,36 @@
             </div>
             <hr />
         </b-collapse>
-        <div class="d-md-flex float-right mb-4">
-            <b-pagination
-                v-model="currentPage"
-                :total-rows="rows"
-                :per-page="perPage"
-                aria-controls="unitsTable"
-                first-text="First"
-                prev-text="Prev"
-                next-text="Next"
-                last-text="Last"
-            ></b-pagination>
-        </div>
-        <b-table
-            id="unitsTable"
-            :items="filterUnits"
+
+        <app-table-pagination
+            :currentPage="currentPage"
+            :rows="rows"
+            :perPage="perPage"
+        ></app-table-pagination>
+
+        <app-units-table
+            :filterUnits="filterUnits"
             :fields="fields"
-            :busy="isLoading"
-            :per-page="perPage"
-            :current-page="currentPage"
-            responsive
-            show-empty
-            caption-top
-        >
-            <template v-slot:table-caption
-                >Login/Register to start adding Units</template
-            >
-            <template v-slot:cell(name)="data">
-                <p>
-                    <a target="_blank" :href="link + data.item.build"
-                        >{{ data.item.name }} {{ data.item.rarity }}&#x2605;
-                    </a>
-                </p>
-                <p>Slot: {{ data.item.slot }}</p>
-            </template>
+            :isLoading="isLoading"
+            :perPage="perPage"
+            :currentPage="currentPage"
+            :link="link"
+        ></app-units-table>
 
-            <template v-slot:cell(profile)="data">
-                <p class="mb-0">
-                    {{ data.item.profile.ign }}: <br />
-                    {{ data.item.profile.friendCode | friendCode }}
-                </p>
-
-                <span class="mb-0">
-                    <p class="mb-0" v-if="data.item.profile.reddit">
-                        {{ data.item.profile.reddit | reddit }}
-                    </p>
-                    <p v-if="data.item.profile.discord">
-                        {{ data.item.profile.discord }}
-                    </p>
-                </span>
-            </template>
-
-            <template v-slot:empty="scope">
-                <h4>{{ scope.emptyText }}</h4>
-            </template>
-
-            <template v-slot:empty="scope">
-                <h4>{{ scope.emptyFilteredText }}</h4>
-            </template>
-
-            <template v-slot:cell(element_weapon)="data">
-                <p>
-                    {{
-                        data.item.element_weapon === "" ||
-                        data.item.element_weapon === "Elementless"
-                            ? "No Element"
-                            : data.item.element_weapon
-                    }}
-                </p>
-            </template>
-
-            <template v-slot:cell(pevade)="data">
-                {{ data.item.pevade }}%
-            </template>
-
-            <template v-slot:cell(lb_damage)="data">
-                {{ data.item.lb_damage === "" ? 0 : data.item.lb_damage }}%
-            </template>
-
-            <template v-slot:cell(magkillers)="data">
-                <ul>
-                    <template
-                        v-for="(killers, key, index) in data.item.magkillers"
-                    >
-                        <li v-if="killers != 0" :key="'mag' + index">
-                            {{ key | capitalize }}: {{ killers }}%
-                        </li>
-                    </template>
-                </ul>
-            </template>
-            <template v-slot:cell(physkillers)="data">
-                <ul>
-                    <template
-                        v-for="(killers, key, index) in data.item.physkillers"
-                    >
-                        <li v-if="killers != 0" :key="'phys' + index">
-                            {{ key | capitalize }}: {{ killers }}%
-                        </li>
-                    </template>
-                </ul>
-            </template>
-
-            <template v-slot:cell(status)="data">
-                <ul>
-                    <template v-for="(status, key, index) in data.item.status">
-                        <li v-if="status != 0" :key="'status' + index">
-                            {{ key | capitalize }}:
-                            {{ status > 100 ? 100 : status }}%
-                        </li>
-                    </template>
-                </ul>
-            </template>
-            <template v-slot:cell(elemental)="data">
-                <ul>
-                    <template
-                        v-for="(elemental, key, index) in data.item.elemental"
-                    >
-                        <li v-if="elemental != 0" :key="'elem' + index">
-                            {{ key | capitalize }}: {{ elemental }}%
-                        </li>
-                    </template>
-                </ul>
-            </template>
-            <template v-slot:table-busy>
-                <div class="text-center text-danger my-2">
-                    <b-spinner class="align-middle"></b-spinner>
-                    <strong>Loading...</strong>
-                </div>
-            </template>
-        </b-table>
-        <div class="d-md-flex float-right mb-4">
-            <b-pagination
-                v-model="currentPage"
-                :total-rows="rows"
-                :per-page="perPage"
-                aria-controls="unitsTable"
-                first-text="First"
-                prev-text="Prev"
-                next-text="Next"
-                last-text="Last"
-            ></b-pagination>
-        </div>
+        <app-table-pagination
+            :currentPage="currentPage"
+            :rows="rows"
+            :perPage="perPage"
+        ></app-table-pagination>
     </div>
 </template>
 
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
+import UnitsTable from "./Table/UnitsTable";
+import Pagination from "./Table/Pagination";
+
 export default {
     data() {
         return {
@@ -1438,6 +1322,10 @@ export default {
         rows() {
             return this.filterUnits.length;
         }
+    },
+    components: {
+        "app-units-table": UnitsTable,
+        "app-table-pagination": Pagination
     },
     methods: {
         changeElementalLimit() {
