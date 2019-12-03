@@ -1437,20 +1437,6 @@ h1 {
     margin-bottom: 30px;
 }
 
-ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-li {
-    margin-bottom: 5px;
-    font-size: 0.95em;
-}
-
-.killers {
-    width: 120px;
-}
-
 .searchHeader {
     font-weight: bold;
 }
