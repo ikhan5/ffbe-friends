@@ -921,12 +921,18 @@
             </div>
             <hr />
         </b-collapse>
-
-        <app-table-pagination
-            :currentPage="currentPage"
-            :rows="rows"
-            :perPage="perPage"
-        ></app-table-pagination>
+        <div class="d-md-flex float-right mb-4">
+            <b-pagination
+                v-model="currentPage"
+                :total-rows="rows"
+                :per-page="perPage"
+                aria-controls="unitsTable"
+                first-text="First"
+                prev-text="Prev"
+                next-text="Next"
+                last-text="Last"
+            ></b-pagination>
+        </div>
 
         <app-units-table
             :filterUnits="filterUnits"
@@ -937,11 +943,18 @@
             :link="link"
         ></app-units-table>
 
-        <app-table-pagination
-            :currentPage="currentPage"
-            :rows="rows"
-            :perPage="perPage"
-        ></app-table-pagination>
+        <div class="d-md-flex float-right mb-4">
+            <b-pagination
+                v-model="currentPage"
+                :total-rows="rows"
+                :per-page="perPage"
+                aria-controls="unitsTable"
+                first-text="First"
+                prev-text="Prev"
+                next-text="Next"
+                last-text="Last"
+            ></b-pagination>
+        </div>
     </div>
 </template>
 
