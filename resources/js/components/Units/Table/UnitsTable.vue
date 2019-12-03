@@ -118,6 +118,29 @@
 
 <script>
 export default {
-    props: ["link","filterUnits", "fields", "isLoading", "perPage", "currentPage"]
+    props: [
+        "link",
+        "filterUnits",
+        "fields",
+        "isLoading",
+        "perPage",
+        "currentPage"
+    ]
 };
 </script>
+
+<style scoped>
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+li {
+    margin-bottom: 5px;
+    font-size: 0.95em;
+}
+
+.killers {
+    width: 120px;
+}
+</style>
