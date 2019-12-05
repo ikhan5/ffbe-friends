@@ -41,7 +41,6 @@
                             <label class="col-md-2" for="slotNum"
                                 >Slot #:</label
                             >
-
                             <select
                                 :name="'slot' + unit.id"
                                 @input="new_slot = $event.target.value"
@@ -63,8 +62,21 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="name" class="my-3">Update Build</label>
                         <div class="col">
+                            <label for="trial_name"
+                                >Built For (optional):</label
+                            >
+                            <app-v-select
+                                id="trial_name"
+                                v-model="new_buildType"
+                                :options="trials"
+                            >
+                            </app-v-select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col">
+                            <label for="name" class="my-1">Update Build</label>
                             <input
                                 type="text"
                                 readonly
@@ -123,6 +135,8 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 import Items from "../../data/items.json";
+import Trials from "../../data/trials.json";
+
 export default {
     props: ["unit"],
     data() {
@@ -130,6 +144,7 @@ export default {
             name: "",
             new_build: "",
             new_slot: "",
+            new_buildType: "",
             slotOptions: [
                 "",
                 "Favourite",
@@ -141,15 +156,25 @@ export default {
             elementWeapons: [],
             error: false,
             loading: false,
-            notFound: false
+            notFound: false,
+            trials: []
         };
     },
     created() {
         $("#myModal").on("shown.bs.modal", function() {
             $("#myInput").trigger("focus");
         });
+
+        for (let key in Trials) {
+            Trials[key].trials.forEach(trial => {
+                this.trials.push(trial);
+            });
+        }
     },
     methods: {
+        setBuildType(value) {
+            this.new_buildType = value;
+        },
         updateUnit(unit) {
             this.new_build.trim() === ""
                 ? (this.new_build = unit.build)
@@ -230,14 +255,19 @@ export default {
                                 build: this.new_build,
                                 max_rarity: this.max_rarity,
                                 element_weapon: this.elementWeapons.join(", "),
-                                slot: this.new_slot
+                                slot: this.new_slot,
+                                built_for: this.new_buildType
                             })
                             .then(response => {
                                 Swal.fire(
                                     "Updating Unit",
                                     "Unit updated successfully!",
                                     "success"
-                                ).then((unit.build = this.new_build));
+                                ).then(
+                                    ((unit.build = this.new_build),
+                                    (unit.built_for = this.new_buildType),
+                                    (unit.slot = this.new_slot))
+                                );
                             })
                             .catch(error => {
                                 this.error = true;

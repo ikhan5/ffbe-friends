@@ -87,7 +87,7 @@
                                         >Slot #:</label
                                     >
                                     <select
-                                        class="form-control col-md-4"
+                                        class="form-control col-md-5"
                                         v-model="slot"
                                         id="slotNum"
                                     >
@@ -99,6 +99,16 @@
                                             >{{ slotOption }}</option
                                         >
                                     </select>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-2" for="trial_name">Geared For (optional):</label>
+                                    <app-v-select
+                                    class="col-md-5 px-0"
+                                        id="trial_name"
+                                        v-model="buildType"
+                                        :options="trials"
+                                    >
+                                    </app-v-select>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-2"
@@ -265,6 +275,7 @@ import Swal from "sweetalert2";
 import "vue-select/dist/vue-select.css";
 import { eventBus } from "../../app";
 import Loading from "../Spinner";
+import Trials from "../../data/trials.json"
 
 export default {
     data() {
@@ -272,6 +283,7 @@ export default {
             units: [],
             name: "",
             slot: "",
+            buildType: "",
             elementWeapons: [],
             slotOptions: [
                 "Favourite",
@@ -349,7 +361,8 @@ export default {
             unitFound: false,
             notFound: false,
             errorMsg: "",
-            isLoading: false
+            isLoading: false,
+            trials: []
         };
     },
     components: {
@@ -364,6 +377,13 @@ export default {
             });
         }
         this.units.sort((a, b) => (a.name > b.name ? 1 : -1));
+
+        for (let key in Trials) {
+            Trials[key].trials.forEach(trial => {
+                this.trials.push(trial);
+            });
+        }
+
     },
     methods: {
         addUnit() {
@@ -390,7 +410,8 @@ export default {
                         max_rarity: this.max_rarity,
                         slot: this.slot,
                         element_weapon: this.elementWeapons.join(", "),
-                        lb_damage: this.lb_damage
+                        lb_damage: this.lb_damage,
+                        built_for: this.buildType
                     })
                     .then(res => {
                         this.errors = false;
