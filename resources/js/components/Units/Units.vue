@@ -6,7 +6,7 @@
                 class="form-control"
                 type="text"
                 v-model="search"
-                placeholder="Search Units or Usernames..."
+                placeholder="Search Units or Usernames or Trial Name..."
                 v-on:keydown.enter.prevent
             />
         </div>
@@ -56,6 +56,15 @@
                             checked
                         />
                         Show Profile</label
+                    >
+                    <label class="col-md-2 col-sm-4 col-6"
+                        ><input
+                            class="built_for"
+                            type="checkbox"
+                            @change="show_hide('built_for')"
+                            checked
+                        />
+                        Show Geared For</label
                     >
                     <label class="col-md-2 col-sm-4 col-6"
                         ><input
@@ -1049,6 +1058,13 @@ export default {
                     tdClass: ""
                 },
                 {
+                    key: "built_for",
+                    label: "Geared For",
+                    sortable: true,
+                    thClass: "",
+                    tdClass: ""
+                },
+                {
                     key: "element_weapon",
                     label: "Element(s)",
                     sortable: true,
@@ -1179,6 +1195,11 @@ export default {
                 let inGameName = unit.profile.ign
                     .toLowerCase()
                     .match(this.search.toLowerCase());
+                let trial = unit.built_for
+                    ? unit.built_for
+                          .toLowerCase()
+                          .match(this.search.toLowerCase())
+                    : false;
 
                 //stat filters
                 let attackLimit = unit.atk >= this.atkLimit;
@@ -1276,7 +1297,7 @@ export default {
                 let dark = unit.elemental.dark >= this.elementalLimits.dark;
 
                 return (
-                    (unitName || inGameName) &&
+                    (unitName || inGameName || trial) &&
                     attackLimit &&
                     magicLimit &&
                     defenseLimit &&
