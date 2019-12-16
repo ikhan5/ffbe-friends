@@ -11,7 +11,13 @@
         caption-top
     >
         <template v-slot:table-caption
-            >Login/Register to start adding Units</template
+            >Login/Register to start adding Units. Have feedback or just looking
+            to make more friends?<a
+                target="_blank"
+                href="https://discord.gg/qygNUza"
+            >
+                Join My Discord</a
+            ></template
         >
         <template v-slot:cell(name)="data">
             <p>

@@ -2906,7 +2906,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
-//
 
 
 
@@ -3522,6 +3521,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -41610,7 +41615,7 @@ var staticRenderFns = [
                     attrs: {
                       target: "_blank",
                       href:
-                        "https://docs.google.com/spreadsheets/d/1RgfRNTHJ4qczJVBRLb5ayvCMy4A7A19U7Gs6aU4xtQE/edit#gid=545076907"
+                        "https://docs.google.com/spreadsheets/d/1o-q9G1I1Z1QArbzrTySjjNs-OvmLE-sBRYljCX6EKUo/edit?usp=sharing"
                     }
                   },
                   [_vm._v("Damage Spreadsheet")]
@@ -43006,8 +43011,6 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
       _c(
         "div",
         { staticClass: "form-group" },
@@ -43742,7 +43745,18 @@ var render = function() {
       {
         key: "table-caption",
         fn: function() {
-          return [_vm._v("Login/Register to start adding Units")]
+          return [
+            _vm._v(
+              "Login/Register to start adding Units. Have feedback or just looking\n        to make more friends?"
+            ),
+            _c(
+              "a",
+              {
+                attrs: { target: "_blank", href: "https://discord.gg/qygNUza" }
+              },
+              [_vm._v("\n            Join My Discord")]
+            )
+          ]
         },
         proxy: true
       },

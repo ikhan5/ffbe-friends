@@ -53,7 +53,6 @@
                     </div>
                 </div>
             </div>
-            <hr />
             <div class="form-group">
                 <hr />
                 <div v-if="errors">

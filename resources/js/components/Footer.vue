@@ -39,7 +39,7 @@
                         <li>
                             <a
                                 target="_blank"
-                                href="https://docs.google.com/spreadsheets/d/1RgfRNTHJ4qczJVBRLb5ayvCMy4A7A19U7Gs6aU4xtQE/edit#gid=545076907"
+                                href="https://docs.google.com/spreadsheets/d/1o-q9G1I1Z1QArbzrTySjjNs-OvmLE-sBRYljCX6EKUo/edit?usp=sharing"
                                 >Damage Spreadsheet</a
                             >
                         </li>
