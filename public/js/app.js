@@ -2906,6 +2906,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
+//
+//
 
 
 
@@ -3188,7 +3190,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         });
       }
     },
-    quickAdd: function quickAdd() {},
     checkBuffs: function checkBuffs(buffs) {
       var buffed = false;
       Object.values(buffs).forEach(function (value) {

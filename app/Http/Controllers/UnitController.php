@@ -20,9 +20,8 @@ class UnitController extends Controller
     {
         $units = Unit::orderByDesc('updated_at')->get();
         $show_units = [];
-        $today = Carbon::now('America/Toronto');
+
         foreach ($units as $unit) {
-            $user = User::select('last_login')->where('id', $unit->user_id)->first();
             if ($unit->user_id === Auth::id()) {
                 $unit['my_unit'] = 1; //true
             } elseif (Auth::id() === null || Auth::id() === '') {
@@ -30,17 +29,16 @@ class UnitController extends Controller
             } else {
                 $unit['my_unit'] = 3; //false
             }
-            $difference = Carbon::parse($user->last_login)->diffInDays($today);
-            if ($difference < 15) {
-                $profile = Profile::where('user_id', $unit->user_id)->first();
-                $unit['profile'] = $profile;
-                $unit['status'] = unserialize($unit->status);
-                $unit['elemental'] = unserialize($unit->elemental);
-                $unit['physkillers'] = unserialize($unit->physkillers);
-                $unit['magkillers'] = unserialize($unit->magkillers);
-                array_push($show_units, $unit);
-            }
+
+            $profile = Profile::where('user_id', $unit->user_id)->first();
+            $unit['profile'] = $profile;
+            $unit['status'] = unserialize($unit->status);
+            $unit['elemental'] = unserialize($unit->elemental);
+            $unit['physkillers'] = unserialize($unit->physkillers);
+            $unit['magkillers'] = unserialize($unit->magkillers);
+            array_push($show_units, $unit);
         }
+        
         return $show_units;
     }
 
@@ -82,8 +80,8 @@ class UnitController extends Controller
                 'max_rarity' => 'required',
                 'slot' => 'nullable',
                 'element_weapon' => 'nullable',
-                'lb_damage'=> 'nullable',
-                'built_for'=> 'nullable'
+                'lb_damage' => 'nullable',
+                'built_for' => 'nullable'
             ]);
 
             $form_input_sanitized = filter_var_array($validated_create, FILTER_SANITIZE_STRING);
@@ -151,10 +149,10 @@ class UnitController extends Controller
             'mp' => 'required',
             'pevade' => 'required',
             'rarity' => 'required',
-            'slot'=> 'nullable',
-            'element_weapon'=>'nullable',
+            'slot' => 'nullable',
+            'element_weapon' => 'nullable',
             'lb_damage' => 'nullable',
-            'built_for'=> 'nullable'
+            'built_for' => 'nullable'
         ]);
         $form_input_sanitized = filter_var_array($validated_create, FILTER_SANITIZE_STRING);
         $form_input_sanitized['user_id'] = $user_id;
