@@ -2922,7 +2922,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       slot: "",
       buildType: "",
       elementWeapons: [],
-      slotOptions: ["Favourite", "Event 1", "Event 2", "Nemesis 1", "Nemesis 2"],
+      slotOptions: ["Favourite", "Event 1", "Event 2", "Nemesis 1", "Nemesis 2", "On Request"],
       buffed: false,
       buildURL: "",
       //test value = 22181910-0f01-11ea-b959-9b5568739fdf
@@ -3056,7 +3056,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         })["catch"](function (err) {
           switch (err.response.data) {
             case 1:
-              _this2.errorMsg = "Unit quota of 5 reached. Please delete a unit and try again.";
+              _this2.errorMsg = "Unit quota of 10 reached. Please delete a unit and try again.";
               break;
 
             case 2:
@@ -3188,6 +3188,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         });
       }
     },
+    quickAdd: function quickAdd() {},
     checkBuffs: function checkBuffs(buffs) {
       var buffed = false;
       Object.values(buffs).forEach(function (value) {
@@ -46799,7 +46800,7 @@ var render = function() {
             )
       ]),
       _vm._v(" "),
-      _c("p", [_vm._v("Note: Users are allowed up to 5 units.")])
+      _c("p", [_vm._v("Note: Users are allowed up to 10 units.")])
     ]
   )
 }

@@ -100,9 +100,11 @@
                                     </select>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-2" for="trial_name">Geared For (optional):</label>
+                                    <label class="col-md-2" for="trial_name"
+                                        >Geared For (optional):</label
+                                    >
                                     <app-v-select
-                                    class="col-md-5 px-0"
+                                        class="col-md-5 px-0"
                                         id="trial_name"
                                         v-model="buildType"
                                         :options="trials"
@@ -274,7 +276,7 @@ import Swal from "sweetalert2";
 import "vue-select/dist/vue-select.css";
 import { eventBus } from "../../app";
 import Loading from "../Spinner";
-import Trials from "../../data/trials.json"
+import Trials from "../../data/trials.json";
 
 export default {
     data() {
@@ -289,7 +291,8 @@ export default {
                 "Event 1",
                 "Event 2",
                 "Nemesis 1",
-                "Nemesis 2"
+                "Nemesis 2",
+                "On Request"
             ],
             buffed: false,
             buildURL: "", //test value = 22181910-0f01-11ea-b959-9b5568739fdf
@@ -382,7 +385,6 @@ export default {
                 this.trials.push(trial);
             });
         }
-
     },
     methods: {
         addUnit() {
@@ -424,7 +426,7 @@ export default {
                         switch (err.response.data) {
                             case 1:
                                 this.errorMsg =
-                                    "Unit quota of 5 reached. Please delete a unit and try again.";
+                                    "Unit quota of 10 reached. Please delete a unit and try again.";
                                 break;
                             case 2:
                                 this.errorMsg = "Please complete your profile.";

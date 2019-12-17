@@ -62,7 +62,7 @@
                 </tr>
             </tbody>
         </table>
-        <p>Note: Users are allowed up to 5 units.</p>
+        <p>Note: Users are allowed up to 10 units.</p>
     </div>
 </template>
 <style scoped>
