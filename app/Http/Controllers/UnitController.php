@@ -67,7 +67,7 @@ class UnitController extends Controller
         $units_added = Unit::where('user_id', $user_id)->get();
         $unit_count = $units_added->count();
 
-        if ($profileCreated && $unit_count < 5) {
+        if ($profileCreated && $unit_count < 10) {
             $validated_create = $request->validate([
                 'name' => 'required',
                 'rarity' => 'required',
@@ -95,8 +95,8 @@ class UnitController extends Controller
 
             Unit::create($form_input_sanitized);
             return (['message' => 'Unit Added']);
-        } elseif ($unit_count >= 5) {
-            return (response(1, 500)); //unit count greater than 5
+        } elseif ($unit_count >= 10) {
+            return (response(1, 500)); //unit count greater than 10
         } elseif (!$profileCreated) {
             return (response(2, 500)); // user hasnt created their profile
         } else {
