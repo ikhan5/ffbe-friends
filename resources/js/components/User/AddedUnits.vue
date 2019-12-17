@@ -34,11 +34,12 @@
                     <th scope="row">
                         {{ unit.name }} {{ unit.rarity }}&#x2605;
                     </th>
-                    <td>
+                    <td v-if="unit.build !== 'None'">
                         <a target="_blank" :href="link + unit.build">{{
                             unit.build
                         }}</a>
                     </td>
+                    <td v-else>None</td>
                     <td>{{ unit.slot }}</td>
                     <td>{{ unit.built_for }}</td>
                     <td>

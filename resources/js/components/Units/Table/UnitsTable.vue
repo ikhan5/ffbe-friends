@@ -20,11 +20,12 @@
             ></template
         >
         <template v-slot:cell(name)="data">
-            <p>
+            <p v-if="data.item.build != 'None'">
                 <a target="_blank" :href="link + data.item.build"
                     >{{ data.item.name }} {{ data.item.rarity }}&#x2605;
                 </a>
             </p>
+            <p v-else>{{ data.item.name }} {{ data.item.rarity }}&#x2605;</p>
             <p>Slot: {{ data.item.slot }}</p>
         </template>
 

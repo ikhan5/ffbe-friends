@@ -131,6 +131,12 @@
     </div>
 </template>
 
+<style scoped>
+.error-msg{
+    font-size: 16px;
+}
+</style>
+
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -151,7 +157,8 @@ export default {
                 "Event 1",
                 "Event 2",
                 "Nemesis 1",
-                "Nemesis 2"
+                "Nemesis 2",
+                "On Request"
             ],
             elementWeapons: [],
             error: false,
