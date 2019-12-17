@@ -35,7 +35,7 @@
                 />
             </div>
             <div class="form-group form-inline">
-                <label class="col-md-2 mr-2" for="FriendCode">Reddit: u/</label>
+                <label class="col-md-2 mr-2" for="FriendCode">(optional) Reddit : u/</label>
                 <input
                     v-model="reddit"
                     type="text"
@@ -45,7 +45,7 @@
             </div>
             <div class="form-group form-inline">
                 <label class="col-md-2 mr-2" for="FriendCode"
-                    >Discord Tag:</label
+                    >(optional) Discord Tag :</label
                 >
                 <input
                     v-model="discord"

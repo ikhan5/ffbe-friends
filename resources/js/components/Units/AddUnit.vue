@@ -7,7 +7,32 @@
             adding a unit
         </p>
         <hr />
-        <form>
+        <div class="my-3">
+            <div class="form-check form-check-inline">
+                <input
+                    class="form-check-input"
+                    type="radio"
+                    v-model="addType"
+                    id="addUsingBuildID"
+                    value="buildID"
+                />
+                <label class="form-check-label" for="addUsingBuildID"
+                    >Build From ID</label
+                >
+            </div>
+            <div class="form-check form-check-inline">
+                <input
+                    class="form-check-input"
+                    type="radio"
+                    v-model="addType"
+                    id="quickAdd"
+                    value="quick"
+                />
+                <label class="form-check-label" for="quickAdd">Quick Add</label>
+            </div>
+            <hr />
+        </div>
+        <form v-if="addType === 'buildID'">
             <div class="form-group mb-2">
                 <h3 class="find-header">Find Unit Using Build ID</h3>
                 <h3 v-if="empty" class="text-danger error-msg">
@@ -238,6 +263,79 @@
                 </template>
             </div>
         </form>
+        <form v-else-if="addType === 'quick'">
+            <div class="mb-4">
+                <h3 class="find-header">Quickly Add Unit</h3>
+                <small
+                    >Units Added will have their stats set to default values,
+                    and slot set to "On Request" to show that you have the unit,
+                    that can put them up when needed by other users. Units can
+                    be edited in the profile if you wish to set a specific build
+                    to them later on.</small
+                >
+            </div>
+            <div class="form-group row my-3">
+                <label class="col-md-2" for="quick_unitName">Unit Name:</label>
+                <app-v-select
+                    class="col-md-5 px-0"
+                    id="quick_unitName"
+                    v-model="quickName"
+                    :options="units"
+                    label="name"
+                    @input="getMaxRarity"
+                >
+                </app-v-select>
+                <p v-if="quickAddError" class="text-danger col-md-3">Please Select a Unit</p>
+            </div>
+            <div class="form-group row my-3">
+                <label class="col-md-2" for="quickRarity">Rarity</label>
+                <div class="col-md-6">
+                    <div class="form-check form-check-inline">
+                        <input
+                            class="form-check-input"
+                            type="radio"
+                            v-model="quickRarity"
+                            id="5"
+                            value="5"
+                        />
+                        <label class="form-check-label" for="5">5</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input
+                            class="form-check-input"
+                            type="radio"
+                            v-model="quickRarity"
+                            id="6"
+                            value="6"
+                        />
+                        <label class="form-check-label" for="6">6</label>
+                    </div>
+                    <div
+                        v-if="max_rarity === 7"
+                        class="form-check form-check-inline"
+                    >
+                        <input
+                            class="form-check-input"
+                            type="radio"
+                            v-model="quickRarity"
+                            id="7"
+                            value="7"
+                        />
+                        <label class="form-check-label" for="7">7</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="text-md-right mt-5">
+                    <button class="btn btn-primary" @click.prevent="quickAdd">
+                        Add Your Unit
+                    </button>
+                    <router-link to="/" tag="button" class="btn btn-link"
+                        >Cancel</router-link
+                    >
+                </div>
+            </div>
+        </form>
     </div>
 </template>
 <style scoped>
@@ -282,7 +380,9 @@ export default {
     data() {
         return {
             units: [],
+            addType: "buildID",
             name: "",
+            quickName: "",
             slot: "",
             buildType: "",
             elementWeapons: [],
@@ -297,67 +397,69 @@ export default {
             buffed: false,
             buildURL: "", //test value = 22181910-0f01-11ea-b959-9b5568739fdf
             status: {
-                poison: "",
-                blind: "",
-                sleep: "",
-                paralyze: "",
-                silence: "",
-                confusion: "",
-                disease: "",
-                stone: "",
-                death: "",
-                charm: "",
-                stop: ""
+                poison: "0",
+                blind: "0",
+                sleep: "0",
+                paralyze: "0",
+                silence: "0",
+                confusion: "0",
+                disease: "0",
+                stone: "0",
+                death: "0",
+                charm: "0",
+                stop: "0"
             },
             elemental: {
-                fire: "",
-                ice: "",
-                lightning: "",
-                water: "",
-                wind: "",
-                earth: "",
-                light: "",
-                dark: ""
+                fire: "0",
+                ice: "0",
+                lightning: "0",
+                water: "0",
+                wind: "0",
+                earth: "0",
+                light: "0",
+                dark: "0"
             },
             physkillers: {
-                aquatic: "",
-                beast: "",
-                bird: "",
-                bug: "",
-                demon: "",
-                dragon: "",
-                human: "",
-                machine: "",
-                plant: "",
-                undead: "",
-                stone: "",
-                spirit: ""
+                aquatic: "0",
+                beast: "0",
+                bird: "0",
+                bug: "0",
+                demon: "0",
+                dragon: "0",
+                human: "0",
+                machine: "0",
+                plant: "0",
+                undead: "0",
+                stone: "0",
+                spirit: "0"
             },
             magkillers: {
-                aquatic: "",
-                beast: "",
-                bird: "",
-                bug: "",
-                demon: "",
-                dragon: "",
-                human: "",
-                machine: "",
-                plant: "",
-                undead: "",
-                stone: "",
-                spirit: ""
+                aquatic: "0",
+                beast: "0",
+                bird: "0",
+                bug: "0",
+                demon: "0",
+                dragon: "0",
+                human: "0",
+                machine: "0",
+                plant: "0",
+                undead: "0",
+                stone: "0",
+                spirit: "0"
             },
-            hp: "",
-            mp: "",
-            atk: "",
-            def: "",
-            spr: "",
-            mag: "",
-            evade: "",
-            lb_damage: "",
+            hp: "100",
+            mp: "100",
+            atk: "100",
+            def: "100",
+            spr: "100",
+            mag: "100",
+            evade: "0",
+            lb_damage: "0",
             max_rarity: 7,
             rarity: 5,
+            quickRarity: 5,
             errors: false,
+            quickAddError: false,
             empty: false,
             loggedIn: true,
             unitFound: false,
@@ -442,8 +544,112 @@ export default {
                 this.errors = true;
             }
         },
+        quickAdd() {
+            if (this.quickName) {
+                this.quickAddError = false;
+                //elemental resists
+                this.elemental.fire = "0";
+                this.elemental.ice = "0";
+                this.elemental.lightning = "0";
+                this.elemental.wind = "0";
+                this.elemental.earth = "0";
+                this.elemental.water = "0";
+                this.elemental.light = "0";
+                this.elemental.dark = "0";
+
+                //ailment resists
+                this.status.poison = "0";
+                this.status.blind = "0";
+                this.status.sleep = "0";
+                this.status.silence = "0";
+                this.status.paralyze = "0";
+                this.status.confusion = "0";
+                this.status.disease = "0";
+                this.status.stone = "0";
+                this.status.death = "0";
+                this.status.charm = "0";
+                this.status.stop = "0";
+
+                //physical killlers
+                this.physkillers.aquatic = "0";
+                this.physkillers.beast = "0";
+                this.physkillers.bird = "0";
+                this.physkillers.bug = "0";
+                this.physkillers.demon = "0";
+                this.physkillers.dragon = "0";
+                this.physkillers.human = "0";
+                this.physkillers.machine = "0";
+                this.physkillers.plant = "0";
+                this.physkillers.undead = "0";
+                this.physkillers.stone = "0";
+                this.physkillers.spirit = "0";
+
+                //magical killlers
+                this.magkillers.aquatic = "0";
+                this.magkillers.beast = "0";
+                this.magkillers.bird = "0";
+                this.magkillers.bug = "0";
+                this.magkillers.demon = "0";
+                this.magkillers.dragon = "0";
+                this.magkillers.human = "0";
+                this.magkillers.machine = "0";
+                this.magkillers.plant = "0";
+                this.magkillers.undead = "0";
+                this.magkillers.stone = "0";
+                this.magkillers.spirit = "0";
+
+                axios
+                    .post("/api/units", {
+                        name: this.quickName.name,
+                        rarity: this.quickRarity,
+                        build: 'None',
+                        atk: "100",
+                        def: "100",
+                        mag: "100",
+                        spr: "100",
+                        hp: "100",
+                        mp: "100",
+                        pevade: "0",
+                        status: this.status,
+                        elemental: this.elemental,
+                        magkillers: this.magkillers,
+                        physkillers: this.physkillers,
+                        max_rarity: this.max_rarity,
+                        slot: "On Request",
+                        lb_damage: "0",
+                    })
+                    .then(res => {
+                        this.errors = false;
+                        Swal.fire(
+                            "Adding Unit",
+                            "Unit added successfully!",
+                            "success"
+                        ).then(this.$router.push("/"));
+                    })
+                    .catch(err => {
+                        console.log(err.response);
+                        switch (err.response.data) {
+                            case 1:
+                                this.errorMsg =
+                                    "Unit quota of 10 reached. Please delete a unit and try again.";
+                                break;
+                            case 2:
+                                this.errorMsg = "Please complete your profile.";
+                                break;
+                            default:
+                                this.errorMsg =
+                                    "Server Errror. Please try again later.";
+                        }
+                    });
+            } else {
+                this.quickAddError = true;
+            }
+        },
         getMaxRarity() {
-            this.max_rarity = parseInt(this.name.rarity);
+            this.quickRarity = 5;
+            this.max_rarity = this.quickName
+                ? parseInt(this.quickName.rarity)
+                : "";
         },
         fillForm() {
             if (this.buildURL === "") {
