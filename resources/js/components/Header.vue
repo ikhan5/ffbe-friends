@@ -19,6 +19,9 @@
        <div class="navbar-nav">
         <router-link to="/requests" tag="a" class="nav-item nav-link mr-2" exact>Request A Unit</router-link>
       </div>
+      <div class="navbar-nav">
+        <router-link to="/ranking" tag="a" class="nav-item nav-link mr-2" exact>Unit Ranker</router-link>
+      </div>
       <div class="navbar-nav w-50 nav-cta">
         <router-link
           to="/unit/add"
