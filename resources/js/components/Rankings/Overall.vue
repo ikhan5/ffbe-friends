@@ -1,27 +1,43 @@
 <template>
-    <div class="ranking-container row mt-3">
-        <div class="col-md-8">
-            <draggable
-                class="ranker p-2 mb-3"
-                group="unit-ranking"
-                :list="rankings"
-            >
-                <div
-                    class="unit"
-                    v-for="(element, index) in rankings"
-                    :key="'ranked' + index"
+    <div>
+        <div class="ranking-container row mt-3">
+            <div class="col-md-8">
+                <draggable
+                    class="ranker p-2 mb-3"
+                    group="unit-ranking"
+                    :list="rankings"
                 >
-                    {{ index + 1 }} - {{ element.name }}
-                    <button class="btn btn-link text-secondary float-right p-0 m-0" @click="removeUnit(index)">Remove</button>
-                </div>
-                <div slot="header" aria-label="Rank Placeholder">
-                    <p class="placeholder" v-if="rankings.length === 0">
-                        Drag and Drop Units here for Ranking!
-                    </p>
-                </div>
-            </draggable>
+                    <div
+                        class="unit"
+                        v-for="(element, index) in rankings"
+                        :key="'ranked' + index"
+                    >
+                        {{ index + 1 }} - {{ element.name }}
+                        <button
+                            class="btn btn-link text-secondary float-right p-0 m-0"
+                            @click="removeUnit(index)"
+                        >
+                            Remove
+                        </button>
+                    </div>
+                    <div slot="header" aria-label="Rank Placeholder">
+                        <p class="placeholder" v-if="rankings.length === 0">
+                            Drag and Drop Units here for Ranking!
+                        </p>
+                    </div>
+                </draggable>
+            </div>
+            <div class="col-md-4">
+                <app-unit-search></app-unit-search>
+            </div>
         </div>
-        <app-unit-search></app-unit-search>
+        <div class="row mt-5">
+            <div class="col text-right">
+                <button class="btn btn-primary" @click="submitRoleRankings">
+                    Submit Top 15 Rankings
+                </button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -33,8 +49,8 @@
 .ranker {
     border: solid 1px #ccc;
     overflow-y: scroll;
-    max-height: 550px;
-    min-height: 550px;
+    max-height: 700px;
+    min-height: 700px;
 }
 
 .unit {
@@ -66,9 +82,9 @@ export default {
             search: ""
         };
     },
-    methods:{
-        removeUnit(unit){
-            this.rankings.splice(unit,1)
+    methods: {
+        removeUnit(unit) {
+            this.rankings.splice(unit, 1);
         }
     },
     components: {

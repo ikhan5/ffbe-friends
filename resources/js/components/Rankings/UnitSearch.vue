@@ -1,5 +1,5 @@
 <template>
-    <div class="col-md-4">
+    <div class="unitSearch">
         <input
             class="form-control mb-2"
             type="text"
@@ -10,7 +10,7 @@
         <draggable
             class="units"
             :list="findUnit"
-            :group="{ name: 'unit-ranking', pull: 'clone', put: false }"
+            :group="{ name: 'unit-ranking', pull: 'clone'}"
         >
             <transition-group>
                 <div
@@ -26,8 +26,15 @@
 </template>
 
 <style scoped>
+.unitSearch{
+    position: sticky;
+    top: 240px;
+    width: 100%;
+    background-color: white;
+}
+
 .units {
-    max-height: 650px;
+    max-height: 250px;
     overflow-y: scroll;
     list-style: none;
 }

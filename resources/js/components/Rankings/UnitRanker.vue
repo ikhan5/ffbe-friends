@@ -24,10 +24,24 @@
                     value="roleRank"
                 />
                 <label class="form-check-label" for="roleRank"
-                    >Role Ranking</label
+                    >Role Ranking (Top 5 for Each)</label
+                >
+            </div>
+            <div class="form-check form-check-inline">
+                <input
+                    class="form-check-input"
+                    type="radio"
+                    v-model="rankType"
+                    id="results"
+                    disabled
+                    value=""
+                />
+                <label class="form-check-label" for="results"
+                    >Results (Date: TBD)</label
                 >
             </div>
         </div>
+        <hr />
         <keep-alive v-if="rankType === 'overallRank'">
             <app-overall-rank></app-overall-rank>
         </keep-alive>
