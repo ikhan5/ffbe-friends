@@ -33,8 +33,19 @@
         </div>
         <div class="row mt-5">
             <div class="col text-right">
-                <button class="btn btn-primary" @click="submitOverallRankings">
+                <button
+                    v-if="!voted"
+                    class="btn btn-primary"
+                    @click="submitOverallRankings"
+                >
                     Submit Top 15 Rankings
+                </button>
+                <button
+                    v-else
+                    class="btn btn-primary"
+                    @click="submitOverallRankings"
+                >
+                    Update Top 15 Rankings
                 </button>
             </div>
         </div>
@@ -54,16 +65,16 @@
 }
 
 .unit {
-    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: move;
     width: 98%;
     padding: 10px;
     border: solid 1px transparent;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Old versions of Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .unit:hover {
@@ -82,8 +93,30 @@ export default {
     data() {
         return {
             rankings: [],
-            search: ""
+            search: "",
+            voted: false
         };
+    },
+    created() {
+        axios
+            .get("/api/overallVote")
+            .then(res => {
+                if (res.data[0]) {
+                    this.voted = true;
+                    res.data[0].forEach(unit => {
+                        this.rankings.push(unit);
+                    });
+                }else{
+                    this.voted = false;
+                }
+            })
+            .catch(err => {
+                Swal.fire(
+                    "Error, Kupo!",
+                    "There was an error on the server, please try again later!",
+                    "error"
+                );
+            });
     },
     methods: {
         removeUnit(unit) {
@@ -120,13 +153,14 @@ export default {
                     cancelButtonColor: "#d33",
                     confirmButtonText: "Yes, submit!"
                 }).then(result => {
-                    if (result.value) {
+                    if (result.value && !this.voted) {
                         axios
                             .post("/api/rankings", {
                                 ballot: this.rankings,
                                 ballot_type: "overall"
                             })
                             .then(res => {
+                                this.voted = true;
                                 Swal.fire(
                                     "Submitted!",
                                     "Your overall rankings have been submitted! You can update your rankings at any time; however, it counts as one submission, overall.",
@@ -134,10 +168,29 @@ export default {
                                 );
                             })
                             .catch(err => {
-                                console.log(err.response);
                                 Swal.fire(
                                     "Error, Kupo!",
                                     "There was an error on the server submitting your ballot, please try again later!",
+                                    "error"
+                                );
+                            });
+                    } else if (result.value && this.voted) {
+                        axios
+                            .put("/api/rankings/" + 1, {
+                                ballot: this.rankings,
+                                ballot_type: "overall"
+                            })
+                            .then(res => {
+                                Swal.fire(
+                                    "Submitted!",
+                                    "Your overall rankings has been updated! You can update your rankings at any time; however, it counts as one submission, overall.",
+                                    "success"
+                                );
+                            })
+                            .catch(err => {
+                                Swal.fire(
+                                    "Error, Kupo!",
+                                    "There was an error on the server updating your ballot, please try again later!",
                                     "error"
                                 );
                             });

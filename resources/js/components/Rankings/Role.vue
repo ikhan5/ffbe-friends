@@ -323,8 +323,20 @@
         </div>
         <div class="row mt-5">
             <div class="col text-right">
-                <button class="btn btn-primary" @click="submitRoleRankings">
+                <button
+                    v-if="!voted"
+                    class="btn btn-primary"
+                    @click="submitRoleRankings"
+                >
                     Submit Role Rankings
+                </button>
+
+                <button
+                    v-else
+                    class="btn btn-primary"
+                    @click="submitRoleRankings"
+                >
+                    Update Role Rankings
                 </button>
             </div>
         </div>
@@ -345,16 +357,16 @@
 }
 
 .unit {
-    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: move;
     width: 20%;
     padding: 2px;
     border: solid 1px transparent;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Old versions of Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .unit:hover {
@@ -374,23 +386,54 @@
 import UnitSearch from "./UnitSearch";
 import draggable from "vuedraggable";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 export default {
     data() {
         return {
-            roleRankings: [],
-            physTanks: [] /**/,
-            magTanks: [] /**/,
-            provTanks: [] /**/,
-            physDPS: [] /**/,
-            magDPS: [] /**/,
-            hybrids: [] /**/,
-            finishers: [] /**/,
-            healers: [] /**/,
-            buffers: [] /**/,
-            breakers: [] /**/,
-            utility: []
+            roleRankings: {},
+            physTanks: [],
+            magTanks: [],
+            provTanks: [],
+            physDPS: [],
+            magDPS: [],
+            hybrids: [],
+            finishers: [],
+            healers: [],
+            buffers: [],
+            breakers: [],
+            utility: [],
+            voted: false
         };
+    },
+    created() {
+        axios
+            .get("/api/roleVote")
+            .then(res => {
+                if (res.data[0]) {
+                    this.voted = true;
+                    this.physDPS = res.data[0].physDPS;
+                    this.physTanks = res.data[0].physTanks;
+                    this.magTanks = res.data[0].magTanks;
+                    this.provTanks = res.data[0].provTanks;
+                    this.magDPS = res.data[0].magDPS;
+                    this.hybrids = res.data[0].hybrids;
+                    this.finishers = res.data[0].finishers;
+                    this.healers = res.data[0].healers;
+                    this.buffers = res.data[0].buffers;
+                    this.breakers = res.data[0].breakers;
+                    this.utility = res.data[0].utility;
+                } else {
+                    this.voted = false;
+                }
+            })
+            .catch(err => {
+                Swal.fire(
+                    "Error, Kupo!",
+                    "There was an error on the server, please try again later!",
+                    "error"
+                );
+            });
     },
     components: {
         draggable,
@@ -416,7 +459,26 @@ export default {
                     "Please remove all duplicate values from within a certain role, i.e you cannot have a unit as the 1st and 2nd best Hybrid.",
                     "error"
                 );
+            } else if (
+                this.checkBallotLengths(this.physTanks) ||
+                this.checkBallotLengths(this.magTanks) ||
+                this.checkBallotLengths(this.provTanks) ||
+                this.checkBallotLengths(this.physDPS) ||
+                this.checkBallotLengths(this.magDPS) ||
+                this.checkBallotLengths(this.hybrids) ||
+                this.checkBallotLengths(this.finishers) ||
+                this.checkBallotLengths(this.healers) ||
+                this.checkBallotLengths(this.buffers) ||
+                this.checkBallotLengths(this.breakers) ||
+                this.checkBallotLengths(this.utility)
+            ) {
+                Swal.fire(
+                    "Invalid Ballot(s)",
+                    "Cannot have more than 5 units per section.",
+                    "error"
+                );
             } else {
+                this.updateBallot();
                 Swal.fire({
                     title: "Are you ready to submit?",
                     text: "Preparing to submit Role Rankings, submit now?",
@@ -426,12 +488,47 @@ export default {
                     cancelButtonColor: "#d33",
                     confirmButtonText: "Yes, submit!"
                 }).then(result => {
-                    if (result.value) {
-                        Swal.fire(
-                            "Submitted!",
-                            "Your role rankings have been submitted! You can update your rankings at any time; however, it counts as one submission, overall.",
-                            "success"
-                        );
+                    if (result.value && !this.voted) {
+                        axios
+                            .post("/api/rankings", {
+                                ballot: this.roleRankings,
+                                ballot_type: "role"
+                            })
+                            .then(res => {
+                                this.voted = true;
+                                Swal.fire(
+                                    "Submitted!",
+                                    "Your role rankings have been submitted! You can update your rankings at any time; however, it counts as one submission, overall.",
+                                    "success"
+                                );
+                            })
+                            .catch(err => {
+                                Swal.fire(
+                                    "Error, Kupo!",
+                                    "There was an error on the server submitting your ballot, please try again later!",
+                                    "error"
+                                );
+                            });
+                    } else if (result.value && this.voted) {
+                        axios
+                            .put("/api/rankings/" + 1, {
+                                ballot: this.roleRankings,
+                                ballot_type: "role"
+                            })
+                            .then(res => {
+                                Swal.fire(
+                                    "Submitted!",
+                                    "Your role rankings has been updated! You can update your rankings at any time; however, it counts as one submission, overall.",
+                                    "success"
+                                );
+                            })
+                            .catch(err => {
+                                Swal.fire(
+                                    "Error, Kupo!",
+                                    "There was an error on the server updating your ballot, please try again later!",
+                                    "error"
+                                );
+                            });
                     }
                 });
             }
@@ -443,6 +540,22 @@ export default {
             }, []);
 
             return duplicates.length > 0 ? true : false;
+        },
+        updateBallot() {
+            this.roleRankings.physTanks = this.physTanks;
+            this.roleRankings.magTanks = this.magTanks;
+            this.roleRankings.provTanks = this.provTanks;
+            this.roleRankings.physDPS = this.physDPS;
+            this.roleRankings.magDPS = this.magDPS;
+            this.roleRankings.hybrids = this.hybrids;
+            this.roleRankings.finishers = this.finishers;
+            this.roleRankings.healers = this.healers;
+            this.roleRankings.buffers = this.buffers;
+            this.roleRankings.breakers = this.breakers;
+            this.roleRankings.utility = this.utility;
+        },
+        checkBallotLengths(input) {
+            return input.length > 5;
         }
     }
 };

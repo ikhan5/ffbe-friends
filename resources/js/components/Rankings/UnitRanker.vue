@@ -32,6 +32,7 @@
                     class="form-check-input"
                     type="radio"
                     v-model="rankType"
+                    disabled
                     id="results"
                     value="results"
                 />

@@ -1,10 +1,8 @@
-<template>
-
-</template>
+<template> </template>
 
 <script>
 import axios from "axios";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 export default {
     data() {
         return {
@@ -18,8 +16,7 @@ export default {
                 console.log(res.data);
             })
             .catch(err => {
-
-                console.log(err.response)
+                console.log(err.response);
                 Swal.fire(
                     "Error, Kupo!",
                     "There was an error whilst loading the units, please try again later",
