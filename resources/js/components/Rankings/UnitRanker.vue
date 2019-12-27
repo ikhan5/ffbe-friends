@@ -33,8 +33,7 @@
                     type="radio"
                     v-model="rankType"
                     id="results"
-                    disabled
-                    value=""
+                    value="results"
                 />
                 <label class="form-check-label" for="results"
                     >Results (Date: TBD)</label
@@ -45,15 +44,17 @@
         <keep-alive v-if="rankType === 'overallRank'">
             <app-overall-rank></app-overall-rank>
         </keep-alive>
-        <keep-alive v-else>
+        <keep-alive v-else-if="rankType === 'roleRank'">
             <app-role-rank></app-role-rank>
         </keep-alive>
+        <app-results v-else-if="rankType === 'results'"></app-results>
     </div>
 </template>
 
 <script>
 import OverallRank from "./Overall";
 import RoleRank from "./Role";
+import Results from "./Results";
 export default {
     data() {
         return {
@@ -62,7 +63,8 @@ export default {
     },
     components: {
         "app-overall-rank": OverallRank,
-        "app-role-rank": RoleRank
+        "app-role-rank": RoleRank,
+        "app-results": Results
     }
 };
 </script>

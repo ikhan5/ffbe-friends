@@ -33,7 +33,7 @@
         </div>
         <div class="row mt-5">
             <div class="col text-right">
-                <button class="btn btn-primary" @click="submitRoleRankings">
+                <button class="btn btn-primary" @click="submitOverallRankings">
                     Submit Top 15 Rankings
                 </button>
             </div>
@@ -75,6 +75,9 @@
 <script>
 import UnitSearch from "./UnitSearch";
 import draggable from "vuedraggable";
+import Swal from "sweetalert2";
+import axios from "axios";
+
 export default {
     data() {
         return {
@@ -85,6 +88,62 @@ export default {
     methods: {
         removeUnit(unit) {
             this.rankings.splice(unit, 1);
+        },
+        findDuplicates(input) {
+            var duplicates = input.reduce(function(acc, el, i, arr) {
+                if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el);
+                return acc;
+            }, []);
+
+            return duplicates.length > 0 ? true : false;
+        },
+        submitOverallRankings() {
+            if (this.findDuplicates(this.rankings)) {
+                Swal.fire(
+                    "Duplicates Detected",
+                    "Please remove all duplicate values from within a certain role, i.e you cannot have Sylvie as the 1st, 2nd and 3rd best unit.",
+                    "error"
+                );
+            } else if (this.rankings.length < 15) {
+                Swal.fire(
+                    "Ranking not complete!",
+                    "Please choose 15 units for a complete ranking.",
+                    "error"
+                );
+            } else {
+                Swal.fire({
+                    title: "Are you ready to submit?",
+                    text: "Preparing to submit Top 15 Rankings, submit now?",
+                    type: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, submit!"
+                }).then(result => {
+                    if (result.value) {
+                        axios
+                            .post("/api/rankings", {
+                                ballot: this.rankings,
+                                ballot_type: "overall"
+                            })
+                            .then(res => {
+                                Swal.fire(
+                                    "Submitted!",
+                                    "Your overall rankings have been submitted! You can update your rankings at any time; however, it counts as one submission, overall.",
+                                    "success"
+                                );
+                            })
+                            .catch(err => {
+                                console.log(err.response);
+                                Swal.fire(
+                                    "Error, Kupo!",
+                                    "There was an error on the server submitting your ballot, please try again later!",
+                                    "error"
+                                );
+                            });
+                    }
+                });
+            }
         }
     },
     components: {
