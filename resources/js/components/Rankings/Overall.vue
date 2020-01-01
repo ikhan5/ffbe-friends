@@ -45,6 +45,25 @@
                 </button>
             </div>
         </div>
+        <div class="col">
+            <h3>REFERENCES</h3>
+            <ul>
+                <li>
+                    <a
+                        target="_blank"
+                        href="https://brave-exvius.com/threads/memel0rds-unit-rankings.15685/"
+                        >Memel0rd Unit Rankings</a
+                    >
+                </li>
+                <li>
+                    <a
+                        target="_blank"
+                        href="https://exvius.gamepedia.com/Unit_Rankings"
+                        >FFBE Wiki Rankings</a
+                    >
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -76,6 +95,13 @@
 .unit:hover {
     border: solid 1px black;
     border-radius: 5px;
+}
+
+ul {
+    list-style: none;
+}
+li {
+    margin-left: -25px;
 }
 </style>
 
@@ -143,7 +169,8 @@ export default {
             } else {
                 Swal.fire({
                     title: "Are you ready to submit?",
-                    text: "Once submitted you CANNOT vote again, submit anyway?",
+                    text:
+                        "Once submitted you CANNOT vote again, submit anyway?",
                     type: "question",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
