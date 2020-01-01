@@ -5,8 +5,9 @@
                 >Select the 5 best at each role and order them from 1 (best) to
                 5 (5th best):</strong
             >
+
             <div class="ranking-container col-md-9 mt-3">
-                <div class="role-container">
+                <div v-if="step === 1" class="role-container">
                     <h2>Physical Chainers</h2>
                     <draggable
                         class="ranker row p-2"
@@ -35,7 +36,7 @@
                         </div>
                     </draggable>
                 </div>
-                <div class="role-container">
+                <div v-if="step === 1" class="role-container">
                     <h2>Magical Chainers</h2>
                     <draggable
                         class="ranker row p-2"
@@ -63,7 +64,7 @@
                         </div>
                     </draggable>
                 </div>
-                <div class="role-container">
+                <div v-if="step === 1" class="role-container">
                     <h2>Hybrid Chainers</h2>
                     <draggable
                         class="ranker row p-2"
@@ -91,7 +92,7 @@
                         </div>
                     </draggable>
                 </div>
-                <div class="role-container">
+                <div v-if="step === 1" class="role-container">
                     <h2>Finishers (Mag or Phys)</h2>
                     <draggable
                         class="ranker row p-2"
@@ -121,7 +122,7 @@
                         </div>
                     </draggable>
                 </div>
-                <div class="role-container">
+                <div v-if="step === 2" class="role-container">
                     <h2>Physical Cover Tanks</h2>
                     <draggable
                         class="ranker row p-2"
@@ -151,7 +152,7 @@
                         </div>
                     </draggable>
                 </div>
-                <div class="role-container">
+                <div v-if="step === 2" class="role-container">
                     <h2>Magic Cover Tanks</h2>
                     <draggable
                         class="ranker row p-2"
@@ -178,37 +179,7 @@
                         </div>
                     </draggable>
                 </div>
-                <div class="role-container">
-                    <h2>Provoke Tanks</h2>
-                    <draggable
-                        class="ranker row p-2"
-                        group="unit-ranking"
-                        :list="provTanks"
-                    >
-                        <div slot="header" aria-label="Rank Placeholder">
-                            <p
-                                class="placeholder"
-                                v-if="provTanks.length === 0"
-                            >
-                                Drag and Drop 5 Provoke Tanks here for Ranking!
-                            </p>
-                        </div>
-                        <div
-                            class="unit"
-                            v-for="(element, index) in provTanks"
-                            :key="element.id"
-                        >
-                            {{ index + 1 }} - {{ element.name }}
-                            <button
-                                class="btn btn-link text-danger float-right p-0 m-0"
-                                @click="provTanks.splice(index, 1)"
-                            >
-                                X
-                            </button>
-                        </div>
-                    </draggable>
-                </div>
-                <div class="role-container">
+                <div v-if="step === 3" class="role-container">
                     <h2>Support: Healers</h2>
                     <draggable
                         class="ranker row p-2"
@@ -235,7 +206,7 @@
                         </div>
                     </draggable>
                 </div>
-                <div class="role-container">
+                <div v-if="step === 3" class="role-container">
                     <h2>Support: Buffers</h2>
                     <draggable
                         class="ranker row p-2"
@@ -262,7 +233,7 @@
                         </div>
                     </draggable>
                 </div>
-                <div class="role-container">
+                <div v-if="step === 3" class="role-container">
                     <h2>Support: Breakers</h2>
                     <draggable
                         class="ranker row p-2"
@@ -289,33 +260,6 @@
                         </div>
                     </draggable>
                 </div>
-                <div class="role-container">
-                    <h2>Utility: "Jack of All Trades"</h2>
-                    <draggable
-                        class="ranker row p-2"
-                        group="unit-ranking"
-                        :list="utility"
-                    >
-                        <div slot="header" aria-label="Rank Placeholder">
-                            <p class="placeholder" v-if="utility.length === 0">
-                                Drag and Drop 5 Utility Units here for Ranking!
-                            </p>
-                        </div>
-                        <div
-                            class="unit"
-                            v-for="(element, index) in utility"
-                            :key="element.id"
-                        >
-                            {{ index + 1 }} - {{ element.name }}
-                            <button
-                                class="btn btn-link text-danger float-right p-0 m-0"
-                                @click="utility.splice(index, 1)"
-                            >
-                                X
-                            </button>
-                        </div>
-                    </draggable>
-                </div>
             </div>
             <div class="col-md-3">
                 <app-unit-search></app-unit-search>
@@ -324,19 +268,28 @@
         <div class="row mt-5">
             <div class="col text-right">
                 <button
-                    v-if="!voted"
+                    v-if="!voted && step === 1"
                     class="btn btn-primary"
-                    @click="submitRoleRankings"
+                    @click="submitDamageDealers"
                 >
-                    Submit Role Rankings
+                    Submit Damage Dealer Rankings
                 </button>
-
                 <button
-                    v-else
+                    v-if="!voted && step === 2"
                     class="btn btn-primary"
-                    @click="submitRoleRankings"
+                    @click="submitTanks"
                 >
-                    Update Role Rankings
+                    Submit Tank Rankings
+                </button>
+                <button
+                    v-if="!voted && step === 3"
+                    class="btn btn-primary"
+                    @click="submitSupport"
+                >
+                    Submit Support Rankings
+                </button>
+                <button v-if="voted" class="btn btn-info" disabled>
+                    User Has Voted
                 </button>
             </div>
         </div>
@@ -377,8 +330,8 @@
 .ranker {
     border: solid 1px #ccc;
     overflow-y: scroll;
-    max-height: 60px;
-    min-height: 60px;
+    max-height: 100px;
+    min-height: 100px;
 }
 </style>
 
@@ -392,6 +345,7 @@ export default {
     data() {
         return {
             roleRankings: {},
+            step: 1,
             physTanks: [],
             magTanks: [],
             provTanks: [],
@@ -411,7 +365,7 @@ export default {
             .get("/api/roleVote")
             .then(res => {
                 if (res.data[0]) {
-                    this.voted = true;
+                    // this.voted = true;
                     this.physDPS = res.data[0].physDPS;
                     this.physTanks = res.data[0].physTanks;
                     this.magTanks = res.data[0].magTanks;
@@ -440,19 +394,74 @@ export default {
         "app-unit-search": UnitSearch
     },
     methods: {
-        submitRoleRankings() {
+        submitDamageDealers() {
             if (
-                this.findDuplicates(this.physTanks) ||
-                this.findDuplicates(this.magTanks) ||
-                this.findDuplicates(this.provTanks) ||
                 this.findDuplicates(this.physDPS) ||
                 this.findDuplicates(this.magDPS) ||
                 this.findDuplicates(this.hybrids) ||
-                this.findDuplicates(this.finishers) ||
-                this.findDuplicates(this.healers) ||
-                this.findDuplicates(this.buffers) ||
-                this.findDuplicates(this.breakers) ||
-                this.findDuplicates(this.utility)
+                this.findDuplicates(this.finishers)
+            ) {
+                Swal.fire(
+                    "Duplicates Detected",
+                    "Please remove all duplicate values from within a certain role, i.e you cannot have a unit as the 1st and 2nd best Hybrid.",
+                    "error"
+                );
+            } else if (
+                this.checkBallotLengths(this.physDPS) ||
+                this.checkBallotLengths(this.magDPS) ||
+                this.checkBallotLengths(this.hybrids) ||
+                this.checkBallotLengths(this.finishers)
+            ) {
+                Swal.fire(
+                    "Invalid Ballot(s)",
+                    "Please select 5 units per section.",
+                    "error"
+                );
+            } else {
+                this.updateBallot();
+                Swal.fire({
+                    title: "Are you ready to submit?",
+                    text: "Preparing to submit Damage Dealers, submit now?",
+                    type: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, submit!"
+                }).then(result => {
+                    if (result.value) {
+                        axios
+                            .patch("/api/updateRole", {
+                                role: "damage",
+                                physDPS: this.buffers,
+                                magDPS: this.breakers,
+                                hybrids: this.hybrids,
+                                finishers: this.healers
+                            })
+                            .then(res => {
+                                console.log(res.data);
+                                Swal.fire(
+                                    "Submitted!",
+                                    "Proceeding to Tanks",
+                                    "success"
+                                );
+                                this.step = 2;
+                            })
+                            .catch(err => {
+                                console.log(err.response);
+                                Swal.fire(
+                                    "Error, Kupo!",
+                                    "There was an error on the server submitting your ballot, please try again later!",
+                                    "error"
+                                );
+                            });
+                    }
+                });
+            }
+        },
+        submitTanks() {
+            if (
+                this.findDuplicates(this.physTanks) ||
+                this.findDuplicates(this.magTanks)
             ) {
                 Swal.fire(
                     "Duplicates Detected",
@@ -461,44 +470,94 @@ export default {
                 );
             } else if (
                 this.checkBallotLengths(this.physTanks) ||
-                this.checkBallotLengths(this.magTanks) ||
-                this.checkBallotLengths(this.provTanks) ||
-                this.checkBallotLengths(this.physDPS) ||
-                this.checkBallotLengths(this.magDPS) ||
-                this.checkBallotLengths(this.hybrids) ||
-                this.checkBallotLengths(this.finishers) ||
-                this.checkBallotLengths(this.healers) ||
-                this.checkBallotLengths(this.buffers) ||
-                this.checkBallotLengths(this.breakers) ||
-                this.checkBallotLengths(this.utility)
+                this.checkBallotLengths(this.magTanks)
             ) {
                 Swal.fire(
                     "Invalid Ballot(s)",
-                    "Cannot have more than 5 units per section.",
+                    "Please select 5 units per section.",
                     "error"
                 );
             } else {
                 this.updateBallot();
                 Swal.fire({
                     title: "Are you ready to submit?",
-                    text: "Preparing to submit Role Rankings, submit now?",
+                    text: "Preparing to submit Tanks, submit now?",
                     type: "question",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
                     cancelButtonColor: "#d33",
                     confirmButtonText: "Yes, submit!"
                 }).then(result => {
-                    if (result.value && !this.voted) {
+                    if (result.value) {
+                        axios
+                            .patch("/api/updateRole", {
+                                role: "tank",
+                                physTanks: this.physTanks,
+                                magTanks: this.magTanks
+                            })
+                            .then(res => {
+                                console.log(res.data);
+                                Swal.fire(
+                                    "Submitted!",
+                                    "Proceeding to Support",
+                                    "success"
+                                );
+                                this.step = 3;
+                            })
+                            .catch(err => {
+                                console.log(err.response);
+                                Swal.fire(
+                                    "Error, Kupo!",
+                                    "There was an error on the server submitting your ballot, please try again later!",
+                                    "error"
+                                );
+                            });
+                    }
+                });
+            }
+        },
+        submitSupport() {
+            if (
+                this.findDuplicates(this.healers) ||
+                this.findDuplicates(this.buffers) ||
+                this.findDuplicates(this.breakers)
+            ) {
+                Swal.fire(
+                    "Duplicates Detected",
+                    "Please remove all duplicate values from within a certain role, i.e you cannot have a unit as the 1st and 2nd best Hybrid.",
+                    "error"
+                );
+            } else if (
+                this.checkBallotLengths(this.healers) ||
+                this.checkBallotLengths(this.buffers) ||
+                this.checkBallotLengths(this.breakers)
+            ) {
+                Swal.fire(
+                    "Invalid Ballot(s)",
+                    "Please select 5 units per section.",
+                    "error"
+                );
+            } else {
+                this.updateBallot();
+                Swal.fire({
+                    title: "Are you ready to submit?",
+                    text: "Preparing to submit Support, submit now?",
+                    type: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, submit!"
+                }).then(result => {
+                    if (result.value) {
                         axios
                             .post("/api/rankings", {
                                 ballot: this.roleRankings,
                                 ballot_type: "role"
                             })
                             .then(res => {
-                                this.voted = true;
                                 Swal.fire(
                                     "Submitted!",
-                                    "Your role rankings have been submitted! You can update your rankings at any time; however, it counts as one submission, overall.",
+                                    "Your role rankings have been submitted!.",
                                     "success"
                                 );
                             })
@@ -509,23 +568,22 @@ export default {
                                     "error"
                                 );
                             });
-                    } else if (result.value && this.voted) {
+
                         axios
-                            .put("/api/rankings/" + 1, {
-                                ballot: this.roleRankings,
-                                ballot_type: "role"
+                            .patch("/api/updateRole", {
+                                role: "support",
+                                buffers: this.buffers,
+                                breakers: this.breakers,
+                                healers: this.healers
                             })
                             .then(res => {
-                                Swal.fire(
-                                    "Submitted!",
-                                    "Your role rankings has been updated! You can update your rankings at any time; however, it counts as one submission, overall.",
-                                    "success"
-                                );
+                                console.log(res.data);
                             })
                             .catch(err => {
+                                console.log(err.response);
                                 Swal.fire(
                                     "Error, Kupo!",
-                                    "There was an error on the server updating your ballot, please try again later!",
+                                    "There was an error on the server submitting your ballot, please try again later!",
                                     "error"
                                 );
                             });
@@ -544,7 +602,6 @@ export default {
         updateBallot() {
             this.roleRankings.physTanks = this.physTanks;
             this.roleRankings.magTanks = this.magTanks;
-            this.roleRankings.provTanks = this.provTanks;
             this.roleRankings.physDPS = this.physDPS;
             this.roleRankings.magDPS = this.magDPS;
             this.roleRankings.hybrids = this.hybrids;
@@ -552,10 +609,9 @@ export default {
             this.roleRankings.healers = this.healers;
             this.roleRankings.buffers = this.buffers;
             this.roleRankings.breakers = this.breakers;
-            this.roleRankings.utility = this.utility;
         },
         checkBallotLengths(input) {
-            return input.length > 5;
+            return input.length != 5;
         }
     }
 };

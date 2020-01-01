@@ -8,6 +8,10 @@ Route::resource('profile', 'ProfileController');
 Route::resource('notifications', 'NotificationsController');
 Route::resource('unit_requests', 'UnitRequestsController');
 
-Route::get('/getRequests','UnitRequestsController@getUserRequests');
+Route::get('/results', 'ResultController@index');
+Route::patch('/updateOverall', 'ResultController@updateOverall');
+Route::patch('/updateRole', 'ResultController@updateRole');
+
+Route::get('/getRequests', 'UnitRequestsController@getUserRequests');
 Route::get('/overallVote', 'RankingController@checkOverallVoteStatus');
 Route::get('/roleVote', 'RankingController@checkRoleVoteStatus');

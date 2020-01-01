@@ -21,7 +21,7 @@ Route::get('/requests', function () {
 
 Route::get("/ranking", function () {
     return view('vue');
-});
+})->middleware('auth');
 
 Route::get('/home', function () {
     return redirect('/');

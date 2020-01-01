@@ -40,12 +40,8 @@
                 >
                     Submit Top 15 Rankings
                 </button>
-                <button
-                    v-else
-                    class="btn btn-primary"
-                    @click="submitOverallRankings"
-                >
-                    Update Top 15 Rankings
+                <button v-else class="btn btn-info" disabled>
+                    User Has Voted
                 </button>
             </div>
         </div>
@@ -88,6 +84,7 @@ import UnitSearch from "./UnitSearch";
 import draggable from "vuedraggable";
 import Swal from "sweetalert2";
 import axios from "axios";
+import Loading from "../Spinner";
 
 export default {
     data() {
@@ -106,7 +103,7 @@ export default {
                     res.data[0].forEach(unit => {
                         this.rankings.push(unit);
                     });
-                }else{
+                } else {
                     this.voted = false;
                 }
             })
@@ -146,7 +143,7 @@ export default {
             } else {
                 Swal.fire({
                     title: "Are you ready to submit?",
-                    text: "Preparing to submit Top 15 Rankings, submit now?",
+                    text: "Once submitted you CANNOT vote again, submit anyway?",
                     type: "question",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
@@ -163,7 +160,7 @@ export default {
                                 this.voted = true;
                                 Swal.fire(
                                     "Submitted!",
-                                    "Your overall rankings have been submitted! You can update your rankings at any time; however, it counts as one submission, overall.",
+                                    "Your overall rankings have been submitted! The Overall Results will be released at another time.",
                                     "success"
                                 );
                             })
@@ -174,23 +171,16 @@ export default {
                                     "error"
                                 );
                             });
-                    } else if (result.value && this.voted) {
+
                         axios
-                            .put("/api/rankings/" + 1, {
-                                ballot: this.rankings,
-                                ballot_type: "overall"
+                            .patch("/api/updateOverall", {
+                                unit: this.rankings
                             })
-                            .then(res => {
-                                Swal.fire(
-                                    "Submitted!",
-                                    "Your overall rankings has been updated! You can update your rankings at any time; however, it counts as one submission, overall.",
-                                    "success"
-                                );
-                            })
+                            .then(res => {})
                             .catch(err => {
                                 Swal.fire(
                                     "Error, Kupo!",
-                                    "There was an error on the server updating your ballot, please try again later!",
+                                    "There was an error on the server submitting your ballot, please try again later!",
                                     "error"
                                 );
                             });

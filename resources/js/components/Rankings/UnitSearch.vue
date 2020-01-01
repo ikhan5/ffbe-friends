@@ -34,7 +34,7 @@
 }
 
 .units {
-    max-height: 250px;
+    max-height: 320px;
     overflow-y: scroll;
     list-style: none;
 }

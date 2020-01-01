@@ -86,32 +86,32 @@ class RankingController extends Controller
      */
     public function update(Request $request)
     {
-        $user_id = Auth::id();
-        if ($request->ballot_type === 'overall') {
-            $ballot = Rankings::where([
-                ['user_id', '=', $user_id],
-                ['ballot_type', '=', 'overall']
-            ]);
-            $validated_create = $request->validate(['ballot' => 'required', 'ballot_type' => 'required']);
-            $form_input_sanitized = filter_var_array($validated_create, FILTER_SANITIZE_STRING);
-            $form_input_sanitized['user_id'] = $user_id;
-            $form_input_sanitized['ballot'] = serialize($request->ballot);
-            $ballot->update($form_input_sanitized);
-        }
+        // $user_id = Auth::id();
+        // if ($request->ballot_type === 'overall') {
+        //     $ballot = Rankings::where([
+        //         ['user_id', '=', $user_id],
+        //         ['ballot_type', '=', 'overall']
+        //     ]);
+        //     $validated_create = $request->validate(['ballot' => 'required', 'ballot_type' => 'required']);
+        //     $form_input_sanitized = filter_var_array($validated_create, FILTER_SANITIZE_STRING);
+        //     $form_input_sanitized['user_id'] = $user_id;
+        //     $form_input_sanitized['ballot'] = serialize($request->ballot);
+        //     $ballot->update($form_input_sanitized);
+        // }
 
-        if ($request->ballot_type === 'role') {
-            $ballot = Rankings::where([
-                ['user_id', '=', $user_id],
-                ['ballot_type', '=', 'role']
-            ]);
-            $validated_create = $request->validate(['ballot' => 'required', 'ballot_type' => 'required']);
-            $form_input_sanitized = filter_var_array($validated_create, FILTER_SANITIZE_STRING);
-            $form_input_sanitized['user_id'] = $user_id;
-            $form_input_sanitized['ballot'] = serialize($request->ballot);
-            $ballot->update($form_input_sanitized);
-        }
+        // if ($request->ballot_type === 'role') {
+        //     $ballot = Rankings::where([
+        //         ['user_id', '=', $user_id],
+        //         ['ballot_type', '=', 'role']
+        //     ]);
+        //     $validated_create = $request->validate(['ballot' => 'required', 'ballot_type' => 'required']);
+        //     $form_input_sanitized = filter_var_array($validated_create, FILTER_SANITIZE_STRING);
+        //     $form_input_sanitized['user_id'] = $user_id;
+        //     $form_input_sanitized['ballot'] = serialize($request->ballot);
+        //     $ballot->update($form_input_sanitized);
+        // }
 
-        return (['message' => 'Ballot Updated']);
+        // return (['message' => 'Ballot Updated']);
     }
 
     /**
